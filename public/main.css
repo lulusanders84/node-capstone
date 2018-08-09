@@ -1,0 +1,32 @@
+h1 {
+	text-align: center;
+}
+
+button {
+	margin: 0 5px;
+}
+
+.container {
+	margin: 0 auto;
+	display: flex;
+	height: 50px;
+	width: 60%;
+	padding: 10px 0;	
+}
+
+.patient {
+	margin: 0 auto;
+	display: flex;
+	height: 20px;
+	width: 60%;
+}
+
+.name {
+	flex: 4;
+	border: 1px solid black;
+}
+
+.room, .admit, .age {
+	flex: 1;
+	border: 1px solid black;
+}
