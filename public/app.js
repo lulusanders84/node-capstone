@@ -26,7 +26,7 @@ function generateUnitListHtml(patients) {
 			<div class="patient">
 				<div class="js-name name">
 					<input name="patients" id="${patient._id}" type="checkbox">
-					<label for="${patient.id}">
+					<label for="${patient._id}">
 						${patient.name}
 					</label>
 				</div>
@@ -54,23 +54,30 @@ function displayUnitList(patientsHtml) {
 
 function handleAddToAssignmentButton() {
 	$('.js-add-assignment').click(function() {
-		getPatientsForAssignmentList();
+		addPatientsToUsersAssignmentList();
 	})
 }
 
 function getPatientsForAssignmentList() {
-	const userName = $('.js-username').html();
-	let patientNames = [];
+	let patientIds = [];
 	$('.js-name input').each(function() {
 		if(this.checked) {
-			console.log($(this).attr('id'));
+			patientIds.push(this.id);
 		}
 	})
-
+	return patientIds;
 }
 
-function addPatientsToAssignmentList() {}
-
+function addPatientsToUsersAssignmentList() {
+	const username = $('.js-username').html();
+	const patientIds = getPatientsForAssignmentList();
+	MOCK_USER_DATA.userData.forEach(user => {
+		if(user.userName === username) {
+			user.assignmentList = patientIds;
+			alert(`${user.assignmentList.length} patients added to assignment list`);
+		}
+	});
+}
 
 function handleAddToUnitButton() {}
 
