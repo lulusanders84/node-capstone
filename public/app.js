@@ -1,3 +1,6 @@
+
+"use strict";
+
 const MOCK_PATIENT_DATA = 	{
 	"patientData": [
 	  {
@@ -266,7 +269,7 @@ const MOCK_PATIENT_DATA = 	{
 	  },
 	  {
 	    "_id": "5b69d3862ddcb8214b75ac11",
-	    "room": 3515,
+	    "room": 3518,
 	    "admitDate": "Thu Aug 02 2018 17:08:30 GMT+0000 (UTC)",
 	    "name": "Olivia Roth",
 	    "age": 73,
@@ -299,7 +302,7 @@ const MOCK_PATIENT_DATA = 	{
 	  },
 	  {
 	    "_id": "5b69d386b2ba385ff3062d32",
-	    "room": 3523,
+	    "room": 3525,
 	    "admitDate": "Thu Aug 02 2018 15:55:55 GMT+0000 (UTC)",
 	    "name": "Tasha Mason",
 	    "age": 75,
@@ -333,8 +336,56 @@ const MOCK_PATIENT_DATA = 	{
 	]
 }
 
-function displayUnitListData() {}
+const getUnitListData = new Promise((resolve, reject) => {
+	const patientsSortedByRoom =
+		MOCK_PATIENT_DATA.patientData.sort(function (a, b) {
+  		return a.room - b.room;
+		});
+	resolve(patientsSortedByRoom)
+	});
 
+function getAndDisplayUnitList() {
+	getUnitListData.then(patients => {
+		console.log("first then is running", patients);
+		return generateUnitListHtml(patients);
+	})
+	.then(patientsHtml => {
+		console.log("second then is running", patientsHtml);
+		displayUnitList(patientsHtml);
+	});
+}
+
+function generateUnitListHtml(patients) {
+	return patients.map(patient => {
+		return `
+			<div class="patient">
+				<div class="name">
+					<input id="${patient.name}" type="checkbox">
+					<label for="${patient.name}">
+						${patient.name}
+					</label>
+				</div>
+				<div class="age">
+					${patient.age}
+				</div>
+				<div class="room">
+					${patient.room}
+				</div>
+				<div class="admit">
+					${formatAdmitDate(patient.admitDate)}
+				</div>
+			</div>`
+	})
+}
+
+function formatAdmitDate(admit) {
+	const d = new Date(admit);
+	return `${d.getUTCMonth()}/${d.getUTCDate()}/${d.getUTCFullYear()}`
+}
+
+function displayUnitList(patientsHtml) {
+	$('.js-patients-unit-list').html(patientsHtml);
+}
 
 function handleAddToAssignmentButton() {}
 
@@ -367,3 +418,7 @@ function displayPatientReport() {}
 function handleUpdatePatientDataButton() {}
 
 function updatePatientData() {}
+
+$(function() {
+    getAndDisplayUnitList();
+})
