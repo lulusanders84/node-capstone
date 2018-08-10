@@ -45,7 +45,7 @@ function generateUnitListHtml(patients) {
 
 function formatAdmitDate(admit) {
 	const d = new Date(admit);
-	return `${d.getUTCMonth()}/${d.getUTCDate()}/${d.getUTCFullYear()}`
+	return `${d.getUTCMonth() + 1}/${d.getUTCDate()}/${d.getUTCFullYear()}`
 }
 
 function displayUnitList(patientsHtml) {
