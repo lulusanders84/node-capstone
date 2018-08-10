@@ -6,6 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+	<nav role="navigation">
+		<div class="intro">
+			Hello <span class="js-username">voluptate</span>, select which patients to add to your assignment list
+		</div>
+	</nav>
 	<header role="banner">
 		<h1>Nursing Brains</h1>
 	</header>
@@ -29,7 +34,7 @@
 			</div>
 		</div>
 		<div class="container">
-			<button>Add to assignment</button>
+			<button class="js-add-assignment">Add to assignment</button>
 			<button>Remove selected patient</button>
 			<button>Add new patient to unit list</button>
 		</div>
@@ -38,6 +43,7 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="dataStore.js"></script>
+	<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
