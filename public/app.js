@@ -11,11 +11,9 @@ const getUnitListData = new Promise((resolve, reject) => {
 
 function getAndDisplayUnitList() {
 	getUnitListData.then(patients => {
-		console.log("first then is running", patients);
 		return generateUnitListHtml(patients);
 	})
 	.then(patientsHtml => {
-		console.log("second then is running", patientsHtml);
 		displayUnitList(patientsHtml);
 	});
 }
@@ -79,9 +77,27 @@ function addPatientsToUsersAssignmentList() {
 	});
 }
 
-function handleAddToUnitButton() {}
+function handleAddToUnitButton() {
+	$('.js-add-unit').click(function() {
+		$('.js-add-patient-form').removeClass('inactive');
+	})
+}
 
-function addPatientToUnitList() {}
+function handleSubmitToUnitButton(event) {
+	event.preventDefault();
+	addPatientToUnitList();
+}
+
+function addPatientToUnitList() {
+	const newPatient = {
+		"_id": "5b69d386bf98g4952860fe9263",
+		"room": `${$('#room').val()}`,
+		"admitDate": `${$('#admit').val()}`,
+		"name": `${$('#first-name').val()} ${$('#last-name').val()}`
+	}
+	MOCK_PATIENT_DATA.patientData.push(newPatient);
+	console.log(MOCK_PATIENT_DATA.patientData);
+}
 
 
 function handleRemoveFromUnitButton() {}
@@ -109,4 +125,5 @@ function updatePatientData() {}
 $(function() {
     getAndDisplayUnitList();
 		handleAddToAssignmentButton();
+		handleAddToUnitButton();
 })
