@@ -10,7 +10,7 @@ button {
 	margin: 0 auto;
 	display: flex;
 	height: 50px;
-	width: 60%;
+	width: 80%;
 	padding: 10px 0;
 }
 
@@ -18,7 +18,7 @@ button {
 	margin: 0 auto;
 	display: flex;
 	height: 20px;
-	width: 60%;
+	width: 80%;
 }
 
 .name {
