@@ -36,8 +36,36 @@
 		<div class="container">
 			<button class="js-add-assignment">Add to assignment</button>
 			<button>Remove selected patient</button>
-			<button>Add new patient to unit list</button>
+			<button class='js-add-unit'>Add new patient to unit list</button>
 		</div>
+		<section role="region" class="js-add-patient-form inactive">
+			<form onsubmit="handleSubmitToUnitButton(event)">
+				<fieldset>
+					<legend>
+						Add Patient to Unit list
+					</legend>
+					<label for="room">
+						Room number
+					</label>
+					<input id="room" type="text">
+					<label for="admit">
+						Admit Date
+					</label>
+					<input id="admit" type="date">
+					<br>
+					<label for="first-name">
+						First name
+					</label>
+					<input id="first-name" type="text">
+					<label for="last-name">
+						Last name
+					</label>
+					<input id="last-name" type="text">
+					<br>
+					<input type="submit" value="Add new patient">
+				</fieldset>
+			</form>
+		</section>
 	</main>
 	<script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
