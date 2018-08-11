@@ -56,7 +56,7 @@ function handleAddToAssignmentButton() {
 	})
 }
 
-function getPatientsForAssignmentList() {
+function getSelectedPatients() {
 	let patientIds = [];
 	$('.js-name input').each(function() {
 		if(this.checked) {
@@ -68,7 +68,7 @@ function getPatientsForAssignmentList() {
 
 function addPatientsToUsersAssignmentList() {
 	const username = $('.js-username').html();
-	const patientIds = getPatientsForAssignmentList();
+	const patientIds = getSelectedPatients();
 	MOCK_USER_DATA.userData.forEach(user => {
 		if(user.userName === username) {
 			user.assignmentList = patientIds;
@@ -96,13 +96,28 @@ function addPatientToUnitList() {
 		"name": `${$('#first-name').val()} ${$('#last-name').val()}`
 	}
 	MOCK_PATIENT_DATA.patientData.push(newPatient);
-	console.log(MOCK_PATIENT_DATA.patientData);
 }
 
 
-function handleRemoveFromUnitButton() {}
+function handleRemoveFromUnitButton() {
+	$('.js-remove-unit').click(function() {
+		removePatientFromUnitList();
+	})
+}
 
-function removePatientFromUnitList() {}
+function removePatientFromUnitList() {
+	const patientData = MOCK_PATIENT_DATA.patientData;
+	const patientIds = getSelectedPatients();
+	patientData.forEach((patient, index) => {
+		patientIds.forEach(id => {
+			if(patient._id === id) {
+				patientData.splice(index, 1);
+			}
+		})
+	})
+	alert(`${patientIds.length} patients removed from unit list`);
+	getAndDisplayUnitList();
+}
 
 
 function handleGoToAssignmentListButton() {}
@@ -126,4 +141,5 @@ $(function() {
     getAndDisplayUnitList();
 		handleAddToAssignmentButton();
 		handleAddToUnitButton();
+		handleRemoveFromUnitButton();
 })
