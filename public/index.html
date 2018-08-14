@@ -8,15 +8,19 @@
 <body>
 	<nav role="navigation">
 		<div class="intro">
-			Hello <span class="js-username">voluptate</span>, select which patients to add to your assignment list or manage unit list
+			Welcome <span class="js-username">voluptate</span>!
 		</div>
 	</nav>
 	<header role="banner">
-		<h1>Nursing Brains</h1>
+		<h1>Cardiovascular Medical Unit</h1>
+		<p>Select which patients to add to your assignment list or manage unit list</p>
 	</header>
 	<main role="main">
-		<div class="js-unit-list-container">
+		<div class="js-list-container">
 			<div class="title">
+				<div class="report">
+					Report
+				</div>
 				<div class="name">
 					Patient Name
 				</div>
@@ -30,14 +34,15 @@
 					Admit Date
 				</div>
 			</div>
-			<div class="js-patients-unit-list">
+			<div class="js-patient-list">
 			</div>
-		</div>
-		<div class="container">
-			<button class="js-add-assignment">Add patient to assignment</button>
-			<button class='js-go-to-assignment'>Go to assignment list</button>
-			<button class='js-remove-unit'>Remove selected patient</button>
-			<button class='js-add-unit'>Add new patient to unit list</button>
+			<div class="container">
+				<button class="js-add-assignment">Add patient to assignment</button>
+				<button class='js-go-to-assignment'>Go to assignment list</button>
+				<button class='js-go-to-unit inactive'>Go to unit list</button>
+				<button class='js-remove-unit'>Remove selected patient</button>
+				<button class='js-add-to-unit'>Add new patient to unit list</button>
+			</div>
 		</div>
 		<section role="region" class="js-add-patient-form inactive">
 			<form onsubmit="handleSubmitToUnitButton(event)">
@@ -62,6 +67,10 @@
 						Last name
 					</label>
 					<input id="last-name" type="text">
+					<label for="age">
+						Age
+					</label>
+					<input id="age" type="text">
 					<br>
 					<input type="submit" value="Add new patient">
 				</fieldset>

@@ -1,9 +1,17 @@
+* {
+	font-family: arial, sans-serif;
+}
+
 h1 {
 	text-align: center;
 }
 
 button {
 	margin: 0 5px;
+}
+
+p {
+	text-align: center;
 }
 
 .container {
@@ -22,13 +30,14 @@ button {
 }
 
 .name {
-	flex: 4;
+	flex: 5;
 	border: 1px solid black;
 }
 
-.room, .admit, .age {
+.room, .admit, .age, .report {
 	flex: 1;
 	border: 1px solid black;
+	text-align: center;
 }
 
 .inactive {
