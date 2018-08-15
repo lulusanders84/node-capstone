@@ -34,7 +34,7 @@ function generateListHtml(patients) {
 		return `
 			<div class="patient">
 				<div class="report">
-					<button>View</button>
+					<button id="${patient._id}b" class="js-view-button">View</button>
 				</div>
 				<div class="js-name name">
 					<label for="${patient._id}">
@@ -247,8 +247,61 @@ function removePatientFromAssignmentList() {
 	getAndDisplayUnitList();
 }
 
-function displayPatientReport() {
+function getAndDisplayPatientReport(patientId) {
+	getPatientReportData(patientId)
+	.then(patient => {
+		renderPatientReport(patient);
+		$('.js-report-container').toggleClass('inactive');
+		$('h1').html('Nursing Report');
+		$('header p').html('');
+		$('.js-list-container').toggleClass('inactive');
+	});
+}
 
+function getPatientReportData(patientId) {
+	return new Promise ((resolve, reject) => {
+		resolve(MOCK_PATIENT_DATA.patientData.find(patient => {
+			return patient._id === patientId;
+		}))
+	});
+}
+
+function renderPatientReport(patient) {
+	$('.js-report-room').html(`${patient.room}`);
+	$('.js-report-age').html(`${patient.age}`);
+	$('.js-report-name').html(`${patient.name}`);
+	$('.js-report-admit').html(`${formatAdmitDate(patient.admitDate)}`);
+	$('.js-report-dx').html(`${patient.diagnosis}`);
+	$('.js-report-history').html(`${patient.history}`);
+	$('.js-report-allergies').html(`${patient.allergies}`);
+	$('.js-report-discharge').html(` `);
+	$('.js-report-gu').html(`${patient.GU}`);
+	$('.js-report-gi').html(`${patient.GI}`);
+	$('.js-report-diet').html(` `);
+	$('.js-report-input').html(`${patient.input}`);
+	$('.js-report-output').html(`${patient.output}`);
+	$('.js-report-pain').html(`${patient.pain}`);
+	$('.js-report-O2').html(`${patient.O2}`);
+	$('.js-report-telemetry').html(`${patient.telemetry}`);
+	$('.js-report-SCDs').html(`${patient.SCDs}`);
+	$('.js-report-TED').html(`${patient.TED}`);
+	$('.js-report-assist').html(`${patient.assist}`);
+	$('.js-report-skinWounds').html(`${patient.skinWounds}`);
+	$('.js-report-hemo').html(`${patient.labs.hemo}`);
+	$('.js-report-wbc').html(`${patient.labs.wbc}`);
+	$('.js-report-plt').html(`${patient.labs.plt}`);
+	$('.js-report-k').html(`${patient.labs.K}`);
+	$('.js-report-na').html(`${patient.labs.Na}`);
+	$('.js-report-cr').html(`${patient.labs.Cr}`);
+}
+
+function displayPatientReport() {}
+
+function handleViewReportButton() {
+	$('.js-patient-list').on('click', '.js-view-button', function() {
+		const patientId = this.id.slice(0, -1);
+		getAndDisplayPatientReport(patientId);
+	});
 }
 
 function handleGoToUnitListButton() {
@@ -277,4 +330,5 @@ $(function() {
 		handleAddToUnitButton();
 		handleRemoveFromUnitButton();
 		handleGoToUnitListButton();
-})
+		handleViewReportButton();
+});
