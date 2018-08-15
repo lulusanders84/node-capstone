@@ -14,6 +14,20 @@ p {
 	text-align: center;
 }
 
+.assignment-nav {
+	padding: 5px;
+	margin: 0;
+	font-family: arial, sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	background-color: white;
+	border: 0px;
+}
+
+.assignment-nav button:hover {
+	curser: pointer;
+}
+
 .container {
 	margin: 0 auto;
 	display: flex;
