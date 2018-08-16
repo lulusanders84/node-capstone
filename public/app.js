@@ -148,15 +148,17 @@ function handleRemoveFromUnitButton() {
 }
 
 function removePatientFromUnitList() {
+	console.log("remove from unit running");
 	const patientData = MOCK_PATIENT_DATA.patientData;
-	const patientIds = getSelectedPatients();
-	patientData.forEach((patient, index) => {
-		patientIds.forEach(id => {
-			if(patient._id === id) {
-				if (window.confirm(`Delete ${patient.name} from unit list?`)) {
-					patientData.splice(index, 1);
+	getSelectedPatients().then(patientIds => {
+		patientData.forEach((patient, index) => {
+			patientIds.forEach(id => {
+				if(patient._id === id) {
+					if (window.confirm(`Delete ${patient.name} from unit list?`)) {
+						patientData.splice(index, 1);
+					}
 				}
-			}
+			})
 		})
 	})
 	getAndDisplayUnitList();
@@ -164,6 +166,7 @@ function removePatientFromUnitList() {
 
 function handleGoToAssignmentButton() {
 	$('.js-go-to-assignment').click(function() {
+
 		goToAssignmentList();
 	})
 }
@@ -171,6 +174,7 @@ function handleGoToAssignmentButton() {
 function handleGoToAssignmentNavButton() {
 	$('.js-go-to-assignment-nav').click(function() {
 		goToAssignmentList();
+		this.disabled = true;
 	})
 }
 
@@ -179,10 +183,14 @@ function goToAssignmentList() {
 	$(`.js-name input`).prop('checked', false);
 	$('h1').html(`${userName}'s Assignment`);
 	$('header p').html('Click view to see patient\'s nursing report');
-	$('.js-add-assignment').toggleClass('inactive');
-	$('.js-add-to-unit').toggleClass('inactive');
-	$('.js-go-to-assignment').toggleClass('inactive');
-	$('.js-go-to-unit').toggleClass('inactive');
+	$('.js-add-assignment').addClass('inactive');
+	$('.js-add-to-unit').addClass('inactive');
+	$('.js-go-to-assignment').addClass('inactive');
+	$('.js-go-to-unit').removeClass('inactive');
+	$('.js-list-container').removeClass('inactive');
+	$('.js-report-container').addClass('inactive');
+	$('.js-remove-assignment').removeClass('inactive');
+	$('.js-remove-unit').addClass('inactive');
 	getAndDisplayAssignmentList();
 }
 
@@ -229,33 +237,46 @@ function getAndDisplayAssignmentList() {
 
 function handleRemovePatientFromAssignmentButton() {
 	$('.js-remove-assignment').click(function() {
-
+		console.log("remove assignment running");
+		removePatientFromAssignmentList();
+		$(`.js-name input`).prop('checked', false);
 	})
 }
 
 function removePatientFromAssignmentList() {
-	const userData = MOCK_USER_DATA.userData;
-	const patientIds = getSelectedPatients();
-	patientData.forEach((patient, index) => {
-		patientIds.forEach(id => {
-			if(patient._id === id) {
-				patientData.splice(index, 1);
-			}
+	const userName = $('.js-username').html();
+	const user = MOCK_USER_DATA.userData.find(user => {
+		return user.userName === userName;
+	});
+	getSelectedPatients().then(patientIds => {
+		user.assignmentList.forEach((listId, index) => {
+			patientIds.forEach(id => {
+				if(listId === id) {
+					user.assignmentList.splice(index, 1);
+				}
+			})
 		})
+		alert(`${patientIds.length} patients removed from assignment list`);
+		getAndDisplayAssignmentList();
+		updateAssignmentListCount();
 	})
-	alert(`${patientIds.length} patients removed from unit list`);
-	getAndDisplayUnitList();
 }
 
 function getAndDisplayPatientReport(patientId) {
 	getPatientReportData(patientId)
 	.then(patient => {
 		renderPatientReport(patient);
-		$('.js-report-container').toggleClass('inactive');
-		$('h1').html('Nursing Report');
-		$('header p').html('');
-		$('.js-list-container').toggleClass('inactive');
+		displayPatientReport();
+
 	});
+}
+
+function displayPatientReport() {
+	$('.js-report-container').removeClass('inactive');
+	$('.js-report-button').removeClass('inactive');
+	$('h1').html('Nursing Report');
+	$('header p').html('');
+	$('.js-list-container').addClass('inactive');
 }
 
 function getPatientReportData(patientId) {
@@ -295,8 +316,6 @@ function renderPatientReport(patient) {
 	$('.js-report-cr').html(`${patient.labs.Cr}`);
 }
 
-function displayPatientReport() {}
-
 function handleViewReportButton() {
 	$('.js-patient-list').on('click', '.js-view-button', function() {
 		const patientId = this.id.slice(0, -1);
@@ -309,10 +328,15 @@ function handleGoToUnitListButton() {
 		$(`.js-name input`).prop('checked', false);
 		$('h1').html(`Cardiovascular Medical Unit`);
 		$('header p').html('Select which patients to add to your assignment list or manage unit list');
-		$('.js-add-assignment').toggleClass('inactive');
-		$('.js-add-to-unit').toggleClass('inactive');
-		$('.js-go-to-assignment').toggleClass('inactive');
-		$('.js-go-to-unit').toggleClass('inactive');
+		$('.js-list-container').removeClass('inactive');
+		$('.js-report-container').addClass('inactive');
+		$('.js-add-assignment').removeClass('inactive');
+		$('.js-add-to-unit').removeClass('inactive');
+		$('.js-go-to-assignment').removeClass('inactive');
+		$('.js-go-to-unit').addClass('inactive');
+		$('.js-remove-assignment').addClass('inactive');
+		$('.js-remove-unit').removeClass('inactive');
+		$('.js-go-to-assignment-nav').prop('disabled', false);
     getAndDisplayUnitList();
 	})
 }
@@ -329,6 +353,7 @@ $(function() {
 		handleGoToAssignmentNavButton();
 		handleAddToUnitButton();
 		handleRemoveFromUnitButton();
+		handleRemovePatientFromAssignmentButton();
 		handleGoToUnitListButton();
 		handleViewReportButton();
 });
