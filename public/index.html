@@ -9,6 +9,8 @@
 	<nav role="navigation">
 		<div class="intro">
 			Welcome <span class="js-username">voluptate</span>!
+			You have <span class="js-assignment-count"></span> patients on your
+			<button class="js-go-to-assignment-nav assignment-nav">assignment list</button>
 		</div>
 	</nav>
 	<header role="banner">
@@ -41,6 +43,7 @@
 				<button class='js-go-to-assignment'>Go to assignment list</button>
 				<button class='js-go-to-unit inactive'>Go to unit list</button>
 				<button class='js-remove-unit'>Remove selected patient</button>
+				<button class='js-remove-assignment inactive'>Remove selected patient</button>
 				<button class='js-add-to-unit'>Add new patient to unit list</button>
 			</div>
 		</div>
@@ -75,6 +78,58 @@
 					<input type="submit" value="Add new patient">
 				</fieldset>
 			</form>
+		</section>
+		<section role="region" class="js-report-container inactive">
+			<div class="row">
+				<div class="col-2">RM: <span class="js-report-room"></span></div>
+				<div class="col-2">Age: <span class="js-report-age"></span></div>
+				<div class="col-4">Pt: <span class="js-report-name"></span></div>
+				<div class="col-2">Admit: <span class="js-report-admit"></span></div>
+				<div class="col-2">D/C: <span class="js-report-discharge"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-3">Dx: <span class="js-report-dx"></span></div>
+				<div class="col-6">History: <span class="js-report-history"></span></div>
+				<div class="col-3">Allergies: <span class="js-report-allergies"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<div class="col-12">GU: <span class="js-report-gu"></span></div>
+					<div class="col-12">GI: <span class="js-report-gi"></span></div>
+					<div class="col-12">Diet: <span class="js-report-diet"></span></div>
+				</div>
+				<div class="col-6">
+					<div class="col-6">I: <span class="js-report-input"></span></div>
+					<div class="col-6">O: <span class="js-report-output"></span></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-8">Pain: <span class="js-report-pain"></span></div>
+				<div class="col-4">
+					<div class="col-6">O2: <span class="js-report-O2"></span></div>
+					<div class="col-6">Tele: <span class="js-report-telemetry"></span></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">SCDs: <span class="js-report-SCDs"></span></div>
+				<div class="col-6">TED: <span class="js-report-TED"></span></div>
+				<div class="col-6">Assist: <span class="js-report-assist"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-12">Skin/Wounds: <span class="js-report-skinWounds"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-4">H/H: <span class="js-report-hemo"></span></div>
+				<div class="col-4">WBC: <span class="js-report-wbc"></span></div>
+				<div class="col-4">Plt: <span class="js-report-plt"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-4">K: <span class="js-report-k"></span></div>
+				<div class="col-4">Na: <span class="js-report-na"></span></div>
+				<div class="col-4">Cr: <span class="js-report-cr"></span></div>
+			</div>
+			<button class='js-go-to-assignment js-report-button'>Go to assignment list</button>
+			<button class='js-go-to-unit js-report-button'>Go to unit list</button>
 		</section>
 	</main>
 	<script
