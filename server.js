@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const { PORT, DATABASE_URL } = require("./config");
@@ -7,6 +8,14 @@ const { PORT, DATABASE_URL } = require("./config");
 const patientRouter = require('./routes/patient-router');
 
 app.use(express.static('public'));
+
+app.use(cors());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use('/api/patients', patientRouter);
 

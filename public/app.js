@@ -12,20 +12,24 @@ function updateAssignmentListCount() {
 	$('.js-assignment-count').html(assignmentCount);
 }
 
-const getUnitListData = new Promise((resolve, reject) => {
-	const patientsSortedByRoom =
-		MOCK_PATIENT_DATA.patientData.sort(function (a, b) {
-  		return a.room - b.room;
-		});
-	resolve(patientsSortedByRoom)
-	});
-
 function getAndDisplayUnitList() {
-	getUnitListData.then(patients => {
-		return generateListHtml(patients);
-	})
-	.then(patientsHtml => {
-		displayUnitList(patientsHtml);
+	$.ajax({
+		type: "GET",
+		url: "http://localhost:3000/api/patients",
+		headers: {
+			"Access-Control-Allow-Origin": "*"
+		}
+	}).done(function(data) {
+		const html = generateListHtml(data);
+		displayUnitList(html);
+	}).fail(error => {
+		console.log("Server not responding");
+	});
+}
+
+function sortPatientsByRoom(data) {
+	return data.sort(function (a, b) {
+		return a.room - b.room;
 	});
 }
 
