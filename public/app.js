@@ -20,6 +20,7 @@ function getAndDisplayUnitList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
+		data = sortPatientsByRoom(data);
 		const html = generateListHtml(data);
 		displayUnitList(html);
 	}).fail(error => {
@@ -133,17 +134,29 @@ function handleSubmitToUnitButton(event) {
 }
 
 function addPatientToUnitList() {
-	const newPatient = {
-		"_id": "5b69d386bf98g4952860fe9263",
-		"room": `${$('#room').val()}`,
-		"admitDate": `${$('#admit').val()}`,
-		"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
-		"age": `${$('#age').val()}`
-	}
-	MOCK_PATIENT_DATA.patientData.push(newPatient);
-	alert(`${newPatient.name} added to unit list`);
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:3000/api/patients',
+		data: JSON.stringify({
+			"room": `${$('#room').val()}`,
+			"admitDate": `${$('#admit').val()}`,
+			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
+			"age": `${$('#age').val()}`
+		}),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data, status) {
+		console.log(data);
+		alert(`${data.name} added to unit list`);
+		getAndDisplayUnitList();
+	})
 }
 
+/*data: {
+
+},*/
 
 function handleRemoveFromUnitButton() {
 	$('.js-remove-unit').click(function() {
