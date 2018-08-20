@@ -43,4 +43,10 @@ router.post('/', jsonParser, (req, res) => {
   })
 })
 
+router.delete('/:id', (req, res) => {
+  Patient.findByIdAndRemove(req.params.id)
+  .then(patient => res.status(204).json({ name: patient.name }))
+  .catch(err => res.status(500).json({ message: "Internal server error"}))
+})
+
 module.exports = router;

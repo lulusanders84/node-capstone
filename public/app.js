@@ -44,7 +44,7 @@ function generateListHtml(patients) {
 				<div class="js-name name">
 					<label for="${patient._id}">
 					<input name="patients" id="${patient._id}" type="checkbox">
-						${patient.name}
+							<span class="${patient._id}">${patient.name}</span>
 					</label>
 				</div>
 				<div class="age">
@@ -154,10 +154,6 @@ function addPatientToUnitList() {
 	})
 }
 
-/*data: {
-
-},*/
-
 function handleRemoveFromUnitButton() {
 	$('.js-remove-unit').click(function() {
 		removePatientFromUnitList();
@@ -165,20 +161,22 @@ function handleRemoveFromUnitButton() {
 }
 
 function removePatientFromUnitList() {
-	console.log("remove from unit running");
-	const patientData = MOCK_PATIENT_DATA.patientData;
 	getSelectedPatients().then(patientIds => {
-		patientData.forEach((patient, index) => {
-			patientIds.forEach(id => {
-				if(patient._id === id) {
-					if (window.confirm(`Delete ${patient.name} from unit list?`)) {
-						patientData.splice(index, 1);
+		patientIds.forEach(id => {
+			const patientName = $(`.${id}`).html();
+			if (window.confirm(`Delete ${patientName} from unit list?`)) {
+				$.ajax({
+					url: `http://localhost:3000/api/patients/${id}`,
+					method: "DELETE",
+					headers: {
+						"Access-Control-Allow-Origin": "*"
 					}
-				}
-			})
+				}).done(function(data) {
+					getAndDisplayUnitList();
+				})
+			}
 		})
 	})
-	getAndDisplayUnitList();
 }
 
 function handleGoToAssignmentButton() {
