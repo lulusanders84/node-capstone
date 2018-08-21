@@ -7,6 +7,7 @@ const { PORT, DATABASE_URL } = require("./config");
 
 const patientRouter = require('./routes/patient-router');
 const reportRouter = require('./routes/report-router');
+const userRouter = require('./routes/user-router');
 
 app.use(express.static('public'));
 
@@ -20,6 +21,7 @@ app.use(function(req, res, next) {
 
 app.use('/api/patients', patientRouter);
 app.use('/api/reports', reportRouter);
+app.use('/api/users', userRouter);
 
 if (require.main === module) {
   app.listen(process.env.PORT || 8080, function() {

@@ -1,16 +1,35 @@
 
 "use strict";
 
+
+
+function getUserData(userName) {
+	return $.ajax({
+			method: "GET",
+			url: `http://localhost:3000/api/users/${userName}`,
+			headers: {
+				"Access-Control-Allow-Origin": "*"
+			}
+	});
+}
+
 function updateAssignmentListCount() {
 	const userName = $('.js-username').html();
-	const assignmentCount = MOCK_USER_DATA.userData.reduce((acc, user) => {
+	const user = getUserData(userName);
+	user.done(function(data) {
+		console.log(data);
+		$('.js-assignment-count').html(data.assignmentList.length);
+	})
+	/*const assignmentCount = MOCK_USER_DATA.userData.reduce((acc, user) => {
 		if (user.userName === userName) {
 			acc = user.assignmentList.length;
 		}
 		return acc;
 	}, 0);
-	$('.js-assignment-count').html(assignmentCount);
+	$('.js-assignment-count').html(assignmentCount);*/
 }
+
+
 
 function getAndDisplayUnitList() {
 	$.ajax({
