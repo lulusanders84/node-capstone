@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { PORT, DATABASE_URL } = require("./config");
 
 const patientRouter = require('./routes/patient-router');
+const reportRouter = require('./routes/report-router');
 
 app.use(express.static('public'));
 
@@ -18,6 +19,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/patients', patientRouter);
+app.use('/api/reports', reportRouter);
 
 if (require.main === module) {
   app.listen(process.env.PORT || 8080, function() {

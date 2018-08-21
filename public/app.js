@@ -28,6 +28,46 @@ function getAndDisplayUnitList() {
 	});
 }
 
+function addPatientToUnitList() {
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:3000/api/patients',
+		data: JSON.stringify({
+			"room": `${$('#room').val()}`,
+			"admitDate": `${$('#admit').val()}`,
+			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
+			"age": `${$('#age').val()}`
+		}),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data, status) {
+		console.log(data);
+		alert(`${data.name} added to unit list`);
+		getAndDisplayUnitList();
+	})
+}
+
+function removePatientFromUnitList() {
+	getSelectedPatients().then(patientIds => {
+		patientIds.forEach(id => {
+			const patientName = $(`.${id}`).html();
+			if (window.confirm(`Delete ${patientName} from unit list?`)) {
+				$.ajax({
+					url: `http://localhost:3000/api/patients/${id}`,
+					method: "DELETE",
+					headers: {
+						"Access-Control-Allow-Origin": "*"
+					}
+				}).done(function(data) {
+					getAndDisplayUnitList();
+				})
+			}
+		})
+	})
+}
+
 function sortPatientsByRoom(data) {
 	return data.sort(function (a, b) {
 		return a.room - b.room;
@@ -133,26 +173,7 @@ function handleSubmitToUnitButton(event) {
 	$('.js-add-patient-form').addClass('inactive');
 }
 
-function addPatientToUnitList() {
-	$.ajax({
-		method: "POST",
-		url: 'http://localhost:3000/api/patients',
-		data: JSON.stringify({
-			"room": `${$('#room').val()}`,
-			"admitDate": `${$('#admit').val()}`,
-			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
-			"age": `${$('#age').val()}`
-		}),
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json"
-		}
-	}).done(function(data, status) {
-		console.log(data);
-		alert(`${data.name} added to unit list`);
-		getAndDisplayUnitList();
-	})
-}
+
 
 function handleRemoveFromUnitButton() {
 	$('.js-remove-unit').click(function() {
@@ -160,24 +181,7 @@ function handleRemoveFromUnitButton() {
 	})
 }
 
-function removePatientFromUnitList() {
-	getSelectedPatients().then(patientIds => {
-		patientIds.forEach(id => {
-			const patientName = $(`.${id}`).html();
-			if (window.confirm(`Delete ${patientName} from unit list?`)) {
-				$.ajax({
-					url: `http://localhost:3000/api/patients/${id}`,
-					method: "DELETE",
-					headers: {
-						"Access-Control-Allow-Origin": "*"
-					}
-				}).done(function(data) {
-					getAndDisplayUnitList();
-				})
-			}
-		})
-	})
-}
+
 
 function handleGoToAssignmentButton() {
 	$('.js-go-to-assignment').click(function() {
@@ -278,12 +282,20 @@ function removePatientFromAssignmentList() {
 }
 
 function getAndDisplayPatientReport(patientId) {
-	getPatientReportData(patientId)
-	.then(patient => {
-		renderPatientReport(patient);
-		displayPatientReport();
-
-	});
+	console.log(`http://localhost:3000/api/reports/${patientId}`);
+	$.ajax({
+		type: "GET",
+		url: `http://localhost:3000/api/reports/${patientId}`,
+		headers: {
+			"Access-Control-Allow-Origin": "*"
+		}
+	}).done(function(data) {
+		console.log(data);
+	renderPatientReport(data);
+	displayPatientReport();
+}).fail(error => {
+	console.log("Server not responding");
+});
 }
 
 function displayPatientReport() {
@@ -294,15 +306,12 @@ function displayPatientReport() {
 	$('.js-list-container').addClass('inactive');
 }
 
-function getPatientReportData(patientId) {
-	return new Promise ((resolve, reject) => {
-		resolve(MOCK_PATIENT_DATA.patientData.find(patient => {
-			return patient._id === patientId;
-		}))
-	});
-}
-
 function renderPatientReport(patient) {
+	Object.keys(patient).forEach(key => {
+		if(patient[key] === null) {
+			patient[key] = '';
+		}
+	});
 	$('.js-report-room').html(`${patient.room}`);
 	$('.js-report-age').html(`${patient.age}`);
 	$('.js-report-name').html(`${patient.name}`);
@@ -323,12 +332,12 @@ function renderPatientReport(patient) {
 	$('.js-report-TED').html(`${patient.TED}`);
 	$('.js-report-assist').html(`${patient.assist}`);
 	$('.js-report-skinWounds').html(`${patient.skinWounds}`);
-	$('.js-report-hemo').html(`${patient.labs.hemo}`);
-	$('.js-report-wbc').html(`${patient.labs.wbc}`);
-	$('.js-report-plt').html(`${patient.labs.plt}`);
-	$('.js-report-k').html(`${patient.labs.K}`);
-	$('.js-report-na').html(`${patient.labs.Na}`);
-	$('.js-report-cr').html(`${patient.labs.Cr}`);
+	$('.js-report-hemo').html(`${patient.hemo}`);
+	$('.js-report-wbc').html(`${patient.wbc}`);
+	$('.js-report-plt').html(`${patient.plt}`);
+	$('.js-report-k').html(`${patient.K}`);
+	$('.js-report-na').html(`${patient.Na}`);
+	$('.js-report-cr').html(`${patient.Cr}`);
 }
 
 function handleViewReportButton() {
@@ -336,6 +345,12 @@ function handleViewReportButton() {
 		const patientId = this.id.slice(0, -1);
 		getAndDisplayPatientReport(patientId);
 	});
+}
+
+function openUpdateData() {
+	$('.data').click(function() {
+		console.log(($(this).closest('div').html()));
+	})
 }
 
 function handleGoToUnitListButton() {
@@ -361,6 +376,7 @@ function handleUpdatePatientDataButton() {}
 function updatePatientData() {}
 
 $(function() {
+		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();
 		handleAddToAssignmentButton();

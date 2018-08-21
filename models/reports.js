@@ -1,7 +1,8 @@
 
 const mongoose = require("mongoose");
 
-const patientSchema = mongoose.Schema({
+const reportSchema = mongoose.Schema({
+  patientId: { type: 'string', default: '' },
   "room": { type: 'number', default: '' },
   "admitDate": { type: 'string', default: '' },
   "name": { type: 'string', default: '' },
@@ -32,6 +33,6 @@ const patientSchema = mongoose.Schema({
   "Cr": { type: 'number', default: '' }
 });
 
-const Patient= mongoose.model('Patient', patientSchema);
+const Report = mongoose.model('Report', reportSchema);
 
-module.exports = { Patient };
+module.exports = { Report };

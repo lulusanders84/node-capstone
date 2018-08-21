@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const jsonParser = bodyParser.json();
 const { Patient } = require('../models/patients');
+const { Report } = require('../models/reports');
 
 router.get('/', (req, res) => {
   Patient
@@ -19,7 +20,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', jsonParser, (req, res) => {
-  console.log(req.body);
   const requiredFields = ["age", "room", "admitDate", "name"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -29,6 +29,7 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
+
   Patient.create({
     room: req.body.room,
     admitDate: req.body.admitDate,
@@ -36,9 +37,18 @@ router.post('/', jsonParser, (req, res) => {
     name: req.body.name
   })
   .then(patient => {
-    console.log("patient created");
-    res.status(200).json({
+    Report.create({
+      patientId: patient._id,
+      room: patient.room,
+      admitDate: patient.admitDate,
+      age: patient.age,
       name: patient.name
+    })
+    .then(report => {
+      console.log("report created", report);
+      res.status(200).json({
+        name: report.name
+      })
     })
   })
 })

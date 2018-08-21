@@ -81,55 +81,72 @@
 		</section>
 		<section role="region" class="js-report-container inactive">
 			<div class="row">
-				<div class="col-2">RM: <span class="js-report-room"></span></div>
-				<div class="col-2">Age: <span class="js-report-age"></span></div>
-				<div class="col-4">Pt: <span class="js-report-name"></span></div>
-				<div class="col-2">Admit: <span class="js-report-admit"></span></div>
-				<div class="col-2">D/C: <span class="js-report-discharge"></span></div>
+				<div class="col-2">RM: <span class="js-report-room data"></span></div>
+				<div class="col-2">Age: <span class="js-report-age data"></span></div>
+				<div class="col-4">Pt: <span class="js-report-name data"></span></div>
+				<div class="col-2">Admit: <span class="js-report-admit data"></span></div>
+				<div class="col-2">D/C: <span class="js-report-discharge data"></span></div>
 			</div>
 			<div class="row">
-				<div class="col-3">Dx: <span class="js-report-dx"></span></div>
-				<div class="col-6">History: <span class="js-report-history"></span></div>
-				<div class="col-3">Allergies: <span class="js-report-allergies"></span></div>
+				<div class="col-3">Dx: <span class="js-report-dx data"></span></div>
+				<div class="col-6">History: <span class="js-report-history data"></span></div>
+				<div class="col-3">Allergies: <span class="js-report-allergies data"></span></div>
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<div class="col-12">GU: <span class="js-report-gu"></span></div>
-					<div class="col-12">GI: <span class="js-report-gi"></span></div>
-					<div class="col-12">Diet: <span class="js-report-diet"></span></div>
+					<div class="col-12">GU: <span class="js-report-gu data"></span></div>
+					<div class="col-12">GI: <span class="js-report-gi data"></span></div>
+					<div class="col-12">Diet: <span class="js-report-diet data"></span></div>
 				</div>
 				<div class="col-6">
-					<div class="col-6">I: <span class="js-report-input"></span></div>
-					<div class="col-6">O: <span class="js-report-output"></span></div>
+					<div class="col-6">I: <span class="js-report-input data"></span></div>
+					<div class="col-6">O: <span class="js-report-output data"></span></div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-8">Pain: <span class="js-report-pain"></span></div>
+				<div class="col-8">Pain: <span class="js-report-pain data"></span></div>
 				<div class="col-4">
-					<div class="col-6">O2: <span class="js-report-O2"></span></div>
-					<div class="col-6">Tele: <span class="js-report-telemetry"></span></div>
+					<div class="col-6">O2: <span class="js-report-O2 data"></span></div>
+					<div class="col-6">Tele: <span class="js-report-telemetry data"></span></div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6">SCDs: <span class="js-report-SCDs"></span></div>
-				<div class="col-6">TED: <span class="js-report-TED"></span></div>
-				<div class="col-6">Assist: <span class="js-report-assist"></span></div>
+				<div class="col-6">SCDs: <span class="js-report-SCDs data"></span></div>
+				<div class="col-6">TED: <span class="js-report-TED data"></span></div>
+				<div class="col-6">Assist: <span class="js-report-assist data"></span></div>
 			</div>
 			<div class="row">
-				<div class="col-12">Skin/Wounds: <span class="js-report-skinWounds"></span></div>
+				<div class="col-12">Skin/Wounds: <span class="js-report-skinWounds data"></span></div>
 			</div>
 			<div class="row">
-				<div class="col-4">H/H: <span class="js-report-hemo"></span></div>
-				<div class="col-4">WBC: <span class="js-report-wbc"></span></div>
-				<div class="col-4">Plt: <span class="js-report-plt"></span></div>
+				<div class="col-4">H/H: <span class="js-report-hemo data"></span></div>
+				<div class="col-4">WBC: <span class="js-report-wbc data"></span></div>
+				<div class="col-4">Plt: <span class="js-report-plt data"></span></div>
 			</div>
 			<div class="row">
-				<div class="col-4">K: <span class="js-report-k"></span></div>
-				<div class="col-4">Na: <span class="js-report-na"></span></div>
-				<div class="col-4">Cr: <span class="js-report-cr"></span></div>
+				<div class="col-4">K: <span class="js-report-k data"></span></div>
+				<div class="col-4">Na: <span class="js-report-na data"></span></div>
+				<div class="col-4">Cr: <span class="js-report-cr data"></span></div>
 			</div>
 			<button class='js-go-to-assignment js-report-button'>Go to assignment list</button>
 			<button class='js-go-to-unit js-report-button'>Go to unit list</button>
+		</section>
+		<section class="js-update-report-form modal closed">
+			<div class="modal-close-container">
+				<button class="js-close-modal modal-close-button">Close</button>
+			</div>
+			<form id="update-report" class="update-form">
+				<fieldset>
+					<legend>
+					</legend>
+					<label for="data" id="data-label">
+					</label>
+					<input type="text" id="data">
+					<input type="submit" value="Submit update">
+				</fieldset>
+			</form>
+		</section>
+		<section class="modal-overlay inactive">
 		</section>
 	</main>
 	<script
