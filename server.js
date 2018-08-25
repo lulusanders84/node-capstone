@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+
 const { PORT, DATABASE_URL } = require("./config");
 
 const patientRouter = require('./routes/patient-router');

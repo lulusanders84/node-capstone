@@ -19,4 +19,16 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.put('/:id', jsonParser, (req, res) => {
+  console.log(req.body);
+  User
+    .findOneAndUpdate({userName: req.params.id}, {$push: {assignmentList: req.body}})
+    .then(user => {
+      res.status(200).json(user);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal server error'});
+    })
+})
+
 module.exports = router;

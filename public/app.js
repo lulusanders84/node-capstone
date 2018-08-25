@@ -17,16 +17,8 @@ function updateAssignmentListCount() {
 	const userName = $('.js-username').html();
 	const user = getUserData(userName);
 	user.done(function(data) {
-		console.log(data);
 		$('.js-assignment-count').html(data.assignmentList.length);
 	})
-	/*const assignmentCount = MOCK_USER_DATA.userData.reduce((acc, user) => {
-		if (user.userName === userName) {
-			acc = user.assignmentList.length;
-		}
-		return acc;
-	}, 0);
-	$('.js-assignment-count').html(assignmentCount);*/
 }
 
 
@@ -136,34 +128,35 @@ function handleAddToAssignmentButton() {
 }
 
 function getSelectedPatients() {
-	return new Promise((resolve, reject) => {
 		let patientIds = [];
 		$('.js-name input').each(function() {
 			if(this.checked) {
 				patientIds.push(this.id);
 			}
 		})
-		resolve(patientIds);
-	})
+		return patientIds;
 }
 
 function addPatientsToUsersAssignmentList() {
 	const userName = $('.js-username').html();
-	const user = MOCK_USER_DATA.userData.find(user => {
-		return user.userName === userName;
-	});
-	let patientIdCount;
-	getSelectedPatients()
-	.then(patientIds => {
-		patientIdCount = patientIds.length;
-		return detectDuplicatePatients(patientIds, user);
-	}).then(newIds => {
-		user.assignmentList = user.assignmentList.concat(newIds);
-
-		alert(`${newIds.length} patients added to assignment list \n` +
-			`${patientIdCount - newIds.length} not added as already on list`);
-		updateAssignmentListCount();
-	})
+	const user = getUserData(userName);
+	const patientIds = getSelectedPatients();
+	user.done(function(data) {
+			const newIds = detectDuplicatePatients(patientIds, data);
+			$.ajax({
+				method: "PUT",
+				url: `http://localhost:3000/api/users/${userName}`,
+				data: JSON.stringify(newIds),
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Content-Type": "application/json"
+				}
+			}).done(function(data) {
+					console.log(data);
+					alert(`${data.assignmentList.length} patients added to assignment list`);
+					updateAssignmentListCount();
+			})
+		})
 }
 
 function detectDuplicatePatients(patientIds, user) {
