@@ -152,8 +152,9 @@ function addPatientsToUsersAssignmentList() {
 					"Content-Type": "application/json"
 				}
 			}).done(function(data) {
-					console.log(data);
-					alert(`${data.assignmentList.length} patients added to assignment list`);
+					console.log(data, "length", data.length);
+
+					alert(`patients added to assignment list`);
 					updateAssignmentListCount();
 			})
 		})
@@ -197,7 +198,6 @@ function handleRemoveFromUnitButton() {
 
 function handleGoToAssignmentButton() {
 	$('.js-go-to-assignment').click(function() {
-
 		goToAssignmentList();
 	})
 }
@@ -209,7 +209,8 @@ function handleGoToAssignmentNavButton() {
 	})
 }
 
-function goToAssignmentList() {
+function goToAssignmentList() {	
+	getAndDisplayAssignmentList();
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
 	$('h1').html(`${userName}'s Assignment`);
@@ -222,7 +223,6 @@ function goToAssignmentList() {
 	$('.js-report-container').addClass('inactive');
 	$('.js-remove-assignment').removeClass('inactive');
 	$('.js-remove-unit').addClass('inactive');
-	getAndDisplayAssignmentList();
 }
 
 function getAssignmentListData() {
@@ -233,12 +233,18 @@ function getAssignmentListData() {
 })
 }
 
-function getAssignmentList() {
+function getAndDisplayAssignmentList() {
 	const userName = $('.js-username').html();
-	const user = MOCK_USER_DATA.userData.find(user => {
-	return user.userName === userName;
+	$.ajax({
+		type: "GET",
+		url: `http://localhost:3000/api/users/assignment/${userName}`,
+		headers: {
+			"Access-Control-Allow-Origin": "*"
+		}
+	}).done(function(data) {
+		const html = generateListHtml(data);
+		displayAssignmentList(html);
 	})
-	return user.assignmentList;
 }
 
 function getSelectedPatientData(patientIds) {
@@ -256,14 +262,6 @@ function getSelectedPatientData(patientIds) {
 
 function displayAssignmentList(patientsHtml) {
 	$('.js-patient-list').html(patientsHtml);
-}
-
-function getAndDisplayAssignmentList() {
-	getAssignmentListData().then(patients => {
-		return generateListHtml(patients);
-	}).then(patientsHtml => {
-		displayAssignmentList(patientsHtml);
-	})
 }
 
 function handleRemovePatientFromAssignmentButton() {

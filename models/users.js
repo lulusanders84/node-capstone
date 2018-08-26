@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   "firstName": 'string',
   "lastName": 'string',
   "assignmentList": [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Report' }
   ]
 })
 
