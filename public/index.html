@@ -18,7 +18,15 @@
 		<p>Select which patients to add to your assignment list or manage unit list</p>
 	</header>
 	<main role="main">
-		<div class="js-list-container">
+		<div class="container">
+			<button class="js-add-assignment">Add patient to assignment</button>
+			<button class='js-go-to-assignment'>Go to assignment list</button>
+			<button class='js-go-to-unit inactive'>Go to unit list</button>
+			<button class='js-remove-unit'>Remove selected patient</button>
+			<button class='js-remove-assignment inactive'>Remove selected patient</button>
+			<button class='js-add-to-unit'>Add new patient to unit list</button>
+		</div>
+		<div class="js-list-container list-container">
 			<div class="title">
 				<div class="report">
 					Report
@@ -36,16 +44,9 @@
 					Admit Date
 				</div>
 			</div>
-			<div class="js-patient-list">
+			<div class="js-patient-list patient-list">
 			</div>
-			<div class="container">
-				<button class="js-add-assignment">Add patient to assignment</button>
-				<button class='js-go-to-assignment'>Go to assignment list</button>
-				<button class='js-go-to-unit inactive'>Go to unit list</button>
-				<button class='js-remove-unit'>Remove selected patient</button>
-				<button class='js-remove-assignment inactive'>Remove selected patient</button>
-				<button class='js-add-to-unit'>Add new patient to unit list</button>
-			</div>
+
 		</div>
 		<section role="region" class="js-add-patient-form inactive">
 			<form onsubmit="handleSubmitToUnitButton(event)">

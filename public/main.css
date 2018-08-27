@@ -36,21 +36,25 @@ p {
 	padding: 10px 0;
 }
 
-.patient, .title {
+.list-container {
 	margin: 0 auto;
-	display: flex;
-	height: 20px;
 	width: 80%;
+}
+
+.title {
+		border: 1px solid gray;
+}
+.title, .patient {
+	display: flex;
+
 }
 
 .name {
 	flex: 5;
-	border: 1px solid black;
 }
 
 .room, .admit, .age, .report {
 	flex: 1;
-	border: 1px solid black;
 	text-align: center;
 }
 

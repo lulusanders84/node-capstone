@@ -209,7 +209,7 @@ function handleGoToAssignmentNavButton() {
 	})
 }
 
-function goToAssignmentList() {	
+function goToAssignmentList() {
 	getAndDisplayAssignmentList();
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
@@ -274,21 +274,19 @@ function handleRemovePatientFromAssignmentButton() {
 
 function removePatientFromAssignmentList() {
 	const userName = $('.js-username').html();
-	const user = MOCK_USER_DATA.userData.find(user => {
-		return user.userName === userName;
-	});
-	getSelectedPatients().then(patientIds => {
-		user.assignmentList.forEach((listId, index) => {
-			patientIds.forEach(id => {
-				if(listId === id) {
-					user.assignmentList.splice(index, 1);
-				}
-			})
+	const patientIds = getSelectedPatients();
+		$.ajax({
+			url: `http://localhost:3000/api/users/assignment/${userName}`,
+			method: "PUT",
+			data: JSON.stringify(patientIds),
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json"
+			}
+		}).done(function(data) {
+			getAndDisplayAssignmentList();
+			updateAssignmentListCount();
 		})
-		alert(`${patientIds.length} patients removed from assignment list`);
-		getAndDisplayAssignmentList();
-		updateAssignmentListCount();
-	})
 }
 
 function getAndDisplayPatientReport(patientId) {
