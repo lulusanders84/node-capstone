@@ -225,14 +225,6 @@ function goToAssignmentList() {
 	$('.js-remove-unit').addClass('inactive');
 }
 
-function getAssignmentListData() {
-	return new Promise((resolve, reject) => {
-	const patientIds = getAssignmentList();
-	const patientData = getSelectedPatientData(patientIds);
-	resolve(patientData);
-})
-}
-
 function getAndDisplayAssignmentList() {
 	const userName = $('.js-username').html();
 	$.ajax({
@@ -245,19 +237,6 @@ function getAndDisplayAssignmentList() {
 		const html = generateListHtml(data);
 		displayAssignmentList(html);
 	})
-}
-
-function getSelectedPatientData(patientIds) {
-	const patientData = MOCK_PATIENT_DATA.patientData;
-	let selectedPatients = [];
-	patientData.forEach(patient => {
-		patientIds.forEach(id => {
-			if(patient._id === id) {
-				selectedPatients.push(patient);
-			}
-		});
-	});
-	return selectedPatients;
 }
 
 function displayAssignmentList(patientsHtml) {

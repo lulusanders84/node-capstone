@@ -11,7 +11,15 @@ router.get('/:id', (req, res) => {
   Report
     .findOne({patientId: req.params.id})
     .then(report => {
-      res.status(200).json(report);
+      if(report === null) {
+        Report
+          .findById(req.params.id)
+          .then(reportById => {
+            res.status(200).json(reportById);
+          })
+      } else {
+        res.status(200).json(report);
+      }
     }).catch(err => {
         console.error(err);
         res.status(500).json({message: 'Internal server error'});
