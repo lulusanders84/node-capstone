@@ -31,7 +31,10 @@ function getAndDisplayUnitList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
+		console.log("pre-sort data", data);
 		data = sortPatientsByRoom(data);
+		data.listType = "unit";
+		console.log("sorted data", data);
 		const html = generateListHtml(data);
 		displayUnitList(html);
 	}).fail(error => {
@@ -80,8 +83,9 @@ function removePatientFromUnitList() {
 }
 
 function sortPatientsByRoom(data) {
+	console.log(data[0].report.room);
 	return data.sort(function (a, b) {
-		return a.room - b.room;
+		return a.report.room - b.report.room;
 	});
 }
 
@@ -90,25 +94,35 @@ function generateListHtml(patients) {
 		return `
 			<div class="patient">
 				<div class="report">
-					<button id="${patient._id}b" class="js-view-button">View</button>
+					<button id="${generateHtmlData(patients.listType, "_id", patient)}" class="js-view-button">View</button>
 				</div>
 				<div class="js-name name">
 					<label for="${patient._id}">
 					<input name="patients" id="${patient._id}" type="checkbox">
-							<span class="${patient._id}">${patient.name}</span>
+							<span class="${patient._id}">${generateHtmlData(patients.listType, "name", patient)}</span>
 					</label>
 				</div>
 				<div class="age">
-					${patient.age}
+					${generateHtmlData(patients.listType, "age", patient)}
 				</div>
 				<div class="room">
-					${patient.room}
+					${generateHtmlData(patients.listType, "room", patient)}
 				</div>
 				<div class="admit">
-					${formatAdmitDate(patient.admitDate)}
+					${formatAdmitDate(generateHtmlData(patients.listType, "admitDate", patient))}
 				</div>
+				<div class="discharge">
+					${generateHtmlData(patients.listType, "dischargeDate", patient)}
 			</div>`
 	})
+}
+
+function generateHtmlData(listType, dataType, patient) {
+	if (listType === 'unit') {
+		return `${patient.report[dataType]}`;
+	} else {
+		return `${patient[dataType]}`;
+	}
 }
 
 function formatAdmitDate(admit) {
@@ -234,6 +248,7 @@ function getAndDisplayAssignmentList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
+		data.listType = "assignment";
 		const html = generateListHtml(data);
 		displayAssignmentList(html);
 	})
@@ -329,8 +344,7 @@ function renderPatientReport(patient) {
 
 function handleViewReportButton() {
 	$('.js-patient-list').on('click', '.js-view-button', function() {
-		const patientId = this.id.slice(0, -1);
-		getAndDisplayPatientReport(patientId);
+		getAndDisplayPatientReport(this.id);
 	});
 }
 

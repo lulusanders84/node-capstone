@@ -53,7 +53,7 @@ p {
 	flex: 5;
 }
 
-.room, .admit, .age, .report {
+.room, .admit, .discharge, .age, .report {
 	flex: 1;
 	text-align: center;
 }

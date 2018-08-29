@@ -2,12 +2,11 @@
 const mongoose = require("mongoose");
 
 const reportSchema = mongoose.Schema({
-  patientId: { type: 'string', default: '' },
   "room": { type: 'number', default: '' },
   "admitDate": { type: 'string', default: '' },
-  "name": { type: 'string', default: '' },
+  "dischargeDate": { type: 'string', default: '' },  
   "age": { type: 'number', default: '' },
-  "service": { type: 'string', default: '' },
+  "name": { type: 'string', default: '' },
   "allergies": { type: 'string', default: '' },
   "code": { type: 'string', default: '' },
   "isolation": { type: 'string', default: '' },
