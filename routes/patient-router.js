@@ -1,6 +1,9 @@
 
 const express = require('express');
 const mongoose = require("mongoose");
+
+mongoose.Promise = global.Promise;
+
 const bodyParser = require("body-parser");
 
 const router = express.Router();
@@ -20,6 +23,20 @@ router.get('/', (req, res) => {
     })
 })
 
+function createNewPatient(req, res, report) {
+  Patient
+    .create({
+      report: report
+    }).then(patient => {
+        console.log("patient", patient);
+        res.status(200).json(patient.report.name);
+      }).catch(err => {
+          console.error(err);
+          res.status(500).json({message: 'Internal server error'});
+      })
+}
+
+
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ["age", "room", "admitDate", "name"];
   for (let i = 0; i < requiredFields.length; i++) {
@@ -30,6 +47,7 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
+
   Report
     .findOne({name: req.body.name})
     .then(report => {
@@ -41,46 +59,15 @@ router.post('/', jsonParser, (req, res) => {
             admitDate: req.body.admitDate,
             age: req.body.age,
             name: req.body.name
-          }).then(newReport => {
-            console.log("new report", newReport);
-            Patient
-              .create({
-                report: newReport._id
-              }).then(patient => {
-                Patient
-                .findById(patient._id)
-                .populate("report")
-                .then(unitPatient => {
-                  res.status(200).json(unitPatient.name);
-                }).catch(err => {
-                    console.error(err);
-                    res.status(500).json({message: 'Internal server error'});
-                })
-              })
           })
-      }else {
-        json.status(204).json({})
+          .then(newReport => {
+            createNewPatient(req, res, newReport);
+          })
+      } else {
+        createNewPatient(req, res, report);
+        console.log(reportToAddToPatients);
       }
     })
-
-.then(patient => {
-    Report.create({
-      patientId: patient._id,
-      room: patient.room,
-      admitDate: patient.admitDate,
-      age: patient.age,
-      name: patient.name
-    })
-    .then(report => {
-      console.log("report created", report);
-      res.status(200).json({
-        name: report.name
-      })
-    }).catch(err => {
-        console.error(err);
-        res.status(500).json({message: 'Internal server error'});
-    })
-  })
 })
 
 router.delete('/:id', (req, res) => {

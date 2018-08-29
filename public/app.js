@@ -85,6 +85,7 @@ function removePatientFromUnitList() {
 function sortPatientsByRoom(data) {
 	console.log(data[0].report.room);
 	return data.sort(function (a, b) {
+		console.log(a);
 		return a.report.room - b.report.room;
 	});
 }
