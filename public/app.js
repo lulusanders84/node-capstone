@@ -31,10 +31,8 @@ function getAndDisplayUnitList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
-		console.log("pre-sort data", data);
 		data = sortPatientsByRoom(data);
 		data.listType = "unit";
-		console.log("sorted data", data);
 		const html = generateListHtml(data);
 		displayUnitList(html);
 	}).fail(error => {
@@ -64,28 +62,40 @@ function addPatientToUnitList() {
 }
 
 function removePatientFromUnitList() {
-	getSelectedPatients().then(patientIds => {
-		patientIds.forEach(id => {
-			const patientName = $(`.${id}`).html();
-			if (window.confirm(`Delete ${patientName} from unit list?`)) {
-				$.ajax({
-					url: `http://localhost:3000/api/patients/${id}`,
-					method: "DELETE",
-					headers: {
-						"Access-Control-Allow-Origin": "*"
-					}
-				}).done(function(data) {
-					getAndDisplayUnitList();
-				})
-			}
-		})
+	const today = new Date();
+	const month = today.getMonth() + 1;
+	const day = today.getDate() + 1;
+	const year = today.getFullYear();
+	let tomorrow = month + "/" + day + "/" + year;
+	tomorrow = Date.parse(tomorrow);
+	$('.js-patient').each(function(index) {
+		const patientId = $(this).find('input').attr('id');
+		const dischargeDate = $(this).find('.js-discharge').html();
+		console.log(patientId, dischargeDate);
+
+		if(Date.parse(dischargeDate) >= tomorrow) {
+			console.log("date is in the future")
+		} else if (Date.parse(dischargeDate) < tomorrow){
+			$.ajax({
+				url: `http://localhost:3000/api/patients/${patientId}`,
+				method: "DELETE",
+				headers: {
+					"Access-Control-Allow-Origin": "*"
+				}
+			}).done(function(data) {
+				console.log(`${data.name} has been removed from unit list`);
+				getAndDisplayUnitList();
+			})
+		} else {
+			console.log("no date set");
+		}
 	})
 }
 
+
+
 function sortPatientsByRoom(data) {
-	console.log(data[0].report.room);
 	return data.sort(function (a, b) {
-		console.log(a);
 		return a.report.room - b.report.room;
 	});
 }
@@ -93,7 +103,7 @@ function sortPatientsByRoom(data) {
 function generateListHtml(patients) {
 	return patients.map(patient => {
 		return `
-			<div class="patient">
+			<div class="js-patient patient">
 				<div class="report">
 					<button id="${generateHtmlData(patients.listType, "_id", patient)}" class="js-view-button">View</button>
 				</div>
@@ -112,7 +122,7 @@ function generateListHtml(patients) {
 				<div class="admit">
 					${formatAdmitDate(generateHtmlData(patients.listType, "admitDate", patient))}
 				</div>
-				<div class="discharge">
+				<div class="js-discharge discharge">
 					${generateHtmlData(patients.listType, "dischargeDate", patient)}
 			</div>`
 	})
@@ -203,8 +213,8 @@ function handleSubmitToUnitButton(event) {
 
 
 
-function handleRemoveFromUnitButton() {
-	$('.js-remove-unit').click(function() {
+function handleRefreshButton() {
+	$('.js-refresh').click(function() {
 		removePatientFromUnitList();
 	})
 }
@@ -385,7 +395,7 @@ $(function() {
 		handleGoToAssignmentButton();
 		handleGoToAssignmentNavButton();
 		handleAddToUnitButton();
-		handleRemoveFromUnitButton();
+		handleRefreshButton();
 		handleRemovePatientFromAssignmentButton();
 		handleGoToUnitListButton();
 		handleViewReportButton();
