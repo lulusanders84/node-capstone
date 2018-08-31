@@ -1,6 +1,31 @@
 
 "use strict";
 
+let patientToUpdate;
+
+let update = {
+	reportId: null,
+	dataType: null,
+	data: {}
+};
+
+function updatePatientToUpdate(patientId) {
+	patientToUpdate = patientId;
+}
+
+function populateUpdateObjData(key, data) {
+	update.data[key] = data;
+}
+
+function emptyUpdateObjData() {
+	update.dataType = {};
+	update.data = {};
+}
+
+function populateUpdateObjReportIdAndDataType(reportId, dataType) {
+	update.reportId = reportId;
+	update.dataType = dataType;
+}
 
 
 function getUserData(userName) {
@@ -31,6 +56,7 @@ function getAndDisplayUnitList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
+		console.log("get and display unit list running");
 		data = sortPatientsByRoom(data);
 		data.listType = "unit";
 		const html = generateListHtml(data);
@@ -41,14 +67,15 @@ function getAndDisplayUnitList() {
 }
 
 function addPatientToUnitList() {
+	console.log($('#admit').val());
 	$.ajax({
 		method: "POST",
 		url: 'http://localhost:3000/api/patients',
 		data: JSON.stringify({
-			"room": `${$('#room').val()}`,
-			"admitDate": `${$('#admit').val()}`,
+			"room": `${$('#new-room').val()}`,
+			"admitDate": `${$('#new-admit').val()}`,
 			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
-			"age": `${$('#age').val()}`
+			"age": `${$('#new-age').val()}`
 		}),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
@@ -60,39 +87,6 @@ function addPatientToUnitList() {
 		getAndDisplayUnitList();
 	})
 }
-
-function removePatientFromUnitList() {
-	const today = new Date();
-	const month = today.getMonth() + 1;
-	const day = today.getDate() + 1;
-	const year = today.getFullYear();
-	let tomorrow = month + "/" + day + "/" + year;
-	tomorrow = Date.parse(tomorrow);
-	$('.js-patient').each(function(index) {
-		const patientId = $(this).find('input').attr('id');
-		const dischargeDate = $(this).find('.js-discharge').html();
-		console.log(patientId, dischargeDate);
-
-		if(Date.parse(dischargeDate) >= tomorrow) {
-			console.log("date is in the future")
-		} else if (Date.parse(dischargeDate) < tomorrow){
-			$.ajax({
-				url: `http://localhost:3000/api/patients/${patientId}`,
-				method: "DELETE",
-				headers: {
-					"Access-Control-Allow-Origin": "*"
-				}
-			}).done(function(data) {
-				console.log(`${data.name} has been removed from unit list`);
-				getAndDisplayUnitList();
-			})
-		} else {
-			console.log("no date set");
-		}
-	})
-}
-
-
 
 function sortPatientsByRoom(data) {
 	return data.sort(function (a, b) {
@@ -109,7 +103,7 @@ function generateListHtml(patients) {
 				</div>
 				<div class="js-name name">
 					<label for="${patient._id}">
-					<input name="patients" id="${patient._id}" type="checkbox">
+					<input class="js-input" name="patients" id="${patient._id}" type="checkbox">
 							<span class="${patient._id}">${generateHtmlData(patients.listType, "name", patient)}</span>
 					</label>
 				</div>
@@ -120,10 +114,11 @@ function generateListHtml(patients) {
 					${generateHtmlData(patients.listType, "room", patient)}
 				</div>
 				<div class="admit">
-					${formatAdmitDate(generateHtmlData(patients.listType, "admitDate", patient))}
+					${formatDate(generateHtmlData(patients.listType, "admitDate", patient))}
 				</div>
 				<div class="js-discharge discharge">
-					${generateHtmlData(patients.listType, "dischargeDate", patient)}
+					${formatDate(generateHtmlData(patients.listType, "dischargeDate", patient))}
+				</div>
 			</div>`
 	})
 }
@@ -136,9 +131,13 @@ function generateHtmlData(listType, dataType, patient) {
 	}
 }
 
-function formatAdmitDate(admit) {
-	const d = new Date(admit);
-	return `${d.getUTCMonth() + 1}/${d.getUTCDate()}/${d.getUTCFullYear()}`
+function formatDate(date) {
+	if(date === "") {
+		return date;
+	} else {
+		const d = new Date(date);
+		return `${d.getUTCMonth() + 1}/${d.getUTCDate()}/${d.getUTCFullYear()}`
+	}
 }
 
 function displayUnitList(patientsHtml) {
@@ -211,15 +210,92 @@ function handleSubmitToUnitButton(event) {
 	$('.js-add-patient-form').addClass('inactive');
 }
 
-
-
-function handleRefreshButton() {
-	$('.js-refresh').click(function() {
-		removePatientFromUnitList();
+function handleDischargeDateUpdate() {
+	$('.js-patient-list').on('click', '.js-discharge', function() {
+	const patientId = $(this).closest('.js-patient').find('.js-input').attr('id');
+	updatePatientToUpdate(patientId);
+	renderUpdateDischargeDate();
 	})
 }
 
+function renderUpdateDischargeDate() {
+	$('.js-update-dc').removeClass('closed');
+	$('.modal-overlay').removeClass('inactive');
+}
 
+function updateDischargeDate(event) {
+	event.preventDefault();
+	const dischargeDate = {
+		date: $('#dc-date').val()
+	};
+	$.ajax({
+		method: "PUT",
+		url: `http://localhost:3000/api/reports/${patientToUpdate}`,
+		data: JSON.stringify(dischargeDate),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data) {
+			closeModal();
+			getAndDisplayUnitList();
+	})
+}
+
+function handleUpdatePatientData() {
+	$('.data').click(function() {
+		const dataType = $(this).closest('div').attr('id');
+		const data = $(this).html();
+		const reportId = $('.js-report-id').attr('id');
+		console.log("dataType:", dataType, "data:", data, "reportId:", reportId);
+		populateUpdateObjReportIdAndDataType(reportId, dataType);
+		console.log(update);
+		renderUpdateModal(dataType, data);
+	})
+}
+
+function formatDataLabel(dataType) {
+	const dataTypeArr = dataType.split('');
+	dataTypeArr[0] = dataTypeArr[0].toUpperCase();
+	return dataTypeArr.join('');
+}
+function renderUpdateModal(dataType, data) {
+	$('.js-update-report').removeClass('closed');
+	$('.modal-overlay').removeClass('inactive');
+	$('#data-label').html(formatDataLabel(dataType));
+	$('#data').val(data);
+}
+
+function handleUpdateReportSubmit(event) {
+	event.preventDefault();
+	const data = $('#data').val();
+	populateUpdateObjData(update.dataType, data);
+	console.log(update);
+	$.ajax({
+		method: "PUT",
+		url: `http://localhost:3000/api/reports/`,
+		data: JSON.stringify(update),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data) {
+		emptyUpdateObjData
+			closeModal();
+			renderPatientReport(data);
+			displayPatientReport();
+	})
+}
+
+function closeModal() {
+	$('.js-update-dc, .js-update-report').addClass('closed');
+	$('.modal-overlay').addClass('inactive');
+}
+function handleCloseModalButton() {
+	$('.js-close-modal').click(function() {
+		closeModal();
+	})
+}
 
 function handleGoToAssignmentButton() {
 	$('.js-go-to-assignment').click(function() {
@@ -325,14 +401,15 @@ function renderPatientReport(patient) {
 			patient[key] = '';
 		}
 	});
+	$('.js-report-id').attr({id: `${patient._id}`});
 	$('.js-report-room').html(`${patient.room}`);
 	$('.js-report-age').html(`${patient.age}`);
 	$('.js-report-name').html(`${patient.name}`);
-	$('.js-report-admit').html(`${formatAdmitDate(patient.admitDate)}`);
+	$('.js-report-admit').html(`${formatDate(patient.admitDate)}`);
 	$('.js-report-dx').html(`${patient.diagnosis}`);
 	$('.js-report-history').html(`${patient.history}`);
 	$('.js-report-allergies').html(`${patient.allergies}`);
-	$('.js-report-discharge').html(` `);
+	$('.js-report-discharge').html(`${formatDate(patient.dischargeDate)}`);
 	$('.js-report-gu').html(`${patient.GU}`);
 	$('.js-report-gi').html(`${patient.GI}`);
 	$('.js-report-diet').html(` `);
@@ -395,8 +472,10 @@ $(function() {
 		handleGoToAssignmentButton();
 		handleGoToAssignmentNavButton();
 		handleAddToUnitButton();
-		handleRefreshButton();
 		handleRemovePatientFromAssignmentButton();
 		handleGoToUnitListButton();
 		handleViewReportButton();
+		handleUpdatePatientData();
+		handleDischargeDateUpdate();
+		handleCloseModalButton();
 });
