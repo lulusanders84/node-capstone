@@ -2,163 +2,198 @@
 <html lang="en">
 <head>
 	<title>Nursing Brains</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="float-grid.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="list.css">
+	<link rel="stylesheet" type="text/css" href="inactive.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
 </head>
 <body>
-	<nav role="navigation">
-		<div class="intro">
-			Welcome <span class="js-username">voluptate</span>!
-			You have <span class="js-assignment-count"></span> patients on your
-			<button class="js-go-to-assignment-nav assignment-nav">assignment list</button>
-		</div>
-	</nav>
 	<header role="banner">
+		<nav role="navigation">
+			<section class="dropdown">
+			  <div class="dropbtn"><img src="http://projects.thepostathens.com/SpecialProjects/opioid-epidemic-ohio-in-crisis/img/hammenu.png"></button>
+				  <div class="dropdown-content">
+						<button class='js-go-to-assignment'>Go to assignment list</button>
+						<button class='js-add-to-unit'>Add new patient to unit list</button>
+						<button class='js-go-to-unit inactive'>Go to unit list</button>
+						<button class='js-help'>Help</button>
+				  </div>
+				</div>
+			</section>
+			<section class="intro-nav">
+				<div>Welcome <span class="js-username">voluptate</span>! </div>
+				<div>You have <span class="js-assignment-count"></span> patients</div>
+			</section>
+		</nav>
 		<h1>Cardiovascular Medical Unit</h1>
-		<p>Select which patients to add to your assignment list or manage unit list</p>
+		<p>Patients with be removed from unit list the day after they discharge</p>
 	</header>
 	<main role="main">
-		<div class="container">
+		<section class="container">
 			<button class="js-add-assignment">Add patient to assignment</button>
-			<button class='js-go-to-assignment'>Go to assignment list</button>
-			<button class='js-add-to-unit'>Add new patient to unit list</button>
-			<button class='js-go-to-unit inactive'>Go to unit list</button>
 			<button class='js-remove-assignment inactive'>Remove selected patient</button>
-		</div>
-		<div class="js-list-container list-container">
-			<div class="title">
-				<div class="report">
-					Report
-				</div>
-				<div class="name">
-					Patient Name
-				</div>
-				<div class="age">
-					Age
-				</div>
-				<div class="room">
-					Room #
-				</div>
-				<div class="admit">
-					Admit Date
-				</div>
-				<div class="discharge">
-					DC Date
-				</div>
-			</div>
-			<div class="js-patient-list patient-list">
-			</div>
-
-		</div>
-		<section role="region" class="js-add-patient-form inactive">
-			<form onsubmit="handleSubmitToUnitButton(event)">
-				<fieldset>
-					<legend>
-						Add Patient to Unit list
-					</legend>
-					<label for="new-room">
-						Room number
-					</label>
-					<input id="new-room" type="text">
-					<label for="new-admit">
-						Admit Date
-					</label>
-					<input id="new-admit" type="date">
-					<br>
-					<label for="first-name">
-						First name
-					</label>
-					<input id="first-name" type="text">
-					<label for="last-name">
-						Last name
-					</label>
-					<input id="last-name" type="text">
-					<label for="new-age">
-						Age
-					</label>
-					<input id="new-age" type="text">
-					<br>
-					<input type="submit" value="Add new patient">
-				</fieldset>
-			</form>
+			<button class='js-show-report inactive'>Show full report</button>
+			<button class='js-hide-report inactive'>Hide full report</button>
 		</section>
-		<section role="region" class="js-report-container inactive">
-			<div class="row">
-				<div class="js-report-id" hidden></div>
-				<div id="room" class="col-2">RM: <span class="js-report-room data"></span></div>
-				<div id="age" class="col-2">Age: <span class="js-report-age data"></span></div>
-				<div id="name" class="col-4">Pt: <span class="js-report-name data"></span></div>
-				<div id="admit" class="col-2">Admit: <span class="js-report-admit data"></span></div>
-				<div id="discharge" class="col-2">D/C: <span class="js-report-discharge data"></span></div>
-			</div>
-			<div class="row">
-				<div id="diagnosis" class="col-3">Dx: <span class="js-report-dx data"></span></div>
-				<div id="history" class="col-6">History: <span class="js-report-history data"></span></div>
-				<div id="allergies" class="col-3">Allergies: <span class="js-report-allergies data"></span></div>
-			</div>
-			<div class="row">
-				<div class="col-6">
-					<div id="GU" class="col-12">GU: <span class="js-report-gu data"></span></div>
-					<div id="GI" class="col-12">GI: <span class="js-report-gi data"></span></div>
-					<div id="diet" class="col-12">Diet: <span class="js-report-diet data"></span></div>
-				</div>
-				<div class="col-6">
-					<div id="input" class="col-6">I: <span class="js-report-input data"></span></div>
-					<div id="output" class="col-6">O: <span class="js-report-output data"></span></div>
-				</div>
-			</div>
-			<div class="row">
-				<div id="pain" class="col-8">Pain: <span class="js-report-pain data"></span></div>
-				<div class="col-4">
-					<div id="O2" class="col-6">O2: <span class="js-report-O2 data"></span></div>
-					<div id="telemetry" class="col-6">Tele: <span class="js-report-telemetry data"></span></div>
-				</div>
-			</div>
-			<div class="row">
-				<div id="SCDs" class="col-6">SCDs: <span class="js-report-SCDs data"></span></div>
-				<div id="TED" class="col-6">TED: <span class="js-report-TED data"></span></div>
-				<div id="assist" class="col-6">Assist: <span class="js-report-assist data"></span></div>
-			</div>
-			<div class="row">
-				<div id="skinWounds" class="col-12">Skin/Wounds: <span class="js-report-skinWounds data"></span></div>
-			</div>
-			<div class="row">
-				<div id="hemo" class="col-4">H/H: <span class="js-report-hemo data"></span></div>
-				<div id="wbc" class="col-4">WBC: <span class="js-report-wbc data"></span></div>
-				<div id="plt" class="col-4">Plt: <span class="js-report-plt data"></span></div>
-			</div>
-			<div class="row">
-				<div id="K" class="col-4">K: <span class="js-report-k data"></span></div>
-				<div id="Na" class="col-4">Na: <span class="js-report-na data"></span></div>
-				<div id="Cr" class="col-4">Cr: <span class="js-report-cr data"></span></div>
-			</div>
-			<button class='js-go-to-assignment js-report-button'>Go to assignment list</button>
-			<button class='js-go-to-unit js-report-button'>Go to unit list</button>
+		<section class="js-list-container list-container">
+			<ul class="title">
+				<li class="report">Report</li>
+				<li class="name name-title">Patient Name</li>
+				<li class="room">Room #</li>
+				<li class="discharge">DC Date</li>
+			</ul>
+			<ul class="js-patient-list patient-list"></ul>
 		</section>
-		<section class="js-update-dc modal closed">
-			<div class="modal-close-container">
-				<button class="js-close-modal modal-close-button">Close</button>
+		<section role="region" class="js-report-container report-container inactive">
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Patient Demographics</button>
+				<div class="row js-report-content report-content inactive">
+					<div class="js-report-id" hidden></div>
+					<div id="age" class="col-3 data">Age: <span class="js-report-age data"></span></div>
+					<div id="room" class="col-3 data">RM: <span class="js-report-room data"></span></div>
+					<div id="admitDate" class="col-3 data">Admit: <span class="js-report-admit data"></span></div>
+					<div id="dischargeDate" class="col-3 data">D/C: <span class="js-report-discharge data"></span></div>
+				</div>
 			</div>
-			<form onsubmit="updateDischargeDate(event)">
-				<label for="dc-date" id="dc-date-label">
-				</label>
-				<input type="date" id="dc-date" value="">
-				<input type="submit" value="Submit discharge date">
-			</form>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Diagnosis, History, Allergies</button>
+				<div class="row js-report-content report-content inactive">
+					<div id="diagnosis" class="col-4 data">Dx: <span class="js-report-dx data"></span></div>
+					<div id="history" class="col-4 data">History: <span class="js-report-history data"></span></div>
+					<div id="allergies" class="col-4 data">Allergies: <span class="js-report-allergies data"></span></div>
+				</div>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Vital Signs</button>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Lab Results</button>
+				<div class="js-report-content labs inactive">
+					<div class="row labs-row top">
+						<div id="hemo" class="col-4 data">H/H: <span class="js-report-hemo data"></span></div>
+						<div id="wbc" class="col-4 data">WBC: <span class="js-report-wbc data"></span></div>
+						<div id="plt" class="col-4 data">Plt: <span class="js-report-plt data"></span></div>
+					</div>
+					<div class="row labs-row">
+						<div id="K" class="col-4 data">K: <span class="js-report-k data"></span></div>
+						<div id="Na" class="col-4 data">Na: <span class="js-report-na data"></span></div>
+						<div id="Cr" class="col-4 data">Cr: <span class="js-report-cr data"></span></div>
+					</div>
+				</div>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Pain and Psych</button>
+				<div class="row js-report-content report-content inactive">
+					<div id="pain" class="col-4 data">Pain: <span class="js-report-pain data"></span></div>
+					<div id="psych" class="col-8 data">Psych: <span class="js-report-psych data"></span></div>
+				</div>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Neuro</button>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Cardiac and Respiratory</button>
+				<div class="row js-report-content report-content inactive">
+					<div id="O2" class="col-6 data">O2: <span class="js-report-O2 data"></span></div>
+					<div id="telemetry" class="col-6 data">Tele: <span class="js-report-telemetry data"></span></div>
+				</div>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">GI/GU</button>
+					<div class="row js-report-content report-content inactive">
+							<div id="GU" class="col-4 data">GU: <span class="js-report-gu data"></span></div>
+							<div id="GI" class="col-4 data">Last B/M: <span class="js-report-gi data"></span></div>
+							<div id="diet" class="col-4 data">Diet: <span class="js-report-diet data"></span></div>
+					</div>
+				</div>
+				<div class="report-section">
+					<button class="js-report-menu report-menu-item">Fluid Balance</button>
+					<div class="row js-report-content report-content inactive">
+						<div id="input" class="col-6 data">Input: <span class="js-report-input data"></span></div>
+						<div id="output" class="col-6 data">Output: <span class="js-report-output data"></span></div>
+					</div>
+				</div>
+				<div class="report-section">
+				<button class="js-report-menu report-menu-item">DVT Prevention</button>
+					<div class="row js-report-content report-content inactive">
+						<div id="SCDs" class="col-6 sliders">SCDs
+							<span class="js-report-SCDs">
+								<label class="switch">
+	  							<input id="SCDs-checkbox" class="js-slider" type="checkbox">
+	  							<span class="slider round"></span>
+								</label>
+							</span>
+						</div>
+						<div id="TED" class="col-6 sliders">TED
+							<span class="js-report-TED">
+								<label class="switch">
+  								<input id="TED-checkbox" class="js-slider" type="checkbox">
+  								<span class="slider round"></span>
+								</label>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="report-section">
+					<button class="js-report-menu report-menu-item">Skin</button>
+					<div class="row js-report-content report-content inactive">
+						<div id="skinWounds" class="col-12 data">Skin/Wounds: <span class="js-report-skinWounds data"></span></div>
+					</div>
+			</div>
+			<div class="report-section">
+				<button class="js-report-menu report-menu-item">Ambulation</button>
+				<div class="row js-report-content report-content inactive">
+					<div id="assist" class="col-6 data">Assist: <span class="js-report-assist data"></span></div>
+				</div>
+			</div>
 		</section>
 		<section class="js-update-report modal closed">
 			<div class="modal-close-container">
-				<button class="js-close-modal modal-close-button">Close</button>
+				<h2><label for="data" >Update <span id="data-label"></span></label></h2>
+				<button class="js-close-modal modal-close-button">X</button>
 			</div>
 			<form id="update-report" class="update-form" onsubmit="handleUpdateReportSubmit(event)">
-				<fieldset>
-					<legend>
-					</legend>
-					<label for="data" id="data-label">
-					</label>
-					<input type="text" id="data">
-					<input type="submit" value="Submit update">
-				</fieldset>
+				<div class="updating-data-inputs">
+
+					<span class="js-data-inputs data-inputs"><input type="text" id="data"></span>
+				</div>
+				<input type="submit" value="Submit">
+			</form>
+		</section>
+		<section class="js-add-new-patient modal closed">
+			<div class="modal-close-container">
+				<h2>Add Patient to Unit list</h2>
+				<button class="js-close-modal modal-close-button">X</button>
+			</div>
+			<form id="new-patient-form" onsubmit="handleSubmitToUnitButton(event)">
+					<div class="row">
+						<label class="col-4" for="new-room">
+							Room number
+							<input id="new-room" type="text">
+						</label>
+						<label class="col-4" for="new-admit">
+							Admit Date
+							<input id="new-admit" type="date">
+						</label>
+						<label class="col-4" for="new-age">
+							Age
+							<input id="new-age" type="text">
+						</label>
+					</div>
+					<div class="row">
+						<label class="col-6" for="first-name">
+							First name
+							<input  id="first-name" type="text">
+						</label>
+						<label class="col-6" for="last-name">
+							Last name
+							<input id="last-name" type="text">
+						</label>
+					</div>
+					<input type="submit" value="Add new patient">
 			</form>
 		</section>
 		<section class="modal-overlay inactive">

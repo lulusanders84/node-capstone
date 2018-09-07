@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const reportSchema = mongoose.Schema({
   "room": { type: 'number', default: '' },
   "admitDate": { type: 'string', default: '' },
-  "dischargeDate": { type: 'string', default: '' },  
+  "dischargeDate": { type: 'string', default: '' },
   "age": { type: 'number', default: '' },
   "name": { type: 'string', default: '' },
   "allergies": { type: 'string', default: '' },
@@ -14,6 +14,7 @@ const reportSchema = mongoose.Schema({
   "history": { type: 'string', default: '' },
   "GU": { type: 'string', default: '' },
   "GI": { type: 'string', default: '' },
+  "diet": { type: 'string', default: '' },
   "fluids": { type: 'string', default: '' },
   "input": { type: 'number', default: '' },
   "output": { type: 'number', default: '' },

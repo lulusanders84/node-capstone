@@ -83,43 +83,42 @@ function addPatientToUnitList() {
 		}
 	}).done(function(data, status) {
 		console.log(data);
-		alert(`${data.name} added to unit list`);
 		getAndDisplayUnitList();
 	})
 }
 
 function sortPatientsByRoom(data) {
-	return data.sort(function (a, b) {
-		return a.report.room - b.report.room;
-	});
+	if(data.listType == "assignment") {
+		return data.sort(function (a, b) {
+			return a.room - b.room;
+		});
+	} else {
+		return data.sort(function (a, b) {
+			return a.report.room - b.report.room;
+		});
+	}
 }
 
 function generateListHtml(patients) {
 	return patients.map(patient => {
 		return `
-			<div class="js-patient patient">
-				<div class="report">
-					<button id="${generateHtmlData(patients.listType, "_id", patient)}" class="js-view-button">View</button>
-				</div>
-				<div class="js-name name">
+			<ul class="js-patient patient">
+				<li class="report">
+					<button name="${generateHtmlData(patients.listType, "_id", patient)}" class="js-view-button">View</button>
+				</li>
+				<li class="js-name name">
 					<label for="${patient._id}">
 					<input class="js-input" name="patients" id="${patient._id}" type="checkbox">
 							<span class="${patient._id}">${generateHtmlData(patients.listType, "name", patient)}</span>
 					</label>
-				</div>
-				<div class="age">
-					${generateHtmlData(patients.listType, "age", patient)}
-				</div>
-				<div class="room">
+				</li>
+				<li class="room">
 					${generateHtmlData(patients.listType, "room", patient)}
-				</div>
-				<div class="admit">
-					${formatDate(generateHtmlData(patients.listType, "admitDate", patient))}
-				</div>
-				<div class="js-discharge discharge">
+				</li>
+				<li class="js-discharge discharge">
 					${formatDate(generateHtmlData(patients.listType, "dischargeDate", patient))}
-				</div>
-			</div>`
+				</li>
+			</ul>`
 	})
 }
 
@@ -133,10 +132,10 @@ function generateHtmlData(listType, dataType, patient) {
 
 function formatDate(date) {
 	if(date === "") {
-		return date;
+		return '--';
 	} else {
 		const d = new Date(date);
-		return `${d.getUTCMonth() + 1}/${d.getUTCDate()}/${d.getUTCFullYear()}`
+		return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`
 	}
 }
 
@@ -148,6 +147,13 @@ function handleAddToAssignmentButton() {
 	$('.js-add-assignment').click(function() {
 		addPatientsToUsersAssignmentList();
 		updateAssignmentListCount();
+	})
+}
+
+function handleSelectedPatient() {
+	$('.js-patient-list').on('change', 'input[type=checkbox]', function() {
+		console.log("handle selected patient running");
+		$(event.target).closest('ul.js-patient').toggleClass('selected');
 	})
 }
 
@@ -176,9 +182,6 @@ function addPatientsToUsersAssignmentList() {
 					"Content-Type": "application/json"
 				}
 			}).done(function(data) {
-					console.log(data, "length", data.length);
-
-					alert(`patients added to assignment list`);
 					updateAssignmentListCount();
 			})
 		})
@@ -199,7 +202,8 @@ function detectDuplicatePatients(patientIds, user) {
 
 function handleAddToUnitButton() {
 	$('.js-add-to-unit').click(function() {
-		$('.js-add-patient-form').removeClass('inactive');
+		$('.js-add-new-patient').removeClass('closed');
+		$('.modal-overlay').removeClass('inactive');
 	})
 }
 
@@ -207,51 +211,21 @@ function handleSubmitToUnitButton(event) {
 	event.preventDefault();
 	addPatientToUnitList();
 	getAndDisplayUnitList();
-	$('.js-add-patient-form').addClass('inactive');
-}
-
-function handleDischargeDateUpdate() {
-	$('.js-patient-list').on('click', '.js-discharge', function() {
-	const patientId = $(this).closest('.js-patient').find('.js-input').attr('id');
-	updatePatientToUpdate(patientId);
-	renderUpdateDischargeDate();
-	})
-}
-
-function renderUpdateDischargeDate() {
-	$('.js-update-dc').removeClass('closed');
-	$('.modal-overlay').removeClass('inactive');
-}
-
-function updateDischargeDate(event) {
-	event.preventDefault();
-	const dischargeDate = {
-		date: $('#dc-date').val()
-	};
-	$.ajax({
-		method: "PUT",
-		url: `http://localhost:3000/api/reports/${patientToUpdate}`,
-		data: JSON.stringify(dischargeDate),
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json"
-		}
-	}).done(function(data) {
-			closeModal();
-			getAndDisplayUnitList();
-	})
+	closeModal();
 }
 
 function handleUpdatePatientData() {
 	$('.data').click(function() {
-		const dataType = $(this).closest('div').attr('id');
-		const data = $(this).html();
-		const reportId = $('.js-report-id').attr('id');
-		console.log("dataType:", dataType, "data:", data, "reportId:", reportId);
-		populateUpdateObjReportIdAndDataType(reportId, dataType);
-		console.log(update);
-		renderUpdateModal(dataType, data);
+		updateReportIdAndDataType(this);
+		const data = $(this).find('span').html();
+		renderUpdateModal(update.dataType, data);
 	})
+}
+
+function updateReportIdAndDataType(dataItem) {
+	const dataType = $(dataItem).closest('div').attr('id');
+	const reportId = $('.js-report-id').attr('id');
+	populateUpdateObjReportIdAndDataType(reportId, dataType);
 }
 
 function formatDataLabel(dataType) {
@@ -259,17 +233,49 @@ function formatDataLabel(dataType) {
 	dataTypeArr[0] = dataTypeArr[0].toUpperCase();
 	return dataTypeArr.join('');
 }
+
 function renderUpdateModal(dataType, data) {
+	renderInputType(dataType);
 	$('.js-update-report').removeClass('closed');
 	$('.modal-overlay').removeClass('inactive');
-	$('#data-label').html(formatDataLabel(dataType));
+	$('#data-label').html(`${formatDataLabel(dataType)}:`);
 	$('#data').val(data);
+}
+
+function renderInputType(dataType) {
+	console.log(dataType, "dataType");
+	if(dataType === "admitDate" || dataType === "dischargeDate") {
+		$('#data').attr('type', 'date');
+	} else if(dataType === "GU") {
+		$('.js-data-inputs').html(
+			`<input type="radio" name="gu" id="hat" value="hat">
+			<label for="hat">Hat</label>
+			<input type="radio" name="gu" id="foley" value="foley">
+			<label for="foley">Foley</label>
+			<input type="radio" name="gu" id="urinal" value="urinal">
+			<label for="urinal">Urinal</label>
+		`);
+	}
+
+	else {
+		$('#data').attr('type', 'text');
+	}
+}
+
+function resetInputType() {
+	$('.js-data-inputs').html(`<input type="text" id="data">`);
 }
 
 function handleUpdateReportSubmit(event) {
 	event.preventDefault();
-	const data = $('#data').val();
-	populateUpdateObjData(update.dataType, data);
+	function data() {
+		if(update.dataType === "GU") {
+			return $('input[name=gu]:checked').val();
+		} else {
+			return $('#data').val();
+		}
+	}
+	populateUpdateObjData(update.dataType, data());
 	console.log(update);
 	$.ajax({
 		method: "PUT",
@@ -280,18 +286,20 @@ function handleUpdateReportSubmit(event) {
 			"Content-Type": "application/json"
 		}
 	}).done(function(data) {
-		emptyUpdateObjData
+			resetInputType();
 			closeModal();
 			renderPatientReport(data);
-			displayPatientReport();
+			displayPatientReport(data);
 	})
 }
 
 function closeModal() {
-	$('.js-update-dc, .js-update-report').addClass('closed');
+	$('.js-add-new-patient, .js-update-report').addClass('closed');
 	$('.modal-overlay').addClass('inactive');
+	resetInputType();
 }
 function handleCloseModalButton() {
+	console.log("modal closing");
 	$('.js-close-modal').click(function() {
 		closeModal();
 	})
@@ -324,6 +332,8 @@ function goToAssignmentList() {
 	$('.js-report-container').addClass('inactive');
 	$('.js-remove-assignment').removeClass('inactive');
 	$('.js-remove-unit').addClass('inactive');
+	$('.js-show-report, .js-hide-report').addClass('inactive');
+
 }
 
 function getAndDisplayAssignmentList() {
@@ -336,6 +346,7 @@ function getAndDisplayAssignmentList() {
 		}
 	}).done(function(data) {
 		data.listType = "assignment";
+		data = sortPatientsByRoom(data);
 		const html = generateListHtml(data);
 		displayAssignmentList(html);
 	})
@@ -381,18 +392,20 @@ function getAndDisplayPatientReport(patientId) {
 	}).done(function(data) {
 		console.log(data);
 	renderPatientReport(data);
-	displayPatientReport();
+	displayPatientReport(data);
 }).fail(error => {
 	console.log("Server not responding");
 });
 }
 
-function displayPatientReport() {
+function displayPatientReport(patient) {
+	console.log("display patient report running");
+	$('.js-remove-assignment').addClass('inactive');
 	$('.js-report-container').removeClass('inactive');
-	$('.js-report-button').removeClass('inactive');
-	$('h1').html('Nursing Report');
+	$('h1').html(`Nursing Report for ${patient.name}`);
 	$('header p').html('');
 	$('.js-list-container').addClass('inactive');
+
 }
 
 function renderPatientReport(patient) {
@@ -412,14 +425,14 @@ function renderPatientReport(patient) {
 	$('.js-report-discharge').html(`${formatDate(patient.dischargeDate)}`);
 	$('.js-report-gu').html(`${patient.GU}`);
 	$('.js-report-gi').html(`${patient.GI}`);
-	$('.js-report-diet').html(` `);
+	$('.js-report-diet').html(`${patient.diet}`);
 	$('.js-report-input').html(`${patient.input}`);
 	$('.js-report-output').html(`${patient.output}`);
 	$('.js-report-pain').html(`${patient.pain}`);
 	$('.js-report-O2').html(`${patient.O2}`);
 	$('.js-report-telemetry').html(`${patient.telemetry}`);
-	$('.js-report-SCDs').html(`${patient.SCDs}`);
-	$('.js-report-TED').html(`${patient.TED}`);
+	setSliderInputsCheckedProperty(patient.SCDs, 'SCDs');
+	setSliderInputsCheckedProperty(patient.TED, 'TED');
 	$('.js-report-assist').html(`${patient.assist}`);
 	$('.js-report-skinWounds').html(`${patient.skinWounds}`);
 	$('.js-report-hemo').html(`${patient.hemo}`);
@@ -430,10 +443,65 @@ function renderPatientReport(patient) {
 	$('.js-report-cr').html(`${patient.Cr}`);
 }
 
+function setSliderInputsCheckedProperty(reportItem, dataType) {
+	reportItem = reportItem.toLowerCase();
+	if (reportItem === "true") {
+		$(`#${dataType}-checkbox`).prop("checked", true);
+	} else {
+		$(`#${dataType}-checkbox`).prop("checked", false);
+	}
+}
+
+function handleSliderChange() {
+	$('.js-slider').change(function() {
+		updateReportIdAndDataType(this);
+		const data = $(this).prop('checked');
+		populateUpdateObjData(update.dataType, data);
+		console.log(update);
+		$.ajax({
+			method: "PUT",
+			url: `http://localhost:3000/api/reports/`,
+			data: JSON.stringify(update),
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json"
+			}
+		}).done(function(data) {
+				console.log("completed update", data);
+		})
+	})
+}
 function handleViewReportButton() {
 	$('.js-patient-list').on('click', '.js-view-button', function() {
-		getAndDisplayPatientReport(this.id);
+		console.log("js view button clicked");
+		$('.js-add-assignment').addClass('inactive');
+		$('.js-add-to-unit').addClass('inactive');
+		$('.js-go-to-unit').removeClass('inactive');
+		$('.js-show-report').removeClass('inactive');
+		$('.js-hide-report').removeClass('inactive');
+		getAndDisplayPatientReport(this.name);
 	});
+}
+
+function handleShowFullReportButton() {
+	$('.js-show-report').click(function() {
+		$('.js-report-content').removeClass('inactive');
+		$('.js-report-menu-item').addClass('open');
+	})
+}
+
+function handleHideFullReportButton() {
+	$('.js-hide-report').click(function() {
+		$('.js-report-content').addClass('inactive');
+		$('.js-report-menu-item').removeClass('open');
+	})
+}
+
+function handleOpenReportMenuItemButton() {
+	$('.js-report-menu').click(function() {
+		console.log("open menu running");
+		$(this).closest('div').find('.js-report-content').toggleClass('inactive', 'open');
+	})
 }
 
 function openUpdateData() {
@@ -456,6 +524,7 @@ function handleGoToUnitListButton() {
 		$('.js-remove-assignment').addClass('inactive');
 		$('.js-remove-unit').removeClass('inactive');
 		$('.js-go-to-assignment-nav').prop('disabled', false);
+		$('.js-show-report, .js-hide-report').addClass('inactive');
     getAndDisplayUnitList();
 	})
 }
@@ -468,6 +537,7 @@ $(function() {
 		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();
+		handleSelectedPatient();
 		handleAddToAssignmentButton();
 		handleGoToAssignmentButton();
 		handleGoToAssignmentNavButton();
@@ -476,6 +546,9 @@ $(function() {
 		handleGoToUnitListButton();
 		handleViewReportButton();
 		handleUpdatePatientData();
-		handleDischargeDateUpdate();
 		handleCloseModalButton();
+		handleOpenReportMenuItemButton();
+		handleShowFullReportButton();
+		handleHideFullReportButton();
+		handleSliderChange();
 });
