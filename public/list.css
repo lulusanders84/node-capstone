@@ -28,11 +28,8 @@ li {
 	flex: 3;
 }
 
-.name-title {
-	padding-left: 20px;
-}
 
-.room {
+.room, .age {
 	text-align: center;
 }
 
@@ -60,7 +57,7 @@ li.report button {
 	margin-right: 10px;
 }
 
-.discharge {
+.discharge, .age {
 	display: none;
 	text-align: center;
 }
@@ -73,7 +70,7 @@ li.report button {
 }
 
 @media only screen and (min-width: 640px) {
-.discharge {
+.discharge, .age {
 	display: block;
 }
 }

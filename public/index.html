@@ -13,7 +13,7 @@
 <body>
 	<header role="banner">
 		<nav role="navigation">
-			<section class="dropdown">
+			<section role="region" class="dropdown">
 			  <div class="dropbtn"><img src="http://projects.thepostathens.com/SpecialProjects/opioid-epidemic-ohio-in-crisis/img/hammenu.png"></button>
 				  <div class="dropdown-content">
 						<button class='js-go-to-assignment'>Go to assignment list</button>
@@ -23,7 +23,7 @@
 				  </div>
 				</div>
 			</section>
-			<section class="intro-nav">
+			<section role="region" class="intro-nav">
 				<div>Welcome <span class="js-username">voluptate</span>! </div>
 				<div>You have <span class="js-assignment-count"></span> patients</div>
 			</section>
@@ -32,22 +32,23 @@
 		<p>Patients with be removed from unit list the day after they discharge</p>
 	</header>
 	<main role="main">
-		<section class="container">
+		<section role="region" class="container">
 			<button class="js-add-assignment">Add patient to assignment</button>
 			<button class='js-remove-assignment inactive'>Remove selected patient</button>
 			<button class='js-show-report inactive'>Show full report</button>
 			<button class='js-hide-report inactive'>Hide full report</button>
 		</section>
-		<section class="js-list-container list-container">
+		<section role="region" class="js-list-container list-container">
 			<ul class="title">
 				<li class="report">Report</li>
 				<li class="name name-title">Patient Name</li>
+				<li class="age">Age</li>
 				<li class="room">Room #</li>
 				<li class="discharge">DC Date</li>
 			</ul>
 			<ul class="js-patient-list patient-list"></ul>
 		</section>
-		<section role="region" class="js-report-container report-container inactive">
+		<section role="region" role="region" class="js-report-container report-container inactive">
 			<div class="report-section">
 				<button class="js-report-menu report-menu-item">Patient Demographics</button>
 				<div class="row js-report-content report-content inactive">
@@ -150,53 +151,52 @@
 				</div>
 			</div>
 		</section>
-		<section class="js-update-report modal closed">
+		<section role="region" class="js-update-report modal closed">
 			<div class="modal-close-container">
 				<h2><label for="data" >Update <span id="data-label"></span></label></h2>
 				<button class="js-close-modal modal-close-button">X</button>
 			</div>
 			<form id="update-report" class="update-form" onsubmit="handleUpdateReportSubmit(event)">
 				<div class="updating-data-inputs">
-
 					<span class="js-data-inputs data-inputs"><input type="text" id="data"></span>
 				</div>
 				<input type="submit" value="Submit">
 			</form>
 		</section>
-		<section class="js-add-new-patient modal closed">
+		<section role="region" class="js-add-new-patient modal closed">
 			<div class="modal-close-container">
 				<h2>Add Patient to Unit list</h2>
 				<button class="js-close-modal modal-close-button">X</button>
 			</div>
 			<form id="new-patient-form" onsubmit="handleSubmitToUnitButton(event)">
-					<div class="row">
-						<label class="col-4" for="new-room">
-							Room number
-							<input id="new-room" type="text">
-						</label>
-						<label class="col-4" for="new-admit">
-							Admit Date
-							<input id="new-admit" type="date">
-						</label>
-						<label class="col-4" for="new-age">
-							Age
-							<input id="new-age" type="text">
-						</label>
-					</div>
-					<div class="row">
-						<label class="col-6" for="first-name">
-							First name
-							<input  id="first-name" type="text">
-						</label>
-						<label class="col-6" for="last-name">
-							Last name
-							<input id="last-name" type="text">
-						</label>
-					</div>
-					<input type="submit" value="Add new patient">
+				<div class="row">
+					<label class="col-4" for="new-room">
+						Room number
+						<input id="new-room" type="text">
+					</label>
+					<label class="col-4" for="new-admit">
+						Admit Date
+						<input id="new-admit" type="date">
+					</label>
+					<label class="col-4" for="new-age">
+						Age
+						<input id="new-age" type="text">
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-6" for="first-name">
+						First name
+						<input  id="first-name" type="text">
+					</label>
+					<label class="col-6" for="last-name">
+						Last name
+						<input id="last-name" type="text">
+					</label>
+				</div>
+				<input type="submit" value="Add new patient">
 			</form>
 		</section>
-		<section class="modal-overlay inactive">
+		<section role="region" class="modal-overlay inactive">
 		</section>
 	</main>
 	<script

@@ -112,6 +112,9 @@ function generateListHtml(patients) {
 							<span class="${patient._id}">${generateHtmlData(patients.listType, "name", patient)}</span>
 					</label>
 				</li>
+				<li class="age">
+					${generateHtmlData(patients.listType, "age", patient)}
+				</li>
 				<li class="room">
 					${generateHtmlData(patients.listType, "room", patient)}
 				</li>
