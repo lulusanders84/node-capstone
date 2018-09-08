@@ -1,7 +1,14 @@
-body {
+
+
+html {
+	height: auto;
 	font-family: 'Lato', sans-serif;
 	color: #0a0c0f;
 	font-size: 1rem;
+	background: linear-gradient(to bottom, #023459, #023459 25%, rgba(166, 194, 206, 0.4)),
+		url("https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/10/09/13/crowded-nhs.jpg?w968");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 button, .update-form input[type="submit"], #new-patient-form input[type="submit"]  {
@@ -77,20 +84,73 @@ nav {
     display: flex;
 }
 
-h1 {
+h2 {
 	font-family: 'Roboto', sans-serif;
 	margin-top: 100px;
 	text-align: center;
 	font-size: 1.75rem;
 }
 
+.landing-page h1 {
+	text-align: center;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: 5px;
+	font-size: 2.5rem;
+	margin-top: 50px;
+	margin-bottom: -50px;
+}
 
+#landing-page {
+	width: 100vw;
+	height: 100vh;
+	margin: 0 auto;
+}
 
+.intro-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 80%;
+	min-height: 60vh;
+	margin: 0 auto;
+	background: linear-gradient(white, rgba(255, 255, 255, 0.5) 90%);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	box-shadow: 10px 10px 50px gray;
+	border: 1px solid white;
+	border-radius: 10px;
+	padding: 20px;
 
+}
+
+figure {
+	overflow: hidden;
+	display: none;
+}
+
+figure img {
+	width: 100%;
+}
+
+#landing-nav {
+	display: flex;
+	justify-content: center;
+}
 
 p {
-	text-align: center;
 	font-size: 1rem;
+	line-height: 2;
+}
+
+.container {
+	margin: 10px auto;
+	display: flex;
+	justify-content: flex-end;
+	height: auto;
+	width: 90%;
+	padding: 10px;
 }
 
 input, .modal-close-button {
@@ -137,7 +197,7 @@ input, .modal-close-button {
 	padding: 30px 10px;
 }
 
-.report-content div:first-child, .labs-row div:first-child {
+.report-content div:first-child, .labs-row div:first-child, #age {
 	border-left: none;
 }
 
@@ -239,18 +299,11 @@ input:checked + .slider:before {
 	padding: 10px;
 }
 
-.container {
-	margin: 10px auto;
-	display: flex;
-	justify-content: center;
-	height: auto;
-	width: 80%;
-	padding: 10px;
-}
+
 
 .list-container button, .container button {
-	font-size: 1rem;
-	min-height: 30px;
+	font-size: .8rem;
+	min-height: 25px;
 	padding: 10px;
 	border: 1px solid white;
 	border-radius: 10px;
@@ -258,7 +311,7 @@ input:checked + .slider:before {
 
 .report-container {
 	margin: 0 auto;
-	width: 80%;
+	width: 90%;
 }
 
 
@@ -408,4 +461,22 @@ input:checked + .slider:before {
 
 .modal.closed {
   display: none;
+}
+
+@media only screen and (min-width: 640px) {
+
+	.list-container button, .container button {
+		font-size: 1rem;
+	}
+
+	.landing-page h1 {
+		margin-bottom: 20px
+	}
+	.intro-container {
+		width: 60%;
+	}
+
+	figure {
+		display: block;
+	}
 }

@@ -1,6 +1,13 @@
 
 "use strict";
 
+function handleViewDemoButton() {
+	$('#demo-button').click(function() {
+		$('.js-intro').addClass('inactive');
+		$('.js-tutorial').removeClass('inactive');
+	})
+}
+
 let patientToUpdate;
 
 let update = {
@@ -326,7 +333,6 @@ function goToAssignmentList() {
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
 	$('h1').html(`${userName}'s Assignment`);
-	$('header p').html('Click view to see patient\'s nursing report');
 	$('.js-add-assignment').addClass('inactive');
 	$('.js-add-to-unit').addClass('inactive');
 	$('.js-go-to-assignment').addClass('inactive');
@@ -537,6 +543,7 @@ function handleUpdatePatientDataButton() {}
 function updatePatientData() {}
 
 $(function() {
+		handleViewDemoButton()
 		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();
