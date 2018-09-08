@@ -1,0 +1,37 @@
+{"_id":{"$oid":"5b842e962b73a5573d217ef5"},"reportId":{"$oid":"5b7c512d2b73a5573db1738b"},"room":3511,"admitDate":"8/10/18","name":"Luetta Paterson","age":66,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217ef6"},"reportId":{"$oid":"5b7c512d2b73a5573db17388"},"room":3508,"admitDate":"8/14/18","name":"Halley Shepard","age":36,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217ef7"},"reportId":{"$oid":"5b7c512d2b73a5573db1738c"},"room":3512,"admitDate":"8/16/18","name":"Donna Wise","age":54,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217ef8"},"reportId":{"$oid":"5b7c512d2b73a5573db1738e"},"room":3513,"admitDate":"8/18/18","name":"Glenn Griffith","age":61,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217ef9"},"reportId":{"$oid":"5b7c512d2b73a5573db17387"},"room":3503,"admitDate":"8/15/18","name":"Veta Howerton","age":75,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217efa"},"reportId":{"$oid":"5b7c512d2b73a5573db17389"},"room":3509,"admitDate":"8/15/18","name":"Lucienne Rocha","age":68,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217efb"},"reportId":{"$oid":"5b7c512d2b73a5573db1738f"},"room":3514,"admitDate":"8/9/18","name":"Noel Simpson","age":70,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217efc"},"reportId":{"$oid":"5b7c512d2b73a5573db17391"},"room":3516,"admitDate":"8/15/18","name":"Larry Sparks","age":74,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217efd"},"reportId":{"$oid":"5b7c512d2b73a5573db17390"},"room":3515,"admitDate":"8/14/18","name":"Rosemary Schwartz","age":70,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217efe"},"reportId":{"$oid":"5b7c512d2b73a5573db17392"},"room":3518,"admitDate":"8/10/18","name":"Joanne Robbins","age":53,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217eff"},"reportId":{"$oid":"5b7c512d2b73a5573db17395"},"room":3504,"admitDate":"8/10/18","name":"Rima Luster","age":37,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217f00"},"reportId":{"$oid":"5b7c512d2b73a5573db17393"},"room":3505,"admitDate":"8/16/18","name":"Waldo Knott","age":84,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f01"},"reportId":{"$oid":"5b7c512d2b73a5573db17394"},"room":3507,"admitDate":"8/9/18","name":"Hong Greenlee","age":83,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f02"},"reportId":{"$oid":"5b7c512d2b73a5573db17396"},"room":3519,"admitDate":"8/16/18","name":"Stacy Vargas","age":79,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217f03"},"reportId":{"$oid":"5b7c512d2b73a5573db1738d"},"room":3506,"admitDate":"8/18/18","name":"Sunny Keegan","age":52,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f04"},"reportId":{"$oid":"5b7c512d2b73a5573db17397"},"room":3523,"admitDate":"8/15/18","name":"Robbin New","age":84,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217f05"},"reportId":{"$oid":"5b7c512d2b73a5573db1738a"},"room":3510,"admitDate":"8/15/18","name":"Emogene Staggs","age":80,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f06"},"reportId":{"$oid":"5b7c512d2b73a5573db17399"},"room":3526,"admitDate":"8/16/18","name":"Alaina Tripp","age":61,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217f07"},"reportId":{"$oid":"5b7c512d2b73a5573db17398"},"room":3501,"admitDate":"8/14/18","name":"Thersa Bowlin","age":49,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f08"},"reportId":{"$oid":"5b7c512d2b73a5573db1739a"},"room":3527,"admitDate":"8/18/18","name":"Jacelyn Bankston","age":42,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f09"},"reportId":{"$oid":"5b7c512d2b73a5573db1739b"},"room":3528,"admitDate":"8/9/18","name":"Daria Cordero","age":60,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0a"},"reportId":{"$oid":"5b7c512d2b73a5573db1739d"},"room":3520,"admitDate":"8/18/18","name":"Naomi Klein","age":44,"service":"Heart Failure"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0b"},"reportId":{"$oid":"5b7c512d2b73a5573db1739c"},"room":3521,"admitDate":"8/9/18","name":"Eveline Mott","age":81,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0c"},"reportId":{"$oid":"5b7c512d2b73a5573db1739e"},"room":3529,"admitDate":"8/14/18","name":"Caroll Chapa","age":78,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0d"},"reportId":{"$oid":"5b7c512d2b73a5573db173a2"},"room":3533,"admitDate":"8/16/18","name":"Celsa Morrow","age":45,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0e"},"reportId":{"$oid":"5b7c512d2b73a5573db1739f"},"room":3530,"admitDate":"8/15/18","name":"Eloisa Witherspoon","age":40,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f0f"},"reportId":{"$oid":"5b7c512d2b73a5573db173a3"},"room":3535,"admitDate":"8/9/18","name":"Meaghan Oakes","age":54,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f10"},"reportId":{"$oid":"5b7c512d2b73a5573db173a0"},"room":3531,"admitDate":"8/15/18","name":"Cyrus Lucero","age":44,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217f11"},"reportId":{"$oid":"5b7c512d2b73a5573db173a5"},"room":3517,"admitDate":"8/15/18","name":"Lewis Morales","age":60,"service":"Cardiothoracic Surgery"}
+{"_id":{"$oid":"5b842e962b73a5573d217f12"},"reportId":{"$oid":"5b7c512d2b73a5573db173a1"},"room":3532,"admitDate":"8/10/18","name":"Zonia Lehman","age":66,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f13"},"reportId":{"$oid":"5b7c512d2b73a5573db173a6"},"room":3502,"admitDate":"8/15/18","name":"Mei Lai","age":50,"service":"EP"}
+{"_id":{"$oid":"5b842e962b73a5573d217f14"},"reportId":{"$oid":"5b7c512d2b73a5573db173a7"},"room":3525,"admitDate":"8/10/18","name":"Celestine Keener","age":47,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f15"},"reportId":{"$oid":"5b7c512d2b73a5573db173a8"},"room":3522,"admitDate":"8/14/18","name":"Rupert Girard","age":68,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f16"},"reportId":{"$oid":"5b7c52c29b8740641c14e2d3"},"room":1592,"admitDate":"2018-08-16","name":"Test Patient","age":87,"service":"","__v":0}
+{"_id":{"$oid":"5b842e962b73a5573d217f17"},"reportId":{"$oid":"5b7c512d2b73a5573db173a9"},"room":3524,"admitDate":"8/15/18","name":"Leanne Guthrie","age":51,"service":"Cardiology"}
+{"_id":{"$oid":"5b842e962b73a5573d217f18"},"reportId":{"$oid":"5b81fc54ec24e0242c27255b"},"room":3504,"admitDate":"08/18/18","name":"Lucy Howard","age":54,"service":"","__v":0}
+{"_id":{"$oid":"5b842e962b73a5573d217f19"},"reportId":{"$oid":"5b7c512d2b73a5573db173a4"},"room":3534,"admitDate":"8/18/18","name":"Thanh Moye","age":63,"service":"Cardiothoracic Surgery"}

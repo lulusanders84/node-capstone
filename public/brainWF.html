@@ -7,61 +7,97 @@
 	<link rel="stylesheet" type="text/css" href="report.css">
 </head>
 <body>
+	<nav role="navigation">
+			<ul class="report-menu">
+				<li class="report-menu-title nav-button">
+					<div class="menu-title">Patient Report</div>
+					<button class="js-menu-button dd">></button>
+				</li>
+				<li class="report-menu-item inactive">Patient Demographics</li>
+				<li class="report-menu-item inactive">Diagnosis, History, Allergies</li>
+				<li class="report-menu-item inactive">Vital Signs</li>
+				<li class="report-menu-item inactive">Lab Results</li>
+				<li class="report-menu-item inactive">Neuro</li>
+				<li class="report-menu-item inactive">Respiratory</li>
+				<li class="report-menu-item inactive">Cardiac</li>
+				<li class="report-menu-item inactive">GI/GU</li>
+				<li class="report-menu-item inactive">DVT Prevention</li>
+				<li class="report-menu-item inactive">Skin</li>
+				<li class="report-menu-item inactive">Ambulation</li>
+			</ul>
+		<div class="intro-nav">
+			<div>
+				Welcome <span class="js-username">voluptate</span>!
+				You have <span class="js-assignment-count"></span> patients on your
+			</div>
+			<div class="nav-button">
+				<button class="js-go-to-assignment-nav menu-title">assignment list</button>
+				<button class="dd">></button>
+			</div>
+		</div>
+	</nav>
 	<header>
 		<h1>Report</h1>
 	</header>
 	<main>
-		<div class="report-container">
-			<div class="demo">
-				<div class="row">
-					<div class="col-4">RM: </div>
-					<div class="col-8">Pt: </div>
-				</div>
-				<div class="col-12">Dx: </div>
-				<div class="col-12">Allergies: </div>
-				<div class="col-12">History: </div>
+		<section role="region" class="js-report-container inactive">
+			<div class="row">
+				<div class="js-report-id" hidden></div>
+				<div id="room" class="col-2 data">RM: <span class="js-report-room data"></span></div>
+				<div id="age" class="col-2 data">Age: <span class="js-report-age data"></span></div>
+				<div id="name" class="col-4 data">Pt: <span class="js-report-name data"></span></div>
+				<div id="admit" class="col-2 data">Admit: <span class="js-report-admit data"></span></div>
+				<div id="discharge" class="col-2 data">D/C: <span class="js-report-discharge data"></span></div>
 			</div>
-			<div class="nursing">
-				<div class="row">
-					<div class="col-6">
-						<div class="col-12">Foley Urinal Hat</div>
-						<div class="col-12">BM: </div>
-						<div class="col-12">Diet: </div>
-					</div>
-					<div class="col-6">
-						<div class="col-6">I</div>
-						<div class="col-6">O</div>
-					</div>
+			<div class="row">
+				<div id="diagnosis" class="col-3 data">Dx: <span class="js-report-dx data"></span></div>
+				<div id="history" class="col-6 data">History: <span class="js-report-history data"></span></div>
+				<div id="allergies" class="col-3 data">Allergies: <span class="js-report-allergies data"></span></div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<div id="GU" class="col-12 data">GU: <span class="js-report-gu data"></span></div>
+					<div id="GI" class="col-12 data">GI: <span class="js-report-gi data"></span></div>
+					<div id="diet" class="col-12 data">Diet: <span class="js-report-diet data"></span></div>
 				</div>
-				<div class="row">
-					<div class="col-8">
-						Pain:
-					</div>
-					<div class="col-4">
-						<div class="col-6">O2:</div>
-						<div class="col-6">Tele:</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-6">SCDs:</div>
-					<div class="col-6">TED:</div>
-				</div>
-				<div class="row">
-					<div class="col-12">Skin/Wounds:</div>
+				<div class="col-6">
+					<div id="input" class="col-6 data">I: <span class="js-report-input data"></span></div>
+					<div id="output" class="col-6 data">O: <span class="js-report-output data"></span></div>
 				</div>
 			</div>
-			<div class="labs">
-				<div class="row">
-					<div class="col-4">H/H:</div>
-					<div class="col-4">WBC: </div>
-					<div class="col-4">Plt: </div>
-				</div>
-				<div class="row">
-					<div class="col-4">K: </div>
-					<div class="col-4">Na: </div>
-					<div class="col-4">Cr: </div>
+			<div class="row">
+				<div id="pain" class="col-8 data">Pain: <span class="js-report-pain data"></span></div>
+				<div class="col-4">
+					<div id="O2" class="col-6 data">O2: <span class="js-report-O2 data"></span></div>
+					<div id="telemetry" class="col-6 data">Tele: <span class="js-report-telemetry data"></span></div>
 				</div>
 			</div>
-		</div>
+			<div class="row">
+				<div id="SCDs" class="col-6 data">SCDs: <span class="js-report-SCDs data"></span></div>
+				<div id="TED" class="col-6 data">TED: <span class="js-report-TED data"></span></div>
+				<div id="assist" class="col-6 data">Assist: <span class="js-report-assist data"></span></div>
+			</div>
+			<div class="row">
+				<div id="skinWounds" class="col-12 data">Skin/Wounds: <span class="js-report-skinWounds data"></span></div>
+			</div>
+			<div class="row">
+				<div id="hemo" class="col-4 data">H/H: <span class="js-report-hemo data"></span></div>
+				<div id="wbc" class="col-4 data">WBC: <span class="js-report-wbc data"></span></div>
+				<div id="plt" class="col-4 data">Plt: <span class="js-report-plt data"></span></div>
+			</div>
+			<div class="row">
+				<div id="K" class="col-4 data">K: <span class="js-report-k data"></span></div>
+				<div id="Na" class="col-4 data">Na: <span class="js-report-na data"></span></div>
+				<div id="Cr" class="col-4 data">Cr: <span class="js-report-cr data"></span></div>
+			</div>
+			<button class='js-go-to-assignment js-report-button'>Go to assignment list</button>
+			<button class='js-go-to-unit js-report-button'>Go to unit list</button>
+		</section>
 	</main>
-</body>
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+	<script type="text/javascript" src="report.js"></script>
+	</body>
+</html>

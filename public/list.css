@@ -1,0 +1,79 @@
+.list-container {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.title, .patient {
+  margin: 0 auto;
+	width: 90%;
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	min-height: 50px;
+	padding: 10px;
+	font-size: 1rem;
+	font-weight: 700;
+	border: 2px solid #a6c2ce;
+	border-radius: 15px;
+}
+
+li {
+	flex: 1;
+  list-style-type: none;
+}
+
+.name {
+	flex: 3;
+}
+
+.name-title {
+	padding-left: 20px;
+}
+
+.room {
+	text-align: center;
+}
+
+.patient-list {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	width: 90%;
+	list-style-type: none;
+	border: none;
+	padding: 0px;
+}
+
+.patient {
+	width: 100%;
+	border: none;
+	border-top: 1px solid #a6c2ce;
+	border-bottom: 1px solid #a6c2ce;
+	border-radius: 15px;
+	font-weight: 500;
+}
+
+li.report button {
+	margin: 0px;
+	margin-right: 10px;
+}
+
+.discharge {
+	display: none;
+	text-align: center;
+}
+
+.selected {
+	background-color: #a6c2ce;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	font-weight: 700;
+}
+
+@media only screen and (min-width: 640px) {
+.discharge {
+	display: block;
+}
+}
