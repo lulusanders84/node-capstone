@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const passport = require('passport');
 
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require("./config");
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
 const patientRouter = require('./routes/patient-router');
 const reportRouter = require('./routes/report-router');
@@ -13,17 +16,29 @@ const userRouter = require('./routes/user-router');
 
 app.use(express.static('public'));
 
+app.use(morgan('common'));
+
 app.use(cors());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.send(204);
+  }
   next();
 });
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 app.use('/api/patients', patientRouter);
 app.use('/api/reports', reportRouter);
 app.use('/api/users', userRouter);
+app.use('/api/auth/', authRouter);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 if (require.main === module) {
   app.listen(process.env.PORT || 8080, function() {
