@@ -5,7 +5,17 @@ function handleLoginButton() {
 	$('#login-button').click(function() {
 		$('.js-intro').addClass('inactive');
 		$('.js-auth').removeClass('closed');
-		$('#login').removeClass('inactive');
+		$('.modal-overlay').removeClass('inactive');
+	})
+}
+
+function handleSignUpButton() {
+	$('#sign-up-button').click(function() {
+		console.log("sign up handle running");
+		$('#auth-h2').html('Register');
+		$('.js-auth').removeClass('closed');
+		$('#login').addClass('inactive');
+		$('#sign-up').removeClass('inactive');
 		$('.modal-overlay').removeClass('inactive');
 	})
 }
@@ -552,6 +562,7 @@ function updatePatientData() {}
 
 $(function() {
 		handleLoginButton();
+		handleSignUpButton();
 		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();

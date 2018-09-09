@@ -52,10 +52,10 @@
 			</section>
 			<section class="js-auth auth-container modal closed">
 				<div class="modal-close-container">
-					<h2>Login</h2>
+					<h2 id="auth-h2">Login</h2>
 					<button class="js-close-modal modal-close-button">X</button>
 				</div>
-				<form id="login">
+				<form id="login" class="login">
 					<div>
 						<label for="username">
 							Username: <input type="text">
@@ -64,6 +64,36 @@
 					<div>
 						<label for="username">
 							Password: <input type="text">
+						</label>
+					</div>
+					<div>
+						<input type="submit">
+					</div>
+				</form>
+				<form id="sign-up" class="inactive">
+					<div>
+						<label for="first-name">
+							First Name: <input type="text">
+						</label>
+					</div>
+					<div>
+						<label for="last-name">
+							Last Name: <input type="text">
+						</label>
+					</div>
+					<div>
+						<label for="username">
+							Username: <input type="text">
+						</label>
+					</div>
+					<div>
+						<label for="password">
+							Password: <input type="text">
+						</label>
+					</div>
+					<div>
+						<label for="password-confirm">
+							Confirm Password: <input type="text">
 						</label>
 					</div>
 					<div>

@@ -145,20 +145,20 @@ figure img {
 	justify-content: flex-start;
 }
 
-#login {
+.login {
 	display: flex;
 	flex-direction: column;
 }
 
-#login input {
+.auth-container input {
 	margin-left: 0;
 }
 
-#login div, #login > input {
+.auth-container div, .auth-container > input {
 	margin: 20px;
 }
 
-#login div:last-child {
+.auth-container div:last-child {
 	flex: 2;
 }
 
