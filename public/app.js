@@ -3,8 +3,9 @@
 
 function handleLoginButton() {
 	$('#login-button').click(function() {
-		$('.js-intro').addClass('inactive');
+		$('#auth-h2').html('Login');
 		$('.js-auth').removeClass('closed');
+		$('.js-user-first-name, .js-user-last-name', '.js-passkey').addClass('inactive');
 		$('.modal-overlay').removeClass('inactive');
 	})
 }
@@ -14,8 +15,7 @@ function handleSignUpButton() {
 		console.log("sign up handle running");
 		$('#auth-h2').html('Register');
 		$('.js-auth').removeClass('closed');
-		$('#login').addClass('inactive');
-		$('#sign-up').removeClass('inactive');
+		$('.js-user-first-name, .js-user-last-name', '.js-passkey').removeClass('inactive');
 		$('.modal-overlay').removeClass('inactive');
 	})
 }
@@ -46,6 +46,12 @@ function populateUpdateObjReportIdAndDataType(reportId, dataType) {
 	update.dataType = dataType;
 }
 
+function registerNewUser() {
+	const newUser = {
+		username: $('.js-user-username')
+
+	}
+}
 
 function getUserData(userName) {
 	return $.ajax({
@@ -319,13 +325,7 @@ function closeModal() {
 	$('.js-add-new-patient, .js-update-report, .js-auth').addClass('closed');
 	$('.modal-overlay').addClass('inactive');
 	resetInputType();
-	handleAuthContainerClose();
 }
-
-function handleAuthContainerClose() {
-	$('.js-intro').removeClass('inactive');
-}
-
 function handleCloseModalButton() {
 	console.log("modal closing");
 	$('.js-close-modal').click(function() {
@@ -351,6 +351,7 @@ function goToAssignmentList() {
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
 	$('h1').html(`${userName}'s Assignment`);
+	$('header p').html('Click view to see patient\'s nursing report');
 	$('.js-add-assignment').addClass('inactive');
 	$('.js-add-to-unit').addClass('inactive');
 	$('.js-go-to-assignment').addClass('inactive');

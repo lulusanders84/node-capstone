@@ -145,7 +145,7 @@ figure img {
 	justify-content: flex-start;
 }
 
-.login {
+.auth-form {
 	display: flex;
 	flex-direction: column;
 }
@@ -155,7 +155,7 @@ figure img {
 }
 
 .auth-container div, .auth-container > input {
-	margin: 20px;
+	margin: 10px;
 }
 
 .auth-container div:last-child {

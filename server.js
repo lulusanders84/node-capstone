@@ -8,7 +8,8 @@ const passport = require('passport');
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require("./config");
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: authRouter } = require("./auth/router");
+const {localStrategy, jwtStrategy } = require("./auth/strategies");
 
 const patientRouter = require('./routes/patient-router');
 const reportRouter = require('./routes/report-router');

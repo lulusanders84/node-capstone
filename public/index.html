@@ -45,7 +45,7 @@
 					<img src="handwritten-reports.png" alt="old school nursing reports">
 				</figure>
 				<div id="landing-nav">
-					<button type="button" id="demo-button" class="landing-nav-button">View Demo!</button>
+					<button type="button" id="demo-button" class="landing-nav-button" hidden>View Demo!</button>
 					<button type="button" id="login-button" class="landing-nav-button">Login</button>
 					<button type="button" id="sign-up-button" class="landing-nav-button">Sign Up</button>
 				</div>
@@ -55,45 +55,31 @@
 					<h2 id="auth-h2">Login</h2>
 					<button class="js-close-modal modal-close-button">X</button>
 				</div>
-				<form id="login" class="login">
-					<div>
+				<form id="auth-form" class="auth-form">
+					<div class="js-user-first-name">
+						<label for="user-first-name">
+							First Name: <input id="user-first-name" type="text">
+						</label>
+					</div>
+					<div class="js-user-last-name">
+						<label for="user-last-name">
+							Last Name: <input id="user-last-name" type="text">
+						</label>
+					</div>
+					<div class="js-user-username">
 						<label for="username">
-							Username: <input type="text">
+							Username: <input id="username" type="text">
 						</label>
 					</div>
-					<div>
-						<label for="username">
-							Password: <input type="text">
-						</label>
-					</div>
-					<div>
-						<input type="submit">
-					</div>
-				</form>
-				<form id="sign-up" class="inactive">
-					<div>
-						<label for="first-name">
-							First Name: <input type="text">
-						</label>
-					</div>
-					<div>
-						<label for="last-name">
-							Last Name: <input type="text">
-						</label>
-					</div>
-					<div>
-						<label for="username">
-							Username: <input type="text">
-						</label>
-					</div>
-					<div>
+					<div class="js-user-password">
 						<label for="password">
-							Password: <input type="text">
+							Password: <input id="password" type="password">
 						</label>
 					</div>
-					<div>
-						<label for="password-confirm">
-							Confirm Password: <input type="text">
+					<div class="js-user-passkey">
+						<label for="passkey">
+							Pass Key (provided by manager): <br>
+							<input id="passkey" type="password">
 						</label>
 					</div>
 					<div>
