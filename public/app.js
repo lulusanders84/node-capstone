@@ -1,6 +1,25 @@
 
 "use strict";
 
+function handleLoginButton() {
+	$('#login-button').click(function() {
+		$('.js-intro').addClass('inactive');
+		$('.js-auth').removeClass('closed');
+		$('.modal-overlay').removeClass('inactive');
+	})
+}
+
+function handleSignUpButton() {
+	$('#sign-up-button').click(function() {
+		console.log("sign up handle running");
+		$('#auth-h2').html('Register');
+		$('.js-auth').removeClass('closed');
+		$('#login').addClass('inactive');
+		$('#sign-up').removeClass('inactive');
+		$('.modal-overlay').removeClass('inactive');
+	})
+}
+
 let patientToUpdate;
 
 let update = {
@@ -111,6 +130,9 @@ function generateListHtml(patients) {
 					<input class="js-input" name="patients" id="${patient._id}" type="checkbox">
 							<span class="${patient._id}">${generateHtmlData(patients.listType, "name", patient)}</span>
 					</label>
+				</li>
+				<li class="age">
+					${generateHtmlData(patients.listType, "age", patient)}
 				</li>
 				<li class="room">
 					${generateHtmlData(patients.listType, "room", patient)}
@@ -294,10 +316,16 @@ function handleUpdateReportSubmit(event) {
 }
 
 function closeModal() {
-	$('.js-add-new-patient, .js-update-report').addClass('closed');
+	$('.js-add-new-patient, .js-update-report, .js-auth').addClass('closed');
 	$('.modal-overlay').addClass('inactive');
 	resetInputType();
+	handleAuthContainerClose();
 }
+
+function handleAuthContainerClose() {
+	$('.js-intro').removeClass('inactive');
+}
+
 function handleCloseModalButton() {
 	console.log("modal closing");
 	$('.js-close-modal').click(function() {
@@ -323,7 +351,6 @@ function goToAssignmentList() {
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
 	$('h1').html(`${userName}'s Assignment`);
-	$('header p').html('Click view to see patient\'s nursing report');
 	$('.js-add-assignment').addClass('inactive');
 	$('.js-add-to-unit').addClass('inactive');
 	$('.js-go-to-assignment').addClass('inactive');
@@ -534,6 +561,8 @@ function handleUpdatePatientDataButton() {}
 function updatePatientData() {}
 
 $(function() {
+		handleLoginButton();
+		handleSignUpButton();
 		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();

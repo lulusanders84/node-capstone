@@ -1,10 +1,18 @@
-body {
+
+
+html {
+	width: auto;
+	height: auto;
 	font-family: 'Lato', sans-serif;
 	color: #0a0c0f;
 	font-size: 1rem;
+	background: linear-gradient(to bottom, #023459, #023459 10%, rgba(166, 194, 206, 0.4)),
+		url("https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/10/09/13/crowded-nhs.jpg?w968");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
-button, .update-form input[type="submit"], #new-patient-form input[type="submit"]  {
+button, input[type="submit"]  {
 	padding: 10px;
 	font-size: 1rem;
 	font-family: 'Lato', sans-serif;
@@ -77,20 +85,95 @@ nav {
     display: flex;
 }
 
-h1 {
+h2 {
 	font-family: 'Roboto', sans-serif;
-	margin-top: 100px;
+	margin-top;
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 }
 
+.landing-page h1 {
+	text-align: center;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: 5px;
+	font-size: 2.5rem;
+	margin-top: 50px;
+	margin-bottom: -50px;
+}
 
+#landing-page {
+	width: 100vw;
+	height: 100vh;
+	margin: 0 auto;
+}
 
+.intro-container, .auth-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 80%;
+	min-height: 60vh;
+	margin: 0 auto;
+	margin-top: 75px;
+	background: linear-gradient(white, rgba(255, 255, 255, 0.5) 90%);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	box-shadow: 10px 10px 50px gray;
+	border: 1px solid white;
+	border-radius: 10px;
+	padding: 20px;
 
+}
+
+figure {
+	overflow: hidden;
+	display: none;
+}
+
+figure img {
+	width: 100%;
+}
+
+#landing-nav {
+	display: flex;
+	justify-content: center;
+}
+
+.auth-container {
+	justify-content: flex-start;
+}
+
+.login {
+	display: flex;
+	flex-direction: column;
+}
+
+.auth-container input {
+	margin-left: 0;
+}
+
+.auth-container div, .auth-container > input {
+	margin: 20px;
+}
+
+.auth-container div:last-child {
+	flex: 2;
+}
 
 p {
-	text-align: center;
 	font-size: 1rem;
+	line-height: 2;
+}
+
+.container {
+	margin: 10px auto;
+	display: flex;
+	justify-content: flex-end;
+	height: auto;
+	width: 90%;
+	padding: 10px;
 }
 
 input, .modal-close-button {
@@ -137,7 +220,7 @@ input, .modal-close-button {
 	padding: 30px 10px;
 }
 
-.report-content div:first-child, .labs-row div:first-child {
+.report-content div:first-child, .labs-row div:first-child, #age {
 	border-left: none;
 }
 
@@ -239,18 +322,11 @@ input:checked + .slider:before {
 	padding: 10px;
 }
 
-.container {
-	margin: 10px auto;
-	display: flex;
-	justify-content: center;
-	height: auto;
-	width: 80%;
-	padding: 10px;
-}
+
 
 .list-container button, .container button {
-	font-size: 1rem;
-	min-height: 30px;
+	font-size: .8rem;
+	min-height: 25px;
 	padding: 10px;
 	border: 1px solid white;
 	border-radius: 10px;
@@ -258,7 +334,7 @@ input:checked + .slider:before {
 
 .report-container {
 	margin: 0 auto;
-	width: 80%;
+	width: 90%;
 }
 
 
@@ -310,7 +386,7 @@ input:checked + .slider:before {
 
 }
 
-.updating-data-inputs input, #new-patient-form input {
+input {
 	width: 100%;
 	padding: 10px;
 	margin-left: 10px;
@@ -323,7 +399,7 @@ input:checked + .slider:before {
 	box-shadow: 5px 5px 10px gray;
 }
 
-.updating-data-inputs label {
+ label {
 	text-align: center;
 	width: 100%;
 	height: 50px;
@@ -408,4 +484,22 @@ input:checked + .slider:before {
 
 .modal.closed {
   display: none;
+}
+
+@media only screen and (min-width: 640px) {
+
+	.list-container button, .container button {
+		font-size: 1rem;
+	}
+
+	.landing-page h1 {
+		margin-bottom: 20px
+	}
+	.intro-container, .auth-container {
+		width: 60%;
+	}
+
+	figure {
+		display: block;
+	}
 }
