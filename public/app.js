@@ -1,10 +1,12 @@
 
 "use strict";
 
-function handleViewDemoButton() {
-	$('#demo-button').click(function() {
+function handleLoginButton() {
+	$('#login-button').click(function() {
 		$('.js-intro').addClass('inactive');
-		$('.js-tutorial').removeClass('inactive');
+		$('.js-auth').removeClass('closed');
+		$('#login').removeClass('inactive');
+		$('.modal-overlay').removeClass('inactive');
 	})
 }
 
@@ -304,10 +306,16 @@ function handleUpdateReportSubmit(event) {
 }
 
 function closeModal() {
-	$('.js-add-new-patient, .js-update-report').addClass('closed');
+	$('.js-add-new-patient, .js-update-report, .js-auth').addClass('closed');
 	$('.modal-overlay').addClass('inactive');
 	resetInputType();
+	handleAuthContainerClose();
 }
+
+function handleAuthContainerClose() {
+	$('.js-intro').removeClass('inactive');
+}
+
 function handleCloseModalButton() {
 	console.log("modal closing");
 	$('.js-close-modal').click(function() {
@@ -543,7 +551,7 @@ function handleUpdatePatientDataButton() {}
 function updatePatientData() {}
 
 $(function() {
-		handleViewDemoButton()
+		handleLoginButton();
 		openUpdateData();
     getAndDisplayUnitList();
 		updateAssignmentListCount();
