@@ -47,10 +47,29 @@ function populateUpdateObjReportIdAndDataType(reportId, dataType) {
 }
 
 function registerNewUser() {
+	console.log("register new user running");
 	const newUser = {
-		username: $('.js-user-username')
-
+		username: $('#username').val(),
+		password: $('#password').val(),
+		firstName: $('#user-first-name').val(),
+		lastName: $('#user-last-name').val()
 	}
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:3000/api/users',
+		data: JSON.stringify(newUser),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data) {
+		console.log(data);
+	})
+}
+
+function handleAuthSubmitButton(event) {
+	event.preventDefault();
+	registerNewUser();
 }
 
 function getUserData(userName) {

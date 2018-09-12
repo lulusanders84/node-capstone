@@ -42,7 +42,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 
 const jwtStrategy = new JwtStrategy(
   {
-    secretOrKey: "WEST_HAM_UNITED",
+    secretOrKey: JWT_SECRET,
     // Look for the JWT as a Bearer auth header
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     // Only allow HS256 tokens - the same as the ones we issue

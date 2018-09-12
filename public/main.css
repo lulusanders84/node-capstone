@@ -1,8 +1,7 @@
 
-
 html {
 	width: auto;
-	height: auto;
+	height: 100%;
 	font-family: 'Lato', sans-serif;
 	color: #0a0c0f;
 	font-size: 1rem;
@@ -103,8 +102,6 @@ h2 {
 }
 
 #landing-page {
-	width: 100vw;
-	height: 100vh;
 	margin: 0 auto;
 }
 

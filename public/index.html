@@ -55,7 +55,7 @@
 					<h2 id="auth-h2">Login</h2>
 					<button class="js-close-modal modal-close-button">X</button>
 				</div>
-				<form id="auth-form" class="auth-form">
+				<form id="auth-form" class="auth-form" onsubmit="handleAuthSubmitButton(event)">
 					<div class="js-user-first-name">
 						<label for="user-first-name">
 							First Name: <input id="user-first-name" type="text">
@@ -73,13 +73,7 @@
 					</div>
 					<div class="js-user-password">
 						<label for="password">
-							Password: <input id="password" type="password">
-						</label>
-					</div>
-					<div class="js-user-passkey">
-						<label for="passkey">
-							Pass Key (provided by manager): <br>
-							<input id="passkey" type="password">
+							Password (min 8 characters): <input id="password" type="password">
 						</label>
 					</div>
 					<div>
