@@ -389,6 +389,7 @@ function handleViewReportButton() {
 		$('.js-add-assignment').addClass('inactive');
 		$('.js-add-to-unit').addClass('inactive');
 		$('.js-go-to-unit').removeClass('inactive');
+		$('.js-go-to-assignment').removeClass('inactive');
 		$('.js-show-report').removeClass('inactive');
 		$('.js-hide-report').removeClass('inactive');
 		getAndDisplayPatientReport(this.name);
