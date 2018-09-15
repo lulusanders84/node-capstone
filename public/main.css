@@ -1,8 +1,7 @@
 
-
-html {
+html.landing-page, html.main-page {
 	width: auto;
-	height: auto;
+	height: 100%;
 	font-family: 'Lato', sans-serif;
 	color: #0a0c0f;
 	font-size: 1rem;
@@ -10,6 +9,11 @@ html {
 		url("https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/10/09/13/crowded-nhs.jpg?w968");
 	background-size: cover;
 	background-repeat: no-repeat;
+}
+
+html.main-page {
+	background: none;
+	background-color: white;
 }
 
 button, input[type="submit"]  {
@@ -86,10 +90,11 @@ nav {
 }
 
 h2 {
+	color:
 	font-family: 'Roboto', sans-serif;
-	margin-top;
+	margin-top: 75px;
 	text-align: center;
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 }
 
 .landing-page h1 {
@@ -103,8 +108,6 @@ h2 {
 }
 
 #landing-page {
-	width: 100vw;
-	height: 100vh;
 	margin: 0 auto;
 }
 
@@ -116,6 +119,7 @@ h2 {
 	min-height: 60vh;
 	margin: 0 auto;
 	margin-top: 75px;
+	padding-bottom: 20px;
 	background: linear-gradient(white, rgba(255, 255, 255, 0.5) 90%);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -123,8 +127,11 @@ h2 {
 	box-shadow: 10px 10px 50px gray;
 	border: 1px solid white;
 	border-radius: 10px;
-	padding: 20px;
+}
 
+.auth-container {
+	margin-top: 0;
+	justify-content: flex-start;
 }
 
 figure {
@@ -141,13 +148,11 @@ figure img {
 	justify-content: center;
 }
 
-.auth-container {
-	justify-content: flex-start;
-}
-
 .auth-form {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	height: 90%;
 }
 
 .auth-container input {
@@ -163,8 +168,18 @@ figure img {
 }
 
 p {
+	text-align: center;
 	font-size: 1rem;
 	line-height: 2;
+}
+
+.message {
+	font-weight: bold;
+}
+
+.invalid {
+	color: red;
+	text-align: center;
 }
 
 .container {
@@ -322,8 +337,6 @@ input:checked + .slider:before {
 	padding: 10px;
 }
 
-
-
 .list-container button, .container button {
 	font-size: .8rem;
 	min-height: 25px;
@@ -336,8 +349,6 @@ input:checked + .slider:before {
 	margin: 0 auto;
 	width: 90%;
 }
-
-
 
 .modal {
 	display: flex;
@@ -386,7 +397,7 @@ input:checked + .slider:before {
 
 }
 
-input {
+input[type="text"], input[type="password"], input[type="date"] {
 	width: 100%;
 	padding: 10px;
 	margin-left: 10px;
@@ -399,7 +410,7 @@ input {
 	box-shadow: 5px 5px 10px gray;
 }
 
- label {
+ #auth-form label {
 	text-align: center;
 	width: 100%;
 	height: 50px;
@@ -410,17 +421,6 @@ input {
 .updating-data input:focus {
 	border: none;
 	border: 2px solid #023459;
-	border-radius: 10px;
-
-}
-
-.update-form input[type="submit"], #new-patient-form input[type="submit"] {
-	font-weight: 500;
-	width: 50%;
-	height: 50px;
-	justify-content: center;
-	display: flex;
-	margin: 10px;
 	border-radius: 10px;
 
 }
@@ -445,7 +445,6 @@ input {
 }
 
 #new-patient-form input {
-	margin: 0;
 	height: 40px;
 	padding: 10px;
 }
@@ -454,13 +453,18 @@ input {
 	padding: 20px 0;
 }
 
-#new-patient-form input[type="submit"] {
-	margin: 0 auto;
-	height: 40px;
-}
-
 #new-patient-form div {
 	margin-bottom: 20px;
+}
+
+input[type="submit"] {
+	font-weight: 500;
+	width: 50%;
+	height: 50px;
+	justify-content: center;
+	display: flex;
+	margin: 10px auto;
+	border-radius: 10px;
 }
 
 .modal-overlay {
@@ -480,7 +484,6 @@ input {
 	padding: 10px;
 	padding-top: 0px;
 }
-
 
 .modal.closed {
   display: none;

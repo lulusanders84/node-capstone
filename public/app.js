@@ -1,77 +1,102 @@
 
 "use strict";
 
-function handleLoginButton() {
-	$('#login-button').click(function() {
-		$('#auth-h2').html('Login');
-		$('.js-auth').removeClass('closed');
-		$('.js-user-first-name, .js-user-last-name', '.js-passkey').addClass('inactive');
-		$('.modal-overlay').removeClass('inactive');
-	})
-}
-
 function handleSignUpButton() {
 	$('#sign-up-button').click(function() {
-		console.log("sign up handle running");
-		$('#auth-h2').html('Register');
+		$('#auth-h3').html('Register');
 		$('.js-auth').removeClass('closed');
 		$('.js-user-first-name, .js-user-last-name', '.js-passkey').removeClass('inactive');
 		$('.modal-overlay').removeClass('inactive');
 	})
 }
 
-let patientToUpdate;
-
-let update = {
-	reportId: null,
-	dataType: null,
-	data: {}
-};
-
-function updatePatientToUpdate(patientId) {
-	patientToUpdate = patientId;
-}
-
-function populateUpdateObjData(key, data) {
-	update.data[key] = data;
-}
-
-function emptyUpdateObjData() {
-	update.dataType = {};
-	update.data = {};
-}
-
-function populateUpdateObjReportIdAndDataType(reportId, dataType) {
-	update.reportId = reportId;
-	update.dataType = dataType;
+function handleSignUpSubmitButton(event) {
+	event.preventDefault();
+	registerNewUser();
 }
 
 function registerNewUser() {
 	const newUser = {
-		username: $('.js-user-username')
-
+		userName: $('#username').val(),
+		password: $('#password').val(),
+		firstName: $('#user-first-name').val(),
+		lastName: $('#user-last-name').val()
 	}
-}
-
-function getUserData(userName) {
-	return $.ajax({
-			method: "GET",
-			url: `http://localhost:3000/api/users/${userName}`,
-			headers: {
-				"Access-Control-Allow-Origin": "*"
-			}
-	});
-}
-
-function updateAssignmentListCount() {
-	const userName = $('.js-username').html();
-	const user = getUserData(userName);
-	user.done(function(data) {
-		$('.js-assignment-count').html(data.assignmentList.length);
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:3000/api/users',
+		data: JSON.stringify(newUser),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data) {
+		renderConfirmModal(data.userName);
 	})
 }
 
+function renderConfirmModal(username) {
+	username = (username === undefined ? "" : username);
+	$('#auth-form').attr('onsubmit', 'handleLoginSubmitButton(event)');
+	$('.js-user-first-name').addClass('inactive');
+	$('.js-user-last-name').addClass('inactive');
+	$('#auth-h3').html('Registration completed, please enter password to continue to unit list');
+	$('.js-user-username').val(username);
+}
 
+function handleLoginButton() {
+	$('#login-button').click(function() {
+		renderLogin();
+	})
+}
+
+function renderLogin() {
+	$('#auth-form').attr('onsubmit', 'handleLoginSubmitButton(event)');
+	$('#auth-h3').html('Login');
+	$('.js-auth').removeClass('closed');
+	$('.js-user-first-name, .js-user-last-name').addClass('inactive');
+	$('.modal-overlay').removeClass('inactive');
+}
+
+function handleLoginSubmitButton(event) {
+		event.preventDefault();
+		const username = $('#username').val();
+		const password = $('#password').val();
+		sendLoginPostRequest(username, password);
+	}
+
+function sendLoginPostRequest(username, password) {
+	const user = {
+		username: username,
+		password: password
+	};
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:3000/api/auth/login',
+		data: JSON.stringify(user),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		}
+	}).done(function(data) {
+		const authTokenStr = JSON.stringify(data.authToken);
+		localStorage.setItem('authToken', authTokenStr);
+		closeModal();
+		getAndDisplayUnitList();
+		$('.js-dropdown').removeClass('inactive');
+		$('.js-username').attr('id', `${data.user._id}`);
+		$('.js-username').html(data.user.firstName);
+		$('.js-assignment-count').html(data.user.assignmentLength);
+		$('#landing-page').addClass('inactive');
+	}).fail(function( jqXHR, textStatus ) {
+		invalidPassword();
+	})
+}
+
+function invalidPassword() {
+	$('.js-invalid').removeClass('inactive')
+	.html('Invalid password, try login again');
+}
 
 function getAndDisplayUnitList() {
 	$.ajax({
@@ -81,7 +106,6 @@ function getAndDisplayUnitList() {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}).done(function(data) {
-		console.log("get and display unit list running");
 		data = sortPatientsByRoom(data);
 		data.listType = "unit";
 		const html = generateListHtml(data);
@@ -91,26 +115,7 @@ function getAndDisplayUnitList() {
 	});
 }
 
-function addPatientToUnitList() {
-	console.log($('#admit').val());
-	$.ajax({
-		method: "POST",
-		url: 'http://localhost:3000/api/patients',
-		data: JSON.stringify({
-			"room": `${$('#new-room').val()}`,
-			"admitDate": `${$('#new-admit').val()}`,
-			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
-			"age": `${$('#new-age').val()}`
-		}),
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json"
-		}
-	}).done(function(data, status) {
-		console.log(data);
-		getAndDisplayUnitList();
-	})
-}
+
 
 function sortPatientsByRoom(data) {
 	if(data.listType == "assignment") {
@@ -168,64 +173,14 @@ function formatDate(date) {
 }
 
 function displayUnitList(patientsHtml) {
+	$('.js-list').removeClass('inactive');
+	$('.intro-nav').removeClass('inactive');
+	$('h1').addClass('inactive');
+	$('html').removeClass('landing-page');
+	$('html').addClass('main-page');
+	$('.js-unit-title').html('Cardiovascular Medical Unit');
+	$('.js-header-text').html('From the unit list select patients to add to your assignment list.<br> Patients are removed from the unit list the day after discharge.');
 	$('.js-patient-list').html(patientsHtml);
-}
-
-function handleAddToAssignmentButton() {
-	$('.js-add-assignment').click(function() {
-		addPatientsToUsersAssignmentList();
-		updateAssignmentListCount();
-	})
-}
-
-function handleSelectedPatient() {
-	$('.js-patient-list').on('change', 'input[type=checkbox]', function() {
-		console.log("handle selected patient running");
-		$(event.target).closest('ul.js-patient').toggleClass('selected');
-	})
-}
-
-function getSelectedPatients() {
-		let patientIds = [];
-		$('.js-name input').each(function() {
-			if(this.checked) {
-				patientIds.push(this.id);
-			}
-		})
-		return patientIds;
-}
-
-function addPatientsToUsersAssignmentList() {
-	const userName = $('.js-username').html();
-	const user = getUserData(userName);
-	const patientIds = getSelectedPatients();
-	user.done(function(data) {
-			const newIds = detectDuplicatePatients(patientIds, data);
-			$.ajax({
-				method: "PUT",
-				url: `http://localhost:3000/api/users/${userName}`,
-				data: JSON.stringify(newIds),
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-					"Content-Type": "application/json"
-				}
-			}).done(function(data) {
-					updateAssignmentListCount();
-			})
-		})
-}
-
-function detectDuplicatePatients(patientIds, user) {
-	const uniqueIds = [];
-	patientIds.forEach(id => {
-		const dupes = user.assignmentList.find(listId => {
-			return listId === id;
-		})
-		if (dupes === undefined) {
-			uniqueIds.push(id);
-		}
-	})
-	return uniqueIds;
 }
 
 function handleAddToUnitButton() {
@@ -242,82 +197,22 @@ function handleSubmitToUnitButton(event) {
 	closeModal();
 }
 
-function handleUpdatePatientData() {
-	$('.data').click(function() {
-		updateReportIdAndDataType(this);
-		const data = $(this).find('span').html();
-		renderUpdateModal(update.dataType, data);
-	})
-}
-
-function updateReportIdAndDataType(dataItem) {
-	const dataType = $(dataItem).closest('div').attr('id');
-	const reportId = $('.js-report-id').attr('id');
-	populateUpdateObjReportIdAndDataType(reportId, dataType);
-}
-
-function formatDataLabel(dataType) {
-	const dataTypeArr = dataType.split('');
-	dataTypeArr[0] = dataTypeArr[0].toUpperCase();
-	return dataTypeArr.join('');
-}
-
-function renderUpdateModal(dataType, data) {
-	renderInputType(dataType);
-	$('.js-update-report').removeClass('closed');
-	$('.modal-overlay').removeClass('inactive');
-	$('#data-label').html(`${formatDataLabel(dataType)}:`);
-	$('#data').val(data);
-}
-
-function renderInputType(dataType) {
-	console.log(dataType, "dataType");
-	if(dataType === "admitDate" || dataType === "dischargeDate") {
-		$('#data').attr('type', 'date');
-	} else if(dataType === "GU") {
-		$('.js-data-inputs').html(
-			`<input type="radio" name="gu" id="hat" value="hat">
-			<label for="hat">Hat</label>
-			<input type="radio" name="gu" id="foley" value="foley">
-			<label for="foley">Foley</label>
-			<input type="radio" name="gu" id="urinal" value="urinal">
-			<label for="urinal">Urinal</label>
-		`);
-	}
-
-	else {
-		$('#data').attr('type', 'text');
-	}
-}
-
-function resetInputType() {
-	$('.js-data-inputs').html(`<input type="text" id="data">`);
-}
-
-function handleUpdateReportSubmit(event) {
-	event.preventDefault();
-	function data() {
-		if(update.dataType === "GU") {
-			return $('input[name=gu]:checked').val();
-		} else {
-			return $('#data').val();
-		}
-	}
-	populateUpdateObjData(update.dataType, data());
-	console.log(update);
+function addPatientToUnitList() {
 	$.ajax({
-		method: "PUT",
-		url: `http://localhost:3000/api/reports/`,
-		data: JSON.stringify(update),
+		method: "POST",
+		url: 'http://localhost:3000/api/patients',
+		data: JSON.stringify({
+			"room": `${$('#new-room').val()}`,
+			"admitDate": `${$('#new-admit').val()}`,
+			"name": `${$('#first-name').val()} ${$('#last-name').val()}`,
+			"age": `${$('#new-age').val()}`
+		}),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Content-Type": "application/json"
 		}
-	}).done(function(data) {
-			resetInputType();
-			closeModal();
-			renderPatientReport(data);
-			displayPatientReport(data);
+	}).done(function(data, status) {
+		getAndDisplayUnitList();
 	})
 }
 
@@ -326,11 +221,69 @@ function closeModal() {
 	$('.modal-overlay').addClass('inactive');
 	resetInputType();
 }
-function handleCloseModalButton() {
-	console.log("modal closing");
-	$('.js-close-modal').click(function() {
-		closeModal();
+
+function handleSelectedPatient() {
+	$('.js-patient-list').on('change', 'input[type=checkbox]', function() {
+		$(event.target).closest('ul.js-patient').toggleClass('selected');
 	})
+}
+
+function handleAddToAssignmentButton() {
+	$('.js-add-assignment').click(function() {
+		addPatientsToUsersAssignmentList();
+	})
+}
+
+function addPatientsToUsersAssignmentList() {
+	const userId = $('.js-username').attr('id');
+	const user = getUserData(userId);
+
+	user.done(function(data) {
+			const patientIds = getSelectedPatients();
+			$.ajax({
+				method: "PUT",
+				url: `http://localhost:3000/api/users/${userId}`,
+				data: JSON.stringify(patientIds),
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${getAuthToken()}`
+				}
+			}).done(function(data) {
+					updateAssignmentListCount(data.assignmentList);
+					$('.js-message').html(data.message);
+					setTimeout(function(){ $('.js-message').html(''); }, 5000);
+			})
+		})
+}
+
+function getUserData(userId) {
+	return $.ajax({
+			method: "GET",
+			url: `http://localhost:3000/api/users/${userId}`,
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Authorization": `Bearer ${getAuthToken()}`
+			}
+	});
+}
+
+function getSelectedPatients() {
+		let patientIds = [];
+		$('.js-name input').each(function() {
+			if(this.checked) {
+				patientIds.push(this.id);
+			}
+		})
+		return patientIds;
+}
+
+function getAuthToken() {
+	return JSON.parse(localStorage.getItem('authToken'));
+}
+
+function updateAssignmentListCount(data) {
+		$('.js-assignment-count').html(data.length);
 }
 
 function handleGoToAssignmentButton() {
@@ -350,7 +303,7 @@ function goToAssignmentList() {
 	getAndDisplayAssignmentList();
 	const userName = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
-	$('h1').html(`${userName}'s Assignment`);
+	$('h2').html(`${userName}'s Assignment`);
 	$('header p').html('Click view to see patient\'s nursing report');
 	$('.js-add-assignment').addClass('inactive');
 	$('.js-add-to-unit').addClass('inactive');
@@ -365,12 +318,13 @@ function goToAssignmentList() {
 }
 
 function getAndDisplayAssignmentList() {
-	const userName = $('.js-username').html();
+	const userId = $('.js-username').attr('id');
 	$.ajax({
 		type: "GET",
-		url: `http://localhost:3000/api/users/assignment/${userName}`,
+		url: `http://localhost:3000/api/users/assignment/${userId}`,
 		headers: {
-			"Access-Control-Allow-Origin": "*"
+			"Access-Control-Allow-Origin": "*",
+			"Authorization": `Bearer ${getAuthToken()}`
 		}
 	}).done(function(data) {
 		data.listType = "assignment";
@@ -386,54 +340,75 @@ function displayAssignmentList(patientsHtml) {
 
 function handleRemovePatientFromAssignmentButton() {
 	$('.js-remove-assignment').click(function() {
-		console.log("remove assignment running");
 		removePatientFromAssignmentList();
 		$(`.js-name input`).prop('checked', false);
 	})
 }
 
 function removePatientFromAssignmentList() {
-	const userName = $('.js-username').html();
+	const userId = $('.js-username').attr('id');
 	const patientIds = getSelectedPatients();
 		$.ajax({
-			url: `http://localhost:3000/api/users/assignment/${userName}`,
+			url: `http://localhost:3000/api/users/assignment/${userId}`,
 			method: "PUT",
 			data: JSON.stringify(patientIds),
 			headers: {
 				"Access-Control-Allow-Origin": "*",
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${getAuthToken()}`
 			}
 		}).done(function(data) {
 			getAndDisplayAssignmentList();
-			updateAssignmentListCount();
+			updateAssignmentListCount(data);
 		})
 }
 
+function handleGoToUnitListButton() {
+	$('.js-go-to-unit').click(function() {
+		$('.js-auth').addClass('closed');
+		closeModal();
+		$(`.js-name input`).prop('checked', false);
+		$('h1').html(`Cardiovascular Medical Unit`);
+		$('header p').html('Select which patients to add to your assignment list or manage unit list');
+		$('.js-list-container').removeClass('inactive');
+		$('.js-report-container').addClass('inactive');
+		$('.js-add-assignment').removeClass('inactive');
+		$('.js-add-to-unit').removeClass('inactive');
+		$('.js-go-to-assignment').removeClass('inactive');
+		$('.js-go-to-unit').addClass('inactive');
+		$('.js-remove-assignment').addClass('inactive');
+		$('.js-remove-unit').removeClass('inactive');
+		$('.js-go-to-assignment-nav').prop('disabled', false);
+		$('.js-show-report, .js-hide-report').addClass('inactive');
+    getAndDisplayUnitList();
+	})
+}
+
+function handleViewReportButton() {
+	$('.js-patient-list').on('click', '.js-view-button', function() {
+		$('.js-add-assignment').addClass('inactive');
+		$('.js-add-to-unit').addClass('inactive');
+		$('.js-go-to-unit').removeClass('inactive');
+		$('.js-show-report').removeClass('inactive');
+		$('.js-hide-report').removeClass('inactive');
+		getAndDisplayPatientReport(this.name);
+	});
+}
+
 function getAndDisplayPatientReport(patientId) {
-	console.log(`http://localhost:3000/api/reports/${patientId}`);
 	$.ajax({
 		type: "GET",
 		url: `http://localhost:3000/api/reports/${patientId}`,
 		headers: {
-			"Access-Control-Allow-Origin": "*"
+			"Access-Control-Allow-Origin": "*",
+			"Authorization": `Bearer ${getAuthToken()}`
 		}
 	}).done(function(data) {
-		console.log(data);
 	renderPatientReport(data);
 	displayPatientReport(data);
 }).fail(error => {
 	console.log("Server not responding");
 });
-}
-
-function displayPatientReport(patient) {
-	console.log("display patient report running");
-	$('.js-remove-assignment').addClass('inactive');
-	$('.js-report-container').removeClass('inactive');
-	$('h1').html(`Nursing Report for ${patient.name}`);
-	$('header p').html('');
-	$('.js-list-container').addClass('inactive');
-
 }
 
 function renderPatientReport(patient) {
@@ -471,6 +446,15 @@ function renderPatientReport(patient) {
 	$('.js-report-cr').html(`${patient.Cr}`);
 }
 
+function displayPatientReport(patient) {
+	$('.js-remove-assignment').addClass('inactive');
+	$('.js-report-container').removeClass('inactive');
+	$('h2').html(`Nursing Report for ${patient.name}`);
+	$('header p').html('');
+	$('.js-list-container').addClass('inactive');
+
+}
+
 function setSliderInputsCheckedProperty(reportItem, dataType) {
 	reportItem = reportItem.toLowerCase();
 	if (reportItem === "true") {
@@ -485,30 +469,18 @@ function handleSliderChange() {
 		updateReportIdAndDataType(this);
 		const data = $(this).prop('checked');
 		populateUpdateObjData(update.dataType, data);
-		console.log(update);
 		$.ajax({
 			method: "PUT",
 			url: `http://localhost:3000/api/reports/`,
 			data: JSON.stringify(update),
 			headers: {
 				"Access-Control-Allow-Origin": "*",
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${getAuthToken()}`
 			}
 		}).done(function(data) {
-				console.log("completed update", data);
 		})
 	})
-}
-function handleViewReportButton() {
-	$('.js-patient-list').on('click', '.js-view-button', function() {
-		console.log("js view button clicked");
-		$('.js-add-assignment').addClass('inactive');
-		$('.js-add-to-unit').addClass('inactive');
-		$('.js-go-to-unit').removeClass('inactive');
-		$('.js-show-report').removeClass('inactive');
-		$('.js-hide-report').removeClass('inactive');
-		getAndDisplayPatientReport(this.name);
-	});
 }
 
 function handleShowFullReportButton() {
@@ -527,46 +499,110 @@ function handleHideFullReportButton() {
 
 function handleOpenReportMenuItemButton() {
 	$('.js-report-menu').click(function() {
-		console.log("open menu running");
 		$(this).closest('div').find('.js-report-content').toggleClass('inactive', 'open');
 	})
 }
 
-function openUpdateData() {
+function handleUpdatePatientData() {
 	$('.data').click(function() {
-		console.log(($(this).closest('div').html()));
+		updateReportIdAndDataType(this);
+		const data = $(this).find('span').html();
+		renderUpdateModal(update.dataType, data);
 	})
 }
 
-function handleGoToUnitListButton() {
-	$('.js-go-to-unit').click(function() {
-		$(`.js-name input`).prop('checked', false);
-		$('h1').html(`Cardiovascular Medical Unit`);
-		$('header p').html('Select which patients to add to your assignment list or manage unit list');
-		$('.js-list-container').removeClass('inactive');
-		$('.js-report-container').addClass('inactive');
-		$('.js-add-assignment').removeClass('inactive');
-		$('.js-add-to-unit').removeClass('inactive');
-		$('.js-go-to-assignment').removeClass('inactive');
-		$('.js-go-to-unit').addClass('inactive');
-		$('.js-remove-assignment').addClass('inactive');
-		$('.js-remove-unit').removeClass('inactive');
-		$('.js-go-to-assignment-nav').prop('disabled', false);
-		$('.js-show-report, .js-hide-report').addClass('inactive');
-    getAndDisplayUnitList();
+let update = {
+	reportId: null,
+	dataType: null,
+	data: {}
+};
+
+function updateReportIdAndDataType(dataItem) {
+	const dataType = $(dataItem).closest('div').attr('id');
+	const reportId = $('.js-report-id').attr('id');
+	populateUpdateObjReportIdAndDataType(reportId, dataType);
+}
+
+function populateUpdateObjReportIdAndDataType(reportId, dataType) {
+	update.reportId = reportId;
+	update.dataType = dataType;
+}
+
+function renderUpdateModal(dataType, data) {
+	renderInputType(dataType);
+	$('.js-update-report').removeClass('closed');
+	$('.modal-overlay').removeClass('inactive');
+	$('#data-label').html(`${formatDataLabel(dataType)}:`);
+	$('#data').val(data);
+}
+
+function renderInputType(dataType) {
+	if(dataType === "admitDate" || dataType === "dischargeDate") {
+		$('#data').attr('type', 'date');
+	} else if(dataType === "GU") {
+		$('.js-data-inputs').html(
+			`<input type="radio" name="gu" id="hat" value="hat">
+			<label for="hat">Hat</label>
+			<input type="radio" name="gu" id="foley" value="foley">
+			<label for="foley">Foley</label>
+			<input type="radio" name="gu" id="urinal" value="urinal">
+			<label for="urinal">Urinal</label>
+		`);
+	} else {
+		$('#data').attr('type', 'text');
+	}
+}
+
+function formatDataLabel(dataType) {
+	const dataTypeArr = dataType.split('');
+	dataTypeArr[0] = dataTypeArr[0].toUpperCase();
+	return dataTypeArr.join('');
+}
+
+function handleUpdateReportSubmit(event) {
+	event.preventDefault();
+	function data() {
+		if(update.dataType === "GU") {
+			return $('input[name=gu]:checked').val();
+		} else {
+			return $('#data').val();
+		}
+	}
+	populateUpdateObjData(update.dataType, data());
+	$.ajax({
+		method: "PUT",
+		url: `http://localhost:3000/api/reports/`,
+		data: JSON.stringify(update),
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${getAuthToken()}`
+		}
+	}).done(function(data) {
+			resetInputType();
+			closeModal();
+			renderPatientReport(data);
+			displayPatientReport(data);
 	})
 }
 
-function handleUpdatePatientDataButton() {}
+function populateUpdateObjData(key, data) {
+	update.data[key] = data;
+}
 
-function updatePatientData() {}
+function resetInputType() {
+	$('.js-data-inputs').html(`<input type="text" id="data">`);
+}
+
+function handleCloseModalButton() {
+	$('.js-close-modal').click(function() {
+		closeModal();
+	})
+}
 
 $(function() {
 		handleLoginButton();
 		handleSignUpButton();
-		openUpdateData();
-    getAndDisplayUnitList();
-		updateAssignmentListCount();
 		handleSelectedPatient();
 		handleAddToAssignmentButton();
 		handleGoToAssignmentButton();
