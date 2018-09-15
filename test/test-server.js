@@ -4,7 +4,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const app = require('../server.js');
 const { DATABASE_URL } = require("../config");
 const { app, runServer, closeServer } = require("../server");
 

@@ -42,7 +42,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 if (require.main === module) {
-  app.listen(process.env.PORT || 3000, function() {
+  app.listen(process.env.PORT || 8080, function() {
     console.info(`App listening on ${this.address().port}`);
   });
 }
