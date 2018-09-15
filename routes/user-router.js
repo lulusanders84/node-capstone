@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require('passport');
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -10,9 +11,13 @@ const { User } = require('../models/users');
 const { Report } = require('../models/reports');
 const { Patient } = require('../models/patients');
 
-router.get('/:id', (req, res) => {
+const jwtAuth = passport.authenticate('jwt', {session: false});
+
+
+
+router.get('/:id', jwtAuth, (req, res) => {
   User
-    .findOne({userName: req.params.id})
+    .findOne({"_id": req.params.id})
     .then(user => {
       res.status(200).json(user);
     }).catch(err => {
@@ -21,12 +26,11 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.get('/assignment/:id', (req, res) => {
+router.get('/assignment/:id', jwtAuth, (req, res) => {
   User
-    .findOne({userName: req.params.id})
+    .findOne({_id: req.params.id})
     .populate('assignmentList')
     .then(user => {
-      console.log("user:", user);
       res.status(200).json(user.assignmentList);
     }).catch(err => {
         console.error(err);
@@ -34,20 +38,21 @@ router.get('/assignment/:id', (req, res) => {
     })
 })
 
-
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
-      console.log("patients", patients);
       const reportIds = patients.map(patient => {
-        return patient.report;
-      })
-      User
-        .findOneAndUpdate({userName: req.params.id}, {$push: {assignmentList: reportIds}})
+        return patient.report._id;
+        })
+        User
+        .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: reportIds}}, {new: true})
         .populate("assignmentList")
         .then(user => {
-          res.status(200).json(user.assignmentList);
+          res.status(200).json({
+            message: "Patients added to assignment list",
+            assignmentList: user.assignmentList
+          });
         }).catch(err => {
             console.error(err);
             res.status(500).json({message: 'Internal server error'});
@@ -55,16 +60,16 @@ router.put('/:id', jsonParser, (req, res) => {
     })
 })
 
-router.put('/assignment/:id', jsonParser, (req, res) => {
+
+router.put('/assignment/:id', jsonParser, jwtAuth, (req, res) => {
   const reportIds = req.body.map(id => {
     return id;
   })
-    console.log("report ids", reportIds);
+
       User
-        .findOneAndUpdate({userName: req.params.id}, {$pull: {assignmentList: { $in: reportIds }}})
+        .findOneAndUpdate({_id: req.params.id}, {$pull: {assignmentList: { $in: reportIds }}}, {new: true})
         .then(user => {
-          console.log("user", user.assignmentList);
-          res.status(200).json(user);
+          res.status(200).json(user.assignmentList);
         }).catch(err => {
             console.error(err);
             res.status(500).json({message: 'Internal server error'});
@@ -158,7 +163,6 @@ router.post('/', jsonParser, (req, res) => {
     // before this
     firstName = firstName.trim();
     lastName = lastName.trim();
-    console.log(password);
     User.find({userName: userName})
       .count()
       .then(count => {
@@ -172,10 +176,8 @@ router.post('/', jsonParser, (req, res) => {
           });
         }
         // If there is no existing user, hash the password
-        console.log(password);
         const hash = User.hashPassword(password);
         hash.then(hash => {
-          console.log(userName, password, firstName, lastName);
           User
         .create({
           userName: userName,

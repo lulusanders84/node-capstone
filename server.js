@@ -15,6 +15,8 @@ const patientRouter = require('./routes/patient-router');
 const reportRouter = require('./routes/report-router');
 const userRouter = require('./routes/user-router');
 
+const jwtAuth = passport.authenticate('jwt', {session: false});
+
 app.use(express.static('public'));
 
 app.use(morgan('common'));
@@ -35,14 +37,12 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/api/patients', patientRouter);
-app.use('/api/reports', reportRouter);
+app.use('/api/reports', reportRouter, jwtAuth);
 app.use('/api/users', userRouter);
-app.use('/api/auth/', authRouter);
-
-const jwtAuth = passport.authenticate('jwt', { session: false });
+app.use('/api/auth', authRouter);
 
 if (require.main === module) {
-  app.listen(process.env.PORT || 8080, function() {
+  app.listen(process.env.PORT || 3000, function() {
     console.info(`App listening on ${this.address().port}`);
   });
 }
