@@ -84,4 +84,15 @@ describe('user/auth router', function() {
 			expect(res).to.be.json;
 		})
 	})
+
+	it('should add report to assignment list on PUT', function() {
+		return chai.request(app)
+		.put(`/api/users/${testUser._id.$oid}`)
+		.set("Authorization", `Bearer ${authToken}`)
+		.send(["5b842e962b73a5573d217efc"])
+		.then(function(res) {
+			expect(res).to.have.status(200);
+			expect(res).to.be.json;
+		})
+	})
 })
