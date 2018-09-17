@@ -200,4 +200,12 @@ router.post('/', jsonParser, (req, res) => {
   });
 });
 });
+
+router.delete('/:id', jsonParser, (req, res) => {
+  User
+  .findByIdAndDelete(req.params.id)
+  .then(user => {
+    res.status(200).json(user);
+  })
+});
 module.exports = router;
