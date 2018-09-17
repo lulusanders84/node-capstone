@@ -77,7 +77,7 @@ router.put('/assignment/:id', jsonParser, jwtAuth, (req, res) => {
     })
 
 router.post('/', jsonParser, (req, res) => {
-    const requiredFields = ['userName', 'password'];
+    const requiredFields = ['username', 'password'];
     const missingField = requiredFields.find(field => !(field in req.body));
     if (missingField) {
       return res.status(422).json({
@@ -88,7 +88,7 @@ router.post('/', jsonParser, (req, res) => {
       });
     }
 
-    const stringFields = ['userName', 'password', 'firstName', 'lastName'];
+    const stringFields = ['username', 'password', 'firstName', 'lastName'];
     const nonStringField = stringFields.find(
       field => field in req.body && typeof req.body[field] !== 'string'
     );
@@ -109,7 +109,7 @@ router.post('/', jsonParser, (req, res) => {
     // trimming them and expecting the user to understand.
     // We'll silently trim the other fields, because they aren't credentials used
     // to log in, so it's less of a problem.
-    const explicityTrimmedFields = ['userName', 'password'];
+    const explicityTrimmedFields = ['username', 'password'];
     const nonTrimmedField = explicityTrimmedFields.find(
       field => req.body[field].trim() !== req.body[field]
     );
@@ -124,7 +124,7 @@ router.post('/', jsonParser, (req, res) => {
     }
 
     const sizedFields = {
-      userName: {
+      username: {
         min: 1
       },
       password: {
@@ -158,12 +158,12 @@ router.post('/', jsonParser, (req, res) => {
       });
     }
 
-    let {userName, password, firstName = '', lastName = ''} = req.body;
-    // Username and password come in pre-trimmed, otherwise we throw an error
+    let {username, password, firstName = '', lastName = ''} = req.body;
+    // username and password come in pre-trimmed, otherwise we throw an error
     // before this
     firstName = firstName.trim();
     lastName = lastName.trim();
-    User.find({userName: userName})
+    User.find({username: username})
       .count()
       .then(count => {
         if (count > 0) {
@@ -171,7 +171,7 @@ router.post('/', jsonParser, (req, res) => {
           return Promise.reject({
             code: 422,
             reason: 'ValidationError',
-            message: 'Username already taken',
+            message: 'username already taken',
             location: 'username'
           });
         }
@@ -180,7 +180,7 @@ router.post('/', jsonParser, (req, res) => {
         hash.then(hash => {
           User
         .create({
-          userName: userName,
+          username: username,
           password: hash,
           firstName: firstName,
           lastName: lastName,

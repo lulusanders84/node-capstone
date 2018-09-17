@@ -17,7 +17,7 @@ function handleSignUpSubmitButton(event) {
 
 function registerNewUser() {
 	const newUser = {
-		userName: $('#username').val(),
+		username: $('#username').val(),
 		password: $('#password').val(),
 		firstName: $('#user-first-name').val(),
 		lastName: $('#user-last-name').val()
@@ -31,7 +31,7 @@ function registerNewUser() {
 			"Content-Type": "application/json"
 		}
 	}).done(function(data) {
-		renderConfirmModal(data.userName);
+		renderConfirmModal(data.username);
 	})
 }
 
@@ -301,9 +301,9 @@ function handleGoToAssignmentNavButton() {
 
 function goToAssignmentList() {
 	getAndDisplayAssignmentList();
-	const userName = $('.js-username').html();
+	const username = $('.js-username').html();
 	$(`.js-name input`).prop('checked', false);
-	$('h2').html(`${userName}'s Assignment`);
+	$('h2').html(`${username}'s Assignment`);
 	$('header p').html('Click view to see patient\'s nursing report');
 	$('.js-add-assignment').addClass('inactive');
 	$('.js-add-to-unit').addClass('inactive');

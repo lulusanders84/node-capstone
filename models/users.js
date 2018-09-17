@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
-  "userName": {
+  "username": {
     type: 'string'
     //unique: true
   },
@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
 
 userSchema.methods.serialize = function() {
   return {
-    username: this.userName || '',
+    username: this.username || '',
     firstName: this.firstName || '',
     lastName: this.lastName || ''
   };
