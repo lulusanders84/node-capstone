@@ -75,4 +75,13 @@ describe('user/auth router', function() {
 		})
 	})
 
+	it('should retrieve user assignment list on GET', function() {
+		return chai.request(app)
+		.get(`/api/users/assignment/${testUser._id.$oid}`)
+		.set("Authorization", `Bearer ${authToken}`)
+		.then(function(res) {
+			expect(res).to.have.status(200);
+			expect(res).to.be.json;
+		})
+	})
 })
