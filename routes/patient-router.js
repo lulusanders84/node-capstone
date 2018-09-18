@@ -55,7 +55,7 @@ function createNewPatient(req, res, report) {
     .create({
       report: report
     }).then(patient => {
-        res.status(200).json(patient.report.name);
+        res.status(200).json(patient);
       }).catch(err => {
           console.error(err);
           res.status(500).json({message: 'Internal server error'});

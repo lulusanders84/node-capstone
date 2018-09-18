@@ -7,25 +7,12 @@ const express = require('express');
 
 const { DATABASE_URL } = require("../config");
 const { app, runServer, closeServer } = require("../server");
-const { User } = require('../models/users');
 
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-let testUser =
-	{
-	    "_id": {
-	        "$oid": "5b9efcb5ee296f58842a1308"
-	    },
-	    "assignmentList": [],
-	    "username": "testUser",
-	    "password": "password",
-	    "firstName": "Test",
-	    "lastName": "User",
-	    "__v": 0
-	};
-
+let testUser;
 let authToken;
 
 describe('user/auth router', function() {
@@ -48,7 +35,6 @@ describe('user/auth router', function() {
      })
 		.then(function(res) {
       testUser = res.body;
-			console.log(testUser);
 			expect(res).to.have.status(201);
 		})
 	})
