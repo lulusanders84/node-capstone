@@ -9,9 +9,9 @@ const { app, runServer, closeServer } = require("../server");
 
 const expect = chai.expect;
 
-let patient;
-
+let patientId;
 let reportId = "5b7c512d2b73a5573db17387";
+
 chai.use(chaiHttp);
 
 describe('report router', function() {
@@ -37,6 +37,7 @@ describe('report router', function() {
     .post('/api/patients')
     .send({"name": "Test Patient", "age": 54, "admitDate": "09/15/2018", "room": 3501})
     .then(function(res) {
+      patientId = res.body._id;
       reportId = res.body.report._id;
       return chai.request(app)
       .put("/api/reports")
@@ -47,6 +48,18 @@ describe('report router', function() {
       .then(function(res) {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        return chai.request(app)
+        .delete(`/api/patients/${patientId}`)
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+        });
+        return chai.request(app)
+        .delete(`/api/reports/${reportId}`)
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+        });        
       })
     })
 	})

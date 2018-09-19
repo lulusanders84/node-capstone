@@ -35,4 +35,12 @@ router.put('/', jsonParser, (req, res) => {
   })
 })
 
+router.delete('/:id', function(req, res) {
+  Report
+  .findByIdAndDelete(req.params.id)
+  .then(report => {
+    res.status(200).json(report);
+  })
+})
+
 module.exports = router;

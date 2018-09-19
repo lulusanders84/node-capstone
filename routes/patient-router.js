@@ -94,4 +94,12 @@ router.post('/', jsonParser, (req, res) => {
     })
 })
 
+router.delete('/:id', function(req, res) {
+  Patient
+  .findByIdAndDelete(req.params.id)
+  .then(patient => {
+    res.status(200).json(patient);
+  })
+})
+
 module.exports = router;
