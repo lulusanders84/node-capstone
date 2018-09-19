@@ -21,9 +21,10 @@
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
-  "start": "node server.js"
+
 }
