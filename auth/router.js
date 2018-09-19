@@ -24,7 +24,7 @@ router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
   User.findOne({ username: req.body.username })
   .then(user => {
-    res.json({
+    res.status(200).json({
       authToken,
       user: {
         "_id": user._id,

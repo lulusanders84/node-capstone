@@ -55,7 +55,7 @@ function createNewPatient(req, res, report) {
     .create({
       report: report
     }).then(patient => {
-        res.status(200).json(patient.report.name);
+        res.status(200).json(patient);
       }).catch(err => {
           console.error(err);
           res.status(500).json({message: 'Internal server error'});
@@ -92,6 +92,14 @@ router.post('/', jsonParser, (req, res) => {
         createNewPatient(req, res, report);
       }
     })
+})
+
+router.delete('/:id', function(req, res) {
+  Patient
+  .findByIdAndDelete(req.params.id)
+  .then(patient => {
+    res.status(200).json(patient);
+  })
 })
 
 module.exports = router;

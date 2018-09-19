@@ -19,20 +19,6 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', jsonParser, (req, res) => {
-  Patient
-    .findById(req.params.id)
-    .then(patient => {
-      return Report
-      .findOneAndUpdate({_id: patient.report}, {$set: {"dischargeDate": req.body.date}})
-    }).then(report => {
-      res.status(200).json(report);
-    }).catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error'});
-    })
-})
-
 router.put('/', jsonParser, (req, res) => {
   console.log(req.body);
   Report
@@ -46,6 +32,14 @@ router.put('/', jsonParser, (req, res) => {
       console.error(err);
       res.status(500).json({message: 'Internal server error'});
     });
+  })
+})
+
+router.delete('/:id', function(req, res) {
+  Report
+  .findByIdAndDelete(req.params.id)
+  .then(report => {
+    res.status(200).json(report);
   })
 })
 
