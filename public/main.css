@@ -491,6 +491,11 @@ input[type="submit"] {
 
 @media only screen and (min-width: 640px) {
 
+	.report-container, .list {
+		width: 60%;
+		margin: 0 auto;
+	}
+
 	.list-container button, .container button {
 		font-size: 1rem;
 	}
