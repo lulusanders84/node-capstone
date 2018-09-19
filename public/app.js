@@ -24,7 +24,7 @@ function registerNewUser() {
 	}
 	$.ajax({
 		method: "POST",
-		url: 'https://desolate-lake-85505.herokuapp.com/api/users',
+		url: 'https://localhost:3000/api/users',
 		data: JSON.stringify(newUser),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
@@ -72,7 +72,7 @@ function sendLoginPostRequest(username, password) {
 	};
 	$.ajax({
 		method: "POST",
-		url: 'https://desolate-lake-85505.herokuapp.com/api/auth/login',
+		url: 'https://localhost:3000/api/auth/login',
 		data: JSON.stringify(user),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
@@ -101,7 +101,7 @@ function invalidPassword() {
 function getAndDisplayUnitList() {
 	$.ajax({
 		type: "GET",
-		url: "https://desolate-lake-85505.herokuapp.com/api/patients",
+		url: "https://localhost:3000/api/patients",
 		headers: {
 			"Access-Control-Allow-Origin": "*"
 		}
@@ -200,7 +200,7 @@ function handleSubmitToUnitButton(event) {
 function addPatientToUnitList() {
 	$.ajax({
 		method: "POST",
-		url: 'https://desolate-lake-85505.herokuapp.com/api/patients',
+		url: 'https://localhost:3000/api/patients',
 		data: JSON.stringify({
 			"room": `${$('#new-room').val()}`,
 			"admitDate": `${$('#new-admit').val()}`,
@@ -242,7 +242,7 @@ function addPatientsToUsersAssignmentList() {
 			const patientIds = getSelectedPatients();
 			$.ajax({
 				method: "PUT",
-				url: `https://desolate-lake-85505.herokuapp.com/api/users/${userId}`,
+				url: `https://localhost:3000/api/users/${userId}`,
 				data: JSON.stringify(patientIds),
 				headers: {
 					"Access-Control-Allow-Origin": "*",
@@ -260,7 +260,7 @@ function addPatientsToUsersAssignmentList() {
 function getUserData(userId) {
 	return $.ajax({
 			method: "GET",
-			url: `https://desolate-lake-85505.herokuapp.com/api/users/${userId}`,
+			url: `https://localhost:3000/api/users/${userId}`,
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Authorization": `Bearer ${getAuthToken()}`
@@ -321,7 +321,7 @@ function getAndDisplayAssignmentList() {
 	const userId = $('.js-username').attr('id');
 	$.ajax({
 		type: "GET",
-		url: `https://desolate-lake-85505.herokuapp.com/api/users/assignment/${userId}`,
+		url: `https://localhost:3000/api/users/assignment/${userId}`,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Authorization": `Bearer ${getAuthToken()}`
@@ -349,7 +349,7 @@ function removePatientFromAssignmentList() {
 	const userId = $('.js-username').attr('id');
 	const patientIds = getSelectedPatients();
 		$.ajax({
-			url: `https://desolate-lake-85505.herokuapp.com/api/users/assignment/${userId}`,
+			url: `https://localhost:3000/api/users/assignment/${userId}`,
 			method: "PUT",
 			data: JSON.stringify(patientIds),
 			headers: {
@@ -399,7 +399,7 @@ function handleViewReportButton() {
 function getAndDisplayPatientReport(patientId) {
 	$.ajax({
 		type: "GET",
-		url: `https://desolate-lake-85505.herokuapp.com/api/reports/${patientId}`,
+		url: `https://localhost:3000/api/reports/${patientId}`,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Authorization": `Bearer ${getAuthToken()}`
@@ -472,7 +472,7 @@ function handleSliderChange() {
 		populateUpdateObjData(update.dataType, data);
 		$.ajax({
 			method: "PUT",
-			url: `https://desolate-lake-85505.herokuapp.com/api/reports/`,
+			url: `https://localhost:3000/api/reports/`,
 			data: JSON.stringify(update),
 			headers: {
 				"Access-Control-Allow-Origin": "*",
@@ -572,7 +572,7 @@ function handleUpdateReportSubmit(event) {
 	populateUpdateObjData(update.dataType, data());
 	$.ajax({
 		method: "PUT",
-		url: `https://desolate-lake-85505.herokuapp.com/api/reports/`,
+		url: `https://localhost:3000/api/reports/`,
 		data: JSON.stringify(update),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
