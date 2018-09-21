@@ -5,7 +5,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-const path = require('path');
 
 mongoose.Promise = global.Promise;
 
