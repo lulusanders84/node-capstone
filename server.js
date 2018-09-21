@@ -20,6 +20,10 @@ const jwtAuth = passport.authenticate('jwt', {session: false});
 
 app.use(express.static('public'));
 
+app.get('*',(req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 app.use(morgan('common'));
 
 app.use(cors());
