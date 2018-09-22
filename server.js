@@ -1,7 +1,7 @@
 
 const express = require('express');
 const app = express();
-const cors = require('cors');
+//const cors = require('cors');
 const mongoose = require('mongoose');
 //const morgan = require('morgan');
 //const passport = require('passport');
@@ -24,9 +24,9 @@ app.use(express.static('public'));
 
 //app.use(morgan('common'));
 
-app.use(cors());
+//app.use(cors());
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
     return res.send(204);
   }
   next();
-});
+});*/
 
 app.get('/api/patients', (req, res) => {
   Patient
