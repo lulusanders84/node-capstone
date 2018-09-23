@@ -11,8 +11,8 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require("./config");
-const { Patient } = require('/models/patients')
-const { Report } = require('/models/reports')
+const { Patient } = require('./models/patients')
+const { Report } = require('./models/reports')
 //const { router: authRouter } = require("./auth/router");
 //const {localStrategy, jwtStrategy } = require("./auth/strategies");
 
