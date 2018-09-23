@@ -1,32 +1,44 @@
 "use strict";
-require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const cors = require('cors');
+//const cors = require('cors');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
-const passport = require('passport');
+//const morgan = require('morgan');
+//const passport = require('passport');
+
 
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require("./config");
-const { router: authRouter } = require("./auth/router");
-const {localStrategy, jwtStrategy } = require("./auth/strategies");
+const { Patient } = require('/models/patients')
+const { Report } = require('/models/reports')
+//const { router: authRouter } = require("./auth/router");
+//const {localStrategy, jwtStrategy } = require("./auth/strategies");
 
-const patientRouter = require('./routes/patient-router');
-const reportRouter = require('./routes/report-router');
-const userRouter = require('./routes/user-router');
+//const patientRouter = require('./routes/patient-router');
+//const reportRouter = require('./routes/report-router');
+//const userRouter = require('./routes/user-router');
 
-const jwtAuth = passport.authenticate('jwt', {session: false});
+//const jwtAuth = passport.authenticate('jwt', {session: false});
 
 app.use(express.static('public'));
 
-app.use(morgan('common'));
+app.get('/', (req, res) => {
+    Patient
+      .find({})
+      .then(patients => {
+        res.status(200).json(patients);
+      }).catch(err => {
+          console.error(err);
+          res.status(500).json({message: 'Internal server error'});
+      })
+  })
+//app.use(morgan('common'));
 
-app.use(cors());
+//app.use(cors());
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
@@ -34,18 +46,18 @@ app.use(function(req, res, next) {
     return res.send(204);
   }
   next();
-});
+});*/
 
-passport.use(localStrategy);
-passport.use(jwtStrategy);
+//passport.use(localStrategy);
+//passport.use(jwtStrategy);
 
-app.use('/api/patients', patientRouter);
-app.use('/api/reports', reportRouter, jwtAuth);
-app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter);
+//app.use('/api/patients', patientRouter);
+//app.use('/api/reports', reportRouter, jwtAuth);
+//app.use('/api/users', userRouter);
+//app.use('/api/auth', authRouter);
 
 if (require.main === module) {
-  app.listen(process.env.PORT, function() {
+  app.listen(process.env.PORT || 3000, function() {
     console.info(`App listening on ${this.address().port}`);
   });
 }
