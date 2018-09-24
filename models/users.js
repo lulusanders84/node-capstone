@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     type: 'string'
     //unique: true
   },
-  "password": {type: String},
+  "password": {type: 'string'},
   "firstName": 'string',
   "lastName": 'string',
   "assignmentList": [
