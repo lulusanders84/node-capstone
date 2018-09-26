@@ -1,6 +1,8 @@
 
 "use strict";
 
+var API_URL = "http://localhost:3000";//"https://stormy-savannah-14766.herokuapp.com";
+
 function handleSignUpButton() {
 	$('#sign-up-button').click(function() {
 		$('#auth-h3').html('Register');
@@ -24,7 +26,7 @@ function registerNewUser() {
 	}
 	$.ajax({
 		method: "POST",
-		url: 'https://stormy-savannah-14766.herokuapp.com/api/users',
+		url: API_URL + '/api/users',
 		data: JSON.stringify(newUser),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
@@ -72,7 +74,7 @@ function sendLoginPostRequest(username, password) {
 	};
 	$.ajax({
 		method: "POST",
-		url: 'https://stormy-savannah-14766.herokuapp.com/api/auth/login',
+		url: API_URL + '/api/auth/login',
 		data: JSON.stringify(user),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
@@ -101,7 +103,7 @@ function invalidPassword() {
 function getAndDisplayUnitList() {
 	$.ajax({
 		type: "GET",
-		url: "https://stormy-savannah-14766.herokuapp.com/api/patients",
+		url: API_URL + "/api/patients",
 		headers: {
 			"Access-Control-Allow-Origin": "*"
 		}
@@ -200,7 +202,7 @@ function handleSubmitToUnitButton(event) {
 function addPatientToUnitList() {
 	$.ajax({
 		method: "POST",
-		url: 'https://stormy-savannah-14766.herokuapp.com/api/patients',
+		url: API_URL + '/api/patients',
 		data: JSON.stringify({
 			"room": `${$('#new-room').val()}`,
 			"admitDate": `${$('#new-admit').val()}`,
@@ -399,7 +401,7 @@ function handleViewReportButton() {
 function getAndDisplayPatientReport(patientId) {
 	$.ajax({
 		type: "GET",
-		url: `https://stormy-savannah-14766.herokuapp.com/api/reports/${patientId}`,
+		url: `${API_URL}/api/reports/${patientId}`,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Authorization": `Bearer ${getAuthToken()}`
