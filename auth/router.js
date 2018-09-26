@@ -25,7 +25,7 @@ router.post('/login', localAuth, (req, res) => {
 
   //return;
   const authToken = createAuthToken(req.user.serialize());
-  res.send('hello');
+
   User.findOne({ username: req.body.username })
   .then(user => {
     res.send(JSON.stringify(user));
