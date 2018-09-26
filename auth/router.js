@@ -26,18 +26,20 @@ router.post('/login', localAuth, (req, res) => {
   //return;
   const authToken = createAuthToken(req.user.serialize());
 
-  User.findOne({ username: req.body.username })
-  .then(user => {
-    res.send(JSON.stringify(user));
-    // res.status(200).json({
-    //   authToken,
-    //   user: {
-    //     "_id": user._id,
-    //     "firstName": user.firstName,
-    //     "assignmentLength": user.assignmentList.length
-    //   }
-    // });
-  })
+  res.status(200).json({'hello': 'world'});
+  // User.findOne({ username: req.body.username })
+  // .then(user => {
+  //   res.send(JSON.stringify(user));
+  //
+  //   // res.status(200).json({
+  //   //   authToken,
+  //   //   user: {
+  //   //     "_id": user._id,
+  //   //     "firstName": user.firstName,
+  //   //     "assignmentLength": user.assignmentList.length
+  //   //   }
+  //   // });
+  // })
 
 });
 
