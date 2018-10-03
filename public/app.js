@@ -84,6 +84,7 @@ function sendLoginPostRequest(username, password) {
 			"Content-Type": "application/json"
 		}
 	}).done(function(data) {
+		console.log(data);
 		const authTokenStr = JSON.stringify(data.authToken);
 		localStorage.setItem('authToken', authTokenStr);
 		closeModal();
