@@ -46,12 +46,6 @@ app.use('/api/reports', reportRouter, jwtAuth);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
-// if (require.main === module) {
-//   app.listen(process.env.PORT, function() {
-//     console.info(`App listening on ${this.address().port}`);
-//   });
-// }
-
 let server;
 
 function runServer(databaseUrl, port = PORT) {
@@ -92,6 +86,10 @@ function closeServer() {
 }
 
 if (require.main === module) {
+  app.listen(process.env.PORT, function() {
+    console.info(`App listening on ${this.address().port}`);
+  });
+}else{
   runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
