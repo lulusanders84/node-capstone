@@ -86,10 +86,6 @@ function closeServer() {
 }
 
 if (require.main === module) {
-  app.listen(process.env.PORT, function() {
-    console.info(`App listening on ${this.address().port}`);
-  });
-}else{
   runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
