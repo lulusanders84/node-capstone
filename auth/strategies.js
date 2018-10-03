@@ -10,8 +10,10 @@ const { JWT_SECRET } = require('../config');
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
   let user;
+  console.log('inside strategy');
   User.findOne({ username: username })
     .then(_user => {
+      console.log(_user);
       user = _user;
       if (!user) {
         // Return a rejected promise so we break out of the chain of .thens.
@@ -26,7 +28,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 
       return user;
     })
-    .then(users => {
+    .then(user => {
       const validPassword = user.validatePassword(password);
       if (!validPassword) {
         return callback(null, false);
