@@ -20,6 +20,8 @@ const userRouter = require('./routes/user-router');
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
+console.log("server running");
+
 app.use(express.static('public'));
 
 app.use(morgan('common'));
