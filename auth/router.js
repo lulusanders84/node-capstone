@@ -22,10 +22,10 @@ router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
   console.log("auth router running");
-  res.json({"message": "auth router running"});
-  return;
+  // res.send('Hello'); //{"message": "auth router running"}
+  // return;
   const authToken = createAuthToken(req.user.serialize());
-
+  
   User.findOne({ username: req.body.username })
   .then(user => {
     console.log(JSON.stringify(user));
