@@ -39,18 +39,18 @@ describe('user/auth router', function() {
 		})
 	})
 
-	// it('should send token on POST to auth/login', function() {
-	// 	return chai.request(app)
-	// 	.post("/api/auth/login")
-	// 	.send({
-	// 		"username": "testUser",
-	// 		"password": "testPassword"
-	// 	})
-	// 	.then(function(res) {
-	// 		authToken = res.body.authToken;
-	// 		expect(res).to.have.status(200);
-	// 	})
-	// })
+	it('should send token on POST to auth/login', function() {
+		return chai.request(app)
+		.post("/api/auth/login")
+		.send({
+			"username": "testUser",
+			"password": "testPassword"
+		})
+		.then(function(res) {
+			authToken = res.body.authToken;
+			expect(res).to.have.status(200);
+		})
+	})
 
 	it('should retrieve user on GET', function() {
 		return chai.request(app)
