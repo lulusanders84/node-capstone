@@ -69,6 +69,8 @@ function handleLoginSubmitButton(event) {
 	}
 
 function sendLoginPostRequest(username, password) {
+	console.log("sendLoginPostRequest running");
+
 	const user = {
 		username: username,
 		password: password
@@ -245,7 +247,7 @@ function addPatientsToUsersAssignmentList() {
 			const patientIds = getSelectedPatients();
 			$.ajax({
 				method: "PUT",
-				url: `https://stormy-savannah-14766.herokuapp.com/api/users/${userId}`,
+				url: `${API_URL}/api/users/${userId}`,
 				data: JSON.stringify(patientIds),
 				headers: {
 					"Access-Control-Allow-Origin": "*",
@@ -263,7 +265,7 @@ function addPatientsToUsersAssignmentList() {
 function getUserData(userId) {
 	return $.ajax({
 			method: "GET",
-			url: `https://stormy-savannah-14766.herokuapp.com/api/users/${userId}`,
+			url: `${API_URL}/api/users/${userId}`,
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Authorization": `Bearer ${getAuthToken()}`
@@ -324,7 +326,7 @@ function getAndDisplayAssignmentList() {
 	const userId = $('.js-username').attr('id');
 	$.ajax({
 		type: "GET",
-		url: `https://stormy-savannah-14766.herokuapp.com/api/users/assignment/${userId}`,
+		url: `${API_URL}/api/users/assignment/${userId}`,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Authorization": `Bearer ${getAuthToken()}`
@@ -352,7 +354,7 @@ function removePatientFromAssignmentList() {
 	const userId = $('.js-username').attr('id');
 	const patientIds = getSelectedPatients();
 		$.ajax({
-			url: `https://stormy-savannah-14766.herokuapp.com/api/users/assignment/${userId}`,
+			url: `${API_URL}/api/users/assignment/${userId}`,
 			method: "PUT",
 			data: JSON.stringify(patientIds),
 			headers: {
@@ -475,7 +477,7 @@ function handleSliderChange() {
 		populateUpdateObjData(update.dataType, data);
 		$.ajax({
 			method: "PUT",
-			url: `https://stormy-savannah-14766.herokuapp.com/api/reports/`,
+			url: `${API_URL}/api/reports/`,
 			data: JSON.stringify(update),
 			headers: {
 				"Access-Control-Allow-Origin": "*",
@@ -575,7 +577,7 @@ function handleUpdateReportSubmit(event) {
 	populateUpdateObjData(update.dataType, data());
 	$.ajax({
 		method: "PUT",
-		url: `https://stormy-savannah-14766.herokuapp.com/api/reports/`,
+		url: `${API_URL}/api/reports/`,
 		data: JSON.stringify(update),
 		headers: {
 			"Access-Control-Allow-Origin": "*",
