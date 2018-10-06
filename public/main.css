@@ -1,5 +1,6 @@
 
 html.landing-page, html.main-page {
+	border: 2px solid blue;
 	width: auto;
 	height: 100%;
 	font-family: 'Lato', sans-serif;
@@ -137,6 +138,7 @@ p {
 	min-height: 60vh;
 	margin: 0 auto;
 	margin-top: 75px;
+	padding: 10px;
 	padding-bottom: 20px;
 	background: linear-gradient(white, rgba(255, 255, 255, 0.5) 90%);
 	background-size: cover;
@@ -165,8 +167,6 @@ figure img {
 	margin-top: 0;
 	justify-content: flex-start;
 }
-
-
 
 .auth-container input {
 	margin-left: 0;
