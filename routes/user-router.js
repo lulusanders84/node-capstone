@@ -46,19 +46,26 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     .then(patients => {
       let reportIds = patients.map(patient => {
         return patient.report._id;
-        })
+      })
         User
         .findOne({_id: req.params.id})
         .then(user => {
-          let newReportIds = [];
-          user.assignmentList.forEach(listItem => {
-            newReportIds = reportIds.reduce((acc, id) => {
-              if(!id.equals(listItem)) {
-                acc.push(id);
-              }
-              return acc;
-            }, [])
-          })
+          let newReportIds;
+          if(user.assignmentList.length !== 0) {
+            user.assignmentList.forEach(listItem => {
+              newReportIds = reportIds.reduce((acc, id) => {
+                console.log(id, listItem);
+                if(!id.equals(listItem)) {
+                  acc.push(id);
+                }
+                return acc;
+              }, [])
+            })
+          } else {
+            console.log(reportIds);
+            newReportIds = reportIds;
+          }
+
           return newReportIds;
         })
         .then(reportIds => {
