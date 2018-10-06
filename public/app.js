@@ -69,8 +69,6 @@ function handleLoginSubmitButton(event) {
 }
 
 function sendLoginPostRequest(username, password) {
-	console.log("sendLoginPostRequest running");
-
 	const user = {
 		username: username,
 		password: password
@@ -84,7 +82,6 @@ function sendLoginPostRequest(username, password) {
 			"Content-Type": "application/json"
 		}
 	}).done(function(data) {
-		console.log(data);
 		const authTokenStr = JSON.stringify(data.authToken);
 		localStorage.setItem('authToken', authTokenStr);
 		closeModal();
@@ -120,8 +117,6 @@ function getAndDisplayUnitList() {
 		console.log("Server not responding");
 	});
 }
-
-
 
 function sortPatientsByRoom(data) {
 	if(data.listType == "assignment") {

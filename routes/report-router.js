@@ -20,7 +20,6 @@ router.get('/:id', (req, res) => {
 })
 
 router.put('/', jsonParser, (req, res) => {
-  console.log(req.body);
   Report
     .findOneAndUpdate({_id: req.body.reportId}, {$set: req.body.data})
     .then(report => {

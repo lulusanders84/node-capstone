@@ -62,7 +62,6 @@ function createNewPatient(req, res, report) {
       })
 }
 
-
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ["age", "room", "admitDate", "name"];
   for (let i = 0; i < requiredFields.length; i++) {

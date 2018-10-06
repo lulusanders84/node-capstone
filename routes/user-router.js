@@ -13,8 +13,6 @@ const { Patient } = require('../models/patients');
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
-
-
 router.get('/:id', (req, res) => {
   User
     .findOne({"_id": req.params.id})
