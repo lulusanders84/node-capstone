@@ -1,6 +1,6 @@
 # Nursing Reports
 
-https://desolate-lake-85505.herokuapp.com/
+https://stormy-savannah-14766.herokuapp.com/
 
 <p>Easily accessible and well organized information is crucial to provding safe and effcient nursing care. Nurses keep track and exhange information with the help of a nursing report (known as a brainsheet). Traditionally handwritten, the report is updated frequently during the shift and used as an information source. Nursing Reports provides an electronic version of a nursing brainsheet.</p>
 
@@ -25,6 +25,15 @@ Each element of the patient report is editable so the user can update as informa
 
 ![](https://github.com/lulusanders84/node-capstone/blob/master/images/patient-report.png)
 
-Update modal
 
-![](https://github.com/lulusanders84/node-capstone/blob/master/images/update-modal.png)
+## Technologies
+Nursing reports uses the following technologies:
+  * HTML
+  * CSS
+  * JavaScript
+  * JQuery
+  * Node.js
+  * Express.js
+  * Mongoose
+  * MongoDB
+  
