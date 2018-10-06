@@ -282,7 +282,7 @@ input[type="submit"] {
 }
 
 .list-container button, .container button {
-	font-size: .8rem;
+	font-size: 1rem;
 	min-height: 25px;
 	padding: 10px;
 	border: 1px solid white;
