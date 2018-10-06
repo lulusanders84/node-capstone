@@ -1,7 +1,7 @@
 
 html.landing-page, html.main-page {
 	width: auto;
-	height: 150%;
+	height: auto;
 	font-family: 'Lato', sans-serif;
 	color: #0a0c0f;
 	font-size: 1rem;
