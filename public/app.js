@@ -1,8 +1,8 @@
 
 "use strict";
 
-var API_URL =
-"https://stormy-savannah-14766.herokuapp.com";
+var API_URL = "http://localhost:3000";
+//"https://stormy-savannah-14766.herokuapp.com";
 
 function handleSignUpButton() {
 	$('#sign-up-button').click(function() {
