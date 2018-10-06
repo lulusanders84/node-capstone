@@ -87,6 +87,8 @@ function sendLoginPostRequest(username, password) {
 		closeModal();
 		getAndDisplayUnitList();
 		$('.js-dropdown').removeClass('inactive');
+		$('.js-unit-title').removeClass('inactive');
+		$('.js-header-text').removeClass('inactive');
 		$('.js-username').attr('id', `${data.user._id}`);
 		$('.js-username').html(data.user.firstName);
 		$('.js-assignment-count').html(data.user.assignmentLength);
