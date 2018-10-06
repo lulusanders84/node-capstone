@@ -36,24 +36,44 @@ router.get('/assignment/:id', jwtAuth, (req, res) => {
     })
 })
 
+function removeDuplicateIds(req) {
+
+}
+
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
-      const reportIds = patients.map(patient => {
+      let reportIds = patients.map(patient => {
         return patient.report._id;
         })
         User
-        .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: reportIds}}, {new: true})
-        .populate("assignmentList")
+        .findOne({_id: req.params.id})
         .then(user => {
-          res.status(200).json({
-            message: "Patients added to assignment list",
-            assignmentList: user.assignmentList
-          });
-        }).catch(err => {
-            console.error(err);
-            res.status(500).json({message: 'Internal server error'});
+          let newReportIds = [];
+          user.assignmentList.forEach(listItem => {
+            newReportIds = reportIds.reduce((acc, id) => {
+              if(!id.equals(listItem)) {
+                acc.push(id);
+              }
+              return acc;
+            }, [])
+          })
+          return newReportIds;
+        })
+        .then(reportIds => {
+          User
+          .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: reportIds}}, {new: true})
+          .populate("assignmentList")
+          .then(user => {
+            res.status(200).json({
+              message: "Patients added to assignment list",
+              assignmentList: user.assignmentList
+            });
+          }).catch(err => {
+              console.error(err);
+              res.status(500).json({message: 'Internal server error'});
+          })
         })
     })
 })

@@ -1,8 +1,8 @@
 
 "use strict";
 
-var API_URL =
-"https://stormy-savannah-14766.herokuapp.com";
+var API_URL = "http://localhost:3000";
+//"https://stormy-savannah-14766.herokuapp.com";
 
 function handleSignUpButton() {
 	$('#sign-up-button').click(function() {
@@ -174,11 +174,11 @@ function formatDate(date) {
 }
 
 function displayUnitList(patientsHtml) {
+	$('html').removeClass('landing-page');
+	$('html').addClass('main-page');
 	$('.js-list').removeClass('inactive');
 	$('.intro-nav').removeClass('inactive');
 	$('h1').addClass('inactive');
-	$('html').removeClass('landing-page');
-	$('html').addClass('main-page');
 	$('.js-unit-title').removeClass('inactive');
 	$('.js-unit-title').html('Cardiovascular Medical Unit');
 	$('.js-header-text').removeClass('inactive');
@@ -220,7 +220,7 @@ function addPatientToUnitList() {
 }
 
 function closeModal() {
-	$('.js-add-new-patient, .js-update-report, .js-auth').addClass('closed');
+	$('.js-add-new-patient, .js-update-report, .js-auth, .js-add-confirm').addClass('closed');
 	$('.modal-overlay').addClass('inactive');
 	resetInputType();
 }
@@ -254,8 +254,8 @@ function addPatientsToUsersAssignmentList() {
 				}
 			}).done(function(data) {
 					updateAssignmentListCount(data.assignmentList);
-					$('.js-message').html(data.message);
-					setTimeout(function(){ $('.js-message').html(''); }, 5000);
+					$('.js-add-confirm').removeClass('closed');
+					$('.modal-overlay, .js-go-to-assignment, .js-go-to-unit').removeClass('inactive');
 			})
 		})
 }
@@ -292,6 +292,7 @@ function updateAssignmentListCount(data) {
 function handleGoToAssignmentButton() {
 	$('.js-go-to-assignment').click(function() {
 		goToAssignmentList();
+		closeModal();
 	})
 }
 
