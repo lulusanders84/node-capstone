@@ -87,8 +87,6 @@ function sendLoginPostRequest(username, password) {
 		closeModal();
 		getAndDisplayUnitList();
 		$('.js-dropdown').removeClass('inactive');
-		$('.js-unit-title').removeClass('inactive');
-		$('.js-header-text').removeClass('inactive');
 		$('.js-username').attr('id', `${data.user._id}`);
 		$('.js-username').html(data.user.firstName);
 		$('.js-assignment-count').html(data.user.assignmentLength);
@@ -181,7 +179,9 @@ function displayUnitList(patientsHtml) {
 	$('h1').addClass('inactive');
 	$('html').removeClass('landing-page');
 	$('html').addClass('main-page');
+	$('.js-unit-title').removeClass('inactive');
 	$('.js-unit-title').html('Cardiovascular Medical Unit');
+	$('.js-header-text').removeClass('inactive');
 	$('.js-header-text').html('From the unit list select patients to add to your assignment list.<br> Patients are removed from the unit list the day after discharge.');
 	$('.js-patient-list').html(patientsHtml);
 }
@@ -454,7 +454,7 @@ function displayPatientReport(patient) {
 	$('.js-remove-assignment').addClass('inactive');
 	$('.js-report-container').removeClass('inactive');
 	$('h2').html(`Nursing Report for ${patient.name}`);
-	$('header p').html('');
+	$('.js-header-text').addClass('inactive');
 	$('.js-list-container').addClass('inactive');
 }
 

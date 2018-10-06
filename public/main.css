@@ -275,7 +275,7 @@ input[type="submit"] {
 .container {
 	margin: 10px auto;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 	height: auto;
 	width: 90%;
 	padding: 10px;
