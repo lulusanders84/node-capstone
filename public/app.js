@@ -1,7 +1,7 @@
 
 "use strict";
 
-var API_URL = //"http://localhost:3000";
+var API_URL =
 "https://stormy-savannah-14766.herokuapp.com";
 
 function handleSignUpButton() {
@@ -66,7 +66,7 @@ function handleLoginSubmitButton(event) {
 		const username = $('#username').val();
 		const password = $('#password').val();
 		sendLoginPostRequest(username, password);
-	}
+}
 
 function sendLoginPostRequest(username, password) {
 	console.log("sendLoginPostRequest running");
@@ -459,7 +459,6 @@ function displayPatientReport(patient) {
 	$('h2').html(`Nursing Report for ${patient.name}`);
 	$('header p').html('');
 	$('.js-list-container').addClass('inactive');
-
 }
 
 function setSliderInputsCheckedProperty(reportItem, dataType) {

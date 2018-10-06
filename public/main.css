@@ -16,22 +16,7 @@ html.main-page {
 	background-color: white;
 }
 
-button, input[type="submit"]  {
-	padding: 10px;
-	font-size: 1rem;
-	font-family: 'Lato', sans-serif;
-	min-height: 25px;
-	margin: 0 5px;
-	color: white;
-	background-color: #023459;
-	border: none;
-	box-shadow: 5px 5px 10px gray;
-}
-
-button:hover, label:hover, input[type="submit"]:hover, .data:hover  {
-	cursor: pointer;
-}
-
+/* nav-bar styling */
 nav {
 	display: flex;
 	justify-content: space-between;
@@ -89,6 +74,43 @@ nav {
     display: flex;
 }
 
+button, input[type="submit"]  {
+	padding: 10px;
+	font-size: 1rem;
+	font-family: 'Lato', sans-serif;
+	min-height: 25px;
+	margin: 0 5px;
+	color: white;
+	background-color: #023459;
+	border: none;
+	box-shadow: 5px 5px 10px gray;
+}
+
+button:hover, label:hover, input[type="submit"]:hover, .data:hover  {
+	cursor: pointer;
+}
+
+.intro-nav {
+	font-size: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+h1 {
+	text-align: center;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: 5px;
+	font-size: 2.5rem;
+	margin-top: 50px;
+	margin-bottom: -50px;
+}
+
 h2 {
 	color:
 	font-family: 'Roboto', sans-serif;
@@ -97,14 +119,10 @@ h2 {
 	font-size: 1.5rem;
 }
 
-.landing-page h1 {
+p {
 	text-align: center;
-	color: white;
-	font-family: 'Open Sans', sans-serif;
-	letter-spacing: 5px;
-	font-size: 2.5rem;
-	margin-top: 50px;
-	margin-bottom: -50px;
+	font-size: 1rem;
+	line-height: 2;
 }
 
 #landing-page {
@@ -129,11 +147,6 @@ h2 {
 	border-radius: 10px;
 }
 
-.auth-container {
-	margin-top: 0;
-	justify-content: flex-start;
-}
-
 figure {
 	overflow: hidden;
 	display: none;
@@ -148,12 +161,12 @@ figure img {
 	justify-content: center;
 }
 
-.auth-form {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 90%;
+.auth-container {
+	margin-top: 0;
+	justify-content: flex-start;
 }
+
+
 
 .auth-container input {
 	margin-left: 0;
@@ -167,19 +180,96 @@ figure img {
 	flex: 2;
 }
 
-p {
-	text-align: center;
-	font-size: 1rem;
-	line-height: 2;
+.modal {
+	display: flex;
+	align-content: center;
+	vertical-align: center;
+	flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	width: 90%;
+	height: auto;
+	z-index: 1010;
+	background-color: white;
+	padding: 25px;
+	padding-top: 5px;
 }
 
-.message {
-	font-weight: bold;
+.modal-overlay {
+	z-index: 1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-close-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	padding-top: 0px;
+}
+
+.modal.closed {
+  display: none;
 }
 
 .invalid {
 	color: red;
 	text-align: center;
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 90%;
+}
+
+#auth-form label {
+ text-align: center;
+ width: 100%;
+ height: 50px;
+ font-size: 1rem;
+ font-weight: 700;
+}
+
+input, .modal-close-button {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+
+input[type="text"], input[type="password"], input[type="date"] {
+	width: 100%;
+	padding: 10px;
+	margin-left: 10px;
+	text-align: center;
+	font-weight: 500;
+	height: 50px;
+	border: none;
+	border: 2px solid #a6c2ce;
+	border-radius: 10px;
+	box-shadow: 5px 5px 10px gray;
+}
+
+input[type="submit"] {
+	font-weight: 500;
+	width: 50%;
+	height: 50px;
+	justify-content: center;
+	display: flex;
+	margin: 10px auto;
+	border-radius: 10px;
+}
+
+.message {
+	font-weight: bold;
 }
 
 .container {
@@ -191,9 +281,19 @@ p {
 	padding: 10px;
 }
 
-input, .modal-close-button {
-	font-size: 1rem;
-	font-weight: 600;
+.list-container button, .container button {
+	font-size: .8rem;
+	min-height: 25px;
+	padding: 10px;
+	border: 1px solid white;
+	border-radius: 10px;
+}
+
+
+
+.report-container {
+	margin: 0 auto;
+	width: 90%;
 }
 
 .report-section {
@@ -326,47 +426,6 @@ input:checked + .slider:before {
 	text-align: center;
 }
 
-.intro-nav {
-	font-size: 1rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	margin: 0 auto;
-	padding: 10px;
-}
-
-.list-container button, .container button {
-	font-size: .8rem;
-	min-height: 25px;
-	padding: 10px;
-	border: 1px solid white;
-	border-radius: 10px;
-}
-
-.report-container {
-	margin: 0 auto;
-	width: 90%;
-}
-
-.modal {
-	display: flex;
-	align-content: center;
-	vertical-align: center;
-	flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-	width: 90%;
-	height: auto;
-	z-index: 1010;
-	background-color: white;
-	padding: 25px;
-	padding-top: 5px;
-}
-
 .update-form {
 	display: flex;
 	flex-direction: column;
@@ -397,32 +456,10 @@ input:checked + .slider:before {
 
 }
 
-input[type="text"], input[type="password"], input[type="date"] {
-	width: 100%;
-	padding: 10px;
-	margin-left: 10px;
-	text-align: center;
-	font-weight: 500;
-	height: 50px;
-	border: none;
-	border: 2px solid #a6c2ce;
-	border-radius: 10px;
-	box-shadow: 5px 5px 10px gray;
-}
-
- #auth-form label {
-	text-align: center;
-	width: 100%;
-	height: 50px;
-	font-size: 1rem;
-	font-weight: 700;
-}
-
 .updating-data input:focus {
 	border: none;
 	border: 2px solid #023459;
 	border-radius: 10px;
-
 }
 
 .update-form input[type=radio] {
@@ -455,38 +492,6 @@ input[type="text"], input[type="password"], input[type="date"] {
 
 #new-patient-form div {
 	margin-bottom: 20px;
-}
-
-input[type="submit"] {
-	font-weight: 500;
-	width: 50%;
-	height: 50px;
-	justify-content: center;
-	display: flex;
-	margin: 10px auto;
-	border-radius: 10px;
-}
-
-.modal-overlay {
-	z-index: 1000;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
-}
-
-.modal-close-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	padding-top: 0px;
-}
-
-.modal.closed {
-  display: none;
 }
 
 @media only screen and (min-width: 640px) {

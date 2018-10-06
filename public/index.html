@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="landing-page" lang="en">
 <head>
-	<title>Nursing Brains</title>
+	<title>Nursing Reports</title>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="float-grid.css">
@@ -36,7 +36,8 @@
 	<main role="main">
 		<section id="landing-page" role="region">
 			<section class="js-intro intro-container">
-				<p>Easily accessible and well organized information is crucial to provding safe and effcient nursing care.
+				<p>
+					Easily accessible and well organized information is crucial to provding safe and effcient nursing care.
 					Nurses keep track and exhange information with the help of a nursing report (known as a brainsheet).
 				  Traditionally handwritten, the report is updated frequently during the shift and used as an information source.
 					<b>Nursing Reports</b> provides an electronic version of a nursing brainsheet.
@@ -46,9 +47,9 @@
 					<img src="handwritten-reports.png" alt="old school nursing reports">
 				</figure>
 				<div id="landing-nav">
-					<button type="button" id="demo-button" class="landing-nav-button" hidden>View Demo!</button>
-					<button type="button" id="login-button" class="landing-nav-button">Login</button>
-					<button type="button" id="sign-up-button" class="landing-nav-button">Sign Up</button>
+					<button type="button" id="demo-button" hidden>View Demo!</button>
+					<button type="button" id="login-button">Login</button>
+					<button type="button" id="sign-up-button">Sign Up</button>
 				</div>
 			</section>
 			<section class="js-auth auth-container modal closed">
@@ -81,7 +82,7 @@
 						</div>
 					</div>
 					<div>
-						<input type="submit" class="auth-submit">
+						<input type="submit">
 					</div>
 				</form>
 			</secton>
@@ -90,7 +91,7 @@
 		<section role="region" class="js-list list inactive">
 			<p class="js-message message"></p>
 			<div role="region" class="container">
-				<button class="js-add-assignment add-to-assignment">Add selected patients</button>
+				<button class="js-add-assignment">Add selected patients</button>
 				<button class='js-remove-assignment inactive'>Remove selected patients</button>
 				<button class='js-show-report inactive'>Show full report</button>
 				<button class='js-hide-report inactive'>Hide full report</button>
