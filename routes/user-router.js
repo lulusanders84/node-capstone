@@ -57,7 +57,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
               newReportIds = reportIds.reduce((acc, id) => {
                 newReportIds
                 if(!id.equals(listItem)) {
-                  tracking.push({checked: true, id: id});
+                  tracking.push({checked: true, id: id, listItem: listItem});
                   acc.push(id);
                 }
                 return acc;
@@ -66,7 +66,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           }
           else {
           console.log(reportIds);
-          newReportIds = reportIds;
+          return newReportIds = reportIds;
           }
         })
         .then(reportIds => {
@@ -75,6 +75,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
+
               tracking: tracking,
               message: "Patients added to assignment list",
               assignmentList: user.assignmentList
