@@ -3,17 +3,17 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-//const cors = require('cors');
+const cors = require('cors');
 const mongoose = require('mongoose');
-//const morgan = require('morgan');
-//const passport = require('passport');
+const morgan = require('morgan');
+const passport = require('passport');
 
 mongoose.Promise = global.Promise;
 
 const { Patient } = require('./models/patients');
 const { Report } = require('./models/reports');
 const { PORT, DATABASE_URL } = require("./config");
-/*const { router: authRouter } = require("./auth/router");
+const { router: authRouter } = require("./auth/router");
 const {localStrategy, jwtStrategy } = require("./auth/strategies");
 
 const patientRouter = require('./routes/patient-router');
@@ -26,11 +26,11 @@ console.log("server running");
 
 app.use(express.static('public'));
 
-//app.use(morgan('common'));
+app.use(morgan('common'));
 
-//app.use(cors());
+app.use(cors());
 
-/*app.use(function(req, res, next) {
+app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
@@ -38,7 +38,7 @@ app.use(express.static('public'));
     return res.send(204);
   }
   next();
-});*/
+});
 
 app.get('/api/patients', (req, res) => {
   Patient
@@ -51,7 +51,7 @@ app.get('/api/patients', (req, res) => {
   })
 })
 
-/*passport.use(localStrategy);
+passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/api/patients', patientRouter);
