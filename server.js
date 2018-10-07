@@ -20,7 +20,7 @@ const patientRouter = require('./routes/patient-router');
 const reportRouter = require('./routes/report-router');
 const userRouter = require('./routes/user-router');
 
-const jwtAuth = passport.authenticate('jwt', {session: false});*/
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 console.log("server running");
 
@@ -57,7 +57,7 @@ passport.use(jwtStrategy);
 app.use('/api/patients', patientRouter);
 app.use('/api/reports', reportRouter, jwtAuth);
 app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter);*/
+app.use('/api/auth', authRouter);
 
 let server;
 
