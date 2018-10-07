@@ -2,7 +2,7 @@
 
 https://stormy-savannah-14766.herokuapp.com/
 
-<p>Easily accessible and well organized information is crucial to provding safe and effcient nursing care. Nurses keep track and exhange information with the help of a nursing report (known as a brainsheet). Traditionally handwritten, the report is updated frequently during the shift and used as an information source. Nursing Reports provides an electronic version of a nursing brainsheet.</p>
+<p>Easily accessible and well organized information is crucial to providing safe and efficient nursing care. Nurses keep track and exchange information with the help of a nursing report (known as a brainsheet). Traditionally handwritten, the report is updated frequently during the shift and used as an information source. Nursing Reports provides an electronic version of a nursing brainsheet.</p>
 
 ![](https://github.com/lulusanders84/node-capstone/blob/master/images/landing-page.png)
 
