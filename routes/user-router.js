@@ -36,64 +36,33 @@ router.get('/assignment/:id', jwtAuth, (req, res) => {
     })
 })
 
-function removeDuplicateIds(req) {
-
-}
-
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  // let tracking = [];
-  // let newReportIds = [];
-  // let reportIds = [];
+
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
       return patients.map(patient => {
         return patient.report._id;
       })
-        // User
-        // .findOne({_id: req.params.id})
-        // .then(user => {
-        //   if(user.assignmentList.length !== 0) {
-        //     reportIds.forEach(id => {
-        //       user.assignmentList.forEach(listItem => {
-        //         if(!id.equals(listItem)) {
-        //           tracking.push({match: false, id, listItem});
-        //         } else if(id.equals(listItem)) {
-        //           tracking.push({match: true, id, listItem});
-        //         }
-        //       })
-        //     })
-        //     newReportIds = tracking.reduce((acc, item) => {
-        //       if(item.match === false) {
-        //         acc.push(item.id);
-        //       }
-        //       return acc;
-        //     }, [])
-        //   }
-        //   else {
-        //   console.log(reportIds);
-        //   newReportIds = reportIds;
-        //   }
-        //   return newReportIds;
-        })
-        .then(reportIds => {
-          User
-          .findOneAndUpdate({_id: req.params.id}, {$addToSet: {assignmentList: reportIds}}, {new: true})
-          .populate("assignmentList")
-          .then(user => {
-            res.status(200).json({
-              reportIds: reportIds,
-              message: "Patients added to assignment list",
-              assignmentList: user.assignmentList
-            });
-            tracking = [];
-            newReportIds = [];
-          }).catch(err => {
-              console.error(err);
-              res.status(500).json({message: 'Internal server error'});
-          })
-        })
     })
+    .then(reportIds => {
+      User
+      .findOneAndUpdate({_id: req.params.id}, {$addToSet: {assignmentList: reportIds}}, {new: true})
+      .populate("assignmentList")
+      .then(user => {
+        res.status(200).json({
+          reportIds: reportIds,
+          message: "Patients added to assignment list",
+          assignmentList: user.assignmentList
+        });
+        tracking = [];
+        newReportIds = [];
+      }).catch(err => {
+          console.error(err);
+          res.status(500).json({message: 'Internal server error'});
+      })
+    })
+})
 
 router.put('/assignment/:id', jsonParser, jwtAuth, (req, res) => {
   const reportIds = req.body.map(id => {
