@@ -54,9 +54,9 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
         .then(user => {
 
           if(user.assignmentList.length !== 0) {
-            user.assignmentList.forEach(listItem => {
-              reportIds.forEach(id => {
-                if(!id.equals(listItem)) {
+            reportIds.forEach(id => {
+              user.assignmentList.forEach(listItem => {
+                if(!listItem.equals(id)) {
                   tracking.push({match: false, id: id, listItem: listItem});
                   newReportIds.push(id);
                 } else {
