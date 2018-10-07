@@ -253,7 +253,7 @@ function addPatientsToUsersAssignmentList() {
 					"Authorization": `Bearer ${getAuthToken()}`
 				}
 			}).done(function(data) {
-					console.log(data.assignmentList);
+					console.log(data);
 					updateAssignmentListCount(data.assignmentList);
 					$('.js-add-confirm').removeClass('closed');
 					$('.modal-overlay, .js-go-to-assignment, .js-go-to-unit').removeClass('inactive');

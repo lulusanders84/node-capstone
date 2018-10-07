@@ -41,7 +41,7 @@ function removeDuplicateIds(req) {
 }
 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  res.send(req.body);
+  res.json(req.body);
   return;
   Patient
     .find({_id: { $in: req.body }})
