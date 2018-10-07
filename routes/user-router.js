@@ -41,51 +41,48 @@ function removeDuplicateIds(req) {
 }
 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  let tracking = [];
-  let newReportIds = [];
-  let reportIds = [];
+  // let tracking = [];
+  // let newReportIds = [];
+  // let reportIds = [];
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
-      reportIds = patients.map(patient => {
+      return patients.map(patient => {
         return patient.report._id;
       })
-        User
-        .findOne({_id: req.params.id})
-        .then(user => {
-          if(user.assignmentList.length !== 0) {
-            reportIds.forEach(id => {
-              user.assignmentList.forEach(listItem => {
-                if(!id.equals(listItem)) {
-                  tracking.push({match: false, id, listItem});
-                } else if(id.equals(listItem)) {
-                  tracking.push({match: true, id, listItem});
-                }
-              })
-            })
-            newReportIds = tracking.reduce((acc, item) => {
-              if(item.match === false) {
-                acc.push(item.id);
-              }
-              return acc;
-            }, [])
-          }
-          else {
-          console.log(reportIds);
-          newReportIds = reportIds;
-          }
-          return newReportIds;
+        // User
+        // .findOne({_id: req.params.id})
+        // .then(user => {
+        //   if(user.assignmentList.length !== 0) {
+        //     reportIds.forEach(id => {
+        //       user.assignmentList.forEach(listItem => {
+        //         if(!id.equals(listItem)) {
+        //           tracking.push({match: false, id, listItem});
+        //         } else if(id.equals(listItem)) {
+        //           tracking.push({match: true, id, listItem});
+        //         }
+        //       })
+        //     })
+        //     newReportIds = tracking.reduce((acc, item) => {
+        //       if(item.match === false) {
+        //         acc.push(item.id);
+        //       }
+        //       return acc;
+        //     }, [])
+        //   }
+        //   else {
+        //   console.log(reportIds);
+        //   newReportIds = reportIds;
+        //   }
+        //   return newReportIds;
         })
-        .then(newReportIds => {
+        .then(reportIds => {
           User
-          .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: newReportIds}}, {new: true})
+          .findOneAndUpdate({_id: req.params.id}, {$addToSet: {assignmentList: reportIds}}, {new: true})
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
               reportIds: reportIds,
-              sent: req.body,
-              newReportIds: newReportIds,
-              tracking: tracking,
               message: "Patients added to assignment list",
               assignmentList: user.assignmentList
             });
