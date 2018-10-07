@@ -52,17 +52,11 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
         User
         .findOne({_id: req.params.id})
         .then(user => {
-
           if(user.assignmentList.length !== 0) {
             reportIds.forEach(id => {
-              user.assignmentList.forEach(listItem => {
-                if(!listItem.equals(id)) {
-                  tracking.push({match: false, id: id, listItem: listItem});
-                  newReportIds.push(id);
-                } else {
-                    tracking.push({match: true, id: id, listItem: listItem});
-                }
-              })
+              if(!user.assignmentList.includes(id)) {
+                newReportIds.push(id);
+              }
             })
           }
           else {
