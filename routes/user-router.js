@@ -41,8 +41,6 @@ function removeDuplicateIds(req) {
 }
 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  res.json(req.body);
-  return;
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
@@ -56,7 +54,6 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           if(user.assignmentList.length !== 0) {
             user.assignmentList.forEach(listItem => {
               newReportIds = reportIds.reduce((acc, id) => {
-                console.log(id, listItem);
                 if(!id.equals(listItem)) {
                   acc.push(id);
                 }
@@ -67,8 +64,8 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
             console.log(reportIds);
             newReportIds = reportIds;
           }
-
-          return newReportIds;
+          res.json(newReportIds);
+          return;
         })
         .then(reportIds => {
           User
