@@ -94,8 +94,6 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           })
         })
     })
-})
-
 
 router.put('/assignment/:id', jsonParser, jwtAuth, (req, res) => {
   const reportIds = req.body.map(id => {
