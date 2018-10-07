@@ -41,6 +41,7 @@ function removeDuplicateIds(req) {
 }
 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
+  let tracking = [];
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
@@ -50,22 +51,23 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
         User
         .findOne({_id: req.params.id})
         .then(user => {
-          let newReportIds;
+          let newReportIds = [];
           if(user.assignmentList.length !== 0) {
             user.assignmentList.forEach(listItem => {
               newReportIds = reportIds.reduce((acc, id) => {
+                newReportIds
                 if(!id.equals(listItem)) {
+                  tracking.push({checked: true, id: id});
                   acc.push(id);
                 }
                 return acc;
               }, [])
             })
-          } else {
-            console.log(reportIds);
-            newReportIds = reportIds;
           }
-          res.json(newReportIds);
-          return;
+          else {
+          console.log(reportIds);
+          newReportIds = reportIds;
+          }
         })
         .then(reportIds => {
           User
@@ -73,6 +75,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
+              tracking: tracking,
               message: "Patients added to assignment list",
               assignmentList: user.assignmentList
             });
