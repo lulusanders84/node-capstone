@@ -66,8 +66,9 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           }
           else {
           console.log(reportIds);
-          return newReportIds = reportIds;
+          newReportIds = reportIds;
           }
+          return newReportIds;
         })
         .then(reportIds => {
           User
