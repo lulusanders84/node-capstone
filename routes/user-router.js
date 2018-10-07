@@ -76,9 +76,9 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           }
           return newReportIds;
         })
-        .then(reportIds => {
+        .then(newReportIds => {
           User
-          .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: reportIds}}, {new: true})
+          .findOneAndUpdate({_id: req.params.id}, {$push: {assignmentList: newReportIds}}, {new: true})
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
