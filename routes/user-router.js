@@ -43,10 +43,11 @@ function removeDuplicateIds(req) {
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   let tracking = [];
   let newReportIds = [];
+  let reportIds = [];
   Patient
     .find({_id: { $in: req.body }})
     .then(patients => {
-      let reportIds = patients.map(patient => {
+      reportIds = patients.map(patient => {
         return patient.report._id;
       })
         User
@@ -81,6 +82,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
+              reportIds: reportIds,
               sent: req.body,
               newReportIds: newReportIds,
               tracking: tracking,
