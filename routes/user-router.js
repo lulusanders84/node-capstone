@@ -55,16 +55,14 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
 
           if(user.assignmentList.length !== 0) {
             user.assignmentList.forEach(listItem => {
-              newReportIds = reportIds.reduce((acc, id) => {
-                newReportIds
+              reportIds.forEach(id => {
                 if(!id.equals(listItem)) {
-                  tracking.push({match: true, id: id, listItem: listItem});
-                  acc.push(id);
+                  tracking.push({match: false, id: id, listItem: listItem});
+                  newReportIds.push(id);
                 } else {
-                    tracking.push({match: false, id: id, listItem: listItem});
+                    tracking.push({match: true, id: id, listItem: listItem});
                 }
-                return acc;
-              }, [])
+              })
             })
           }
           else {
@@ -79,7 +77,6 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
-              reportIds: req.body,
               newReportIds: newReportIds,
               tracking: tracking,
               message: "Patients added to assignment list",
