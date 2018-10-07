@@ -86,6 +86,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
               message: "Patients added to assignment list",
               assignmentList: user.assignmentList
             });
+            tracking = [];
           }).catch(err => {
               console.error(err);
               res.status(500).json({message: 'Internal server error'});
