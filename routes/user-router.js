@@ -81,7 +81,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           .populate("assignmentList")
           .then(user => {
             res.status(200).json({
-              req.body,
+              sent: req.body,
               newReportIds: newReportIds,
               tracking: tracking,
               message: "Patients added to assignment list",
